@@ -8,28 +8,29 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   move: [xPos: number];
-  automove: [xPos: number];
+  automove: [globalCurrentTime: number];
 }>();
 
 const pinXPos = ref(0);
-const timeoutId = ref<NodeJS.Timeout | undefined>();
+const intervalId = ref<NodeJS.Timeout | undefined>();
+const globalCurrentTime = ref(0);
 
 const preview = computed(() => props.preview);
 
-const movePin = () => {
-  emit("automove", pinXPos.value);
-  const dX = 100 / (props.timeLineDuration * 100);
-  timeoutId.value = setTimeout(() => {
-    pinXPos.value += dX;
-    movePin();
+const autoMove = () => {
+  intervalId.value = setInterval(() => {
+    globalCurrentTime.value += 0.01;
+    pinXPos.value = (globalCurrentTime.value / props.timeLineDuration) * 100;
+    pinXPos.value = pinXPos.value > 100 ? 100 : pinXPos.value;
+    emit("automove", pinXPos.value);
   }, 10);
 };
 
 watch(preview, (newPreview) => {
   if (newPreview) {
-    movePin();
+    autoMove();
   } else {
-    clearTimeout(timeoutId.value);
+    clearInterval(intervalId.value);
   }
 });
 
@@ -42,6 +43,7 @@ const pointerDownHandler = (e: PointerEvent) => {
     lastPointerPosX = e.pageX;
 
     pinXPos.value += (dX / props.relayWidth) * 100;
+    globalCurrentTime.value = props.timeLineDuration * (pinXPos.value / 100);
     emit("move", pinXPos.value);
   };
 

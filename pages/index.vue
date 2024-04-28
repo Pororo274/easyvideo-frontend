@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { VideoNode } from "~/interfaces/video-node.interfaces";
 
+const { uploadAsset } = useAssetUpload();
+
 const videoLink = ref("");
 const relay = ref<HTMLDivElement | null>(null);
 const workField = ref<HTMLDivElement | null>(null);
@@ -25,6 +27,7 @@ onMounted(() => {
 const fileInputHandler = (e: Event) => {
   if (!e.target) return;
   const file = e.target.files[0] as File;
+  uploadAsset(file);
   videoLink.value = URL.createObjectURL(file);
 
   if (!video.value) return;
@@ -78,6 +81,7 @@ const videoPinAutoMoveHandler = async (xPos: number) => {
     }
 
     video.value.pause();
+    preview.value = !preview.value;
   }
 };
 
@@ -95,6 +99,9 @@ const timeLineChangeHandler = (
 
 const previewHandler = () => {
   preview.value = !preview.value;
+  if (!video.value || preview.value) return;
+
+  video.value.pause();
 };
 </script>
 
