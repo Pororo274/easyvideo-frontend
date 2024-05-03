@@ -7,29 +7,33 @@ interface UploadChunkRequestBody {
 }
 
 export const useAssetUpload = () => {
-  const chunkSize = 5 * 1024 * 1024
+  const chunkSize = 1 * 1024 * 1024 
   
   const uploadAsset = async (file: File) => {
     const totalChunks = Math.ceil(file.size / chunkSize)
     const clientId = v4()
+    let data: any = {}
 
     for (let i = 0; i < totalChunks; i++) {
-      const chunk = file.slice(chunkSize * i, (i + 1) * chunkSize)
+      const chunk = file.slice(chunkSize * i, Math.min((i + 1) * chunkSize, file.size), file.type)
 
-      await uploadChunk({
+      data = await uploadChunk({
         chunk,
         clientId,
         originalFileName: file.name
       })
     }
+    
+    return data
   }
 
   const uploadChunk = async (requestBody: UploadChunkRequestBody) => {
     const formData = new FormData();
+    console.log(requestBody.originalFileName)
     formData.append('chunk', requestBody.chunk, requestBody.originalFileName)
     formData.append('clientId', requestBody.clientId)
 
-    await $fetch('http://localhost:8000/api/videos/chunk', {
+    return $fetch('http://localhost:8000/api/videos/chunk', {
       method: 'post',
       body: formData
     })

@@ -27,7 +27,11 @@ onMounted(() => {
 const fileInputHandler = (e: Event) => {
   if (!e.target) return;
   const file = e.target.files[0] as File;
-  uploadAsset(file);
+  uploadAsset(file)
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((e) => console.log(e));
   videoLink.value = URL.createObjectURL(file);
 
   if (!video.value) return;
