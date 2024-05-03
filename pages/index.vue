@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { v4 } from "uuid";
+import type { Media } from "~/interfaces/media.interface";
 import type { VideoNode } from "~/interfaces/video-node.interfaces";
 
 const { uploadAsset } = useAssetUpload();
+const startRender = useStartRender();
 
 const videoLink = ref("");
 const relay = ref<HTMLDivElement | null>(null);
@@ -9,6 +12,7 @@ const workField = ref<HTMLDivElement | null>(null);
 const relayWidth = ref(0);
 const video = ref<HTMLVideoElement | null>(null);
 const preview = ref(false);
+const medias = ref<Media[]>([]);
 
 const timeLines = ref<VideoNode[]>([]);
 
@@ -24,10 +28,26 @@ onMounted(() => {
   relayWidth.value = relay.value.clientWidth;
 });
 
+const onClick = async () => {
+  try {
+    await startRender({
+      medias: medias.value,
+      nodes: timeLines.value,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const fileInputHandler = (e: Event) => {
   if (!e.target) return;
   const file = e.target.files[0] as File;
-  uploadAsset(file)
+  const clientId = v4();
+
+  medias.value.push({
+    clientId,
+  });
+  uploadAsset(file, clientId)
     .then((data) => {
       console.log(data);
     })
@@ -36,16 +56,17 @@ const fileInputHandler = (e: Event) => {
 
   if (!video.value) return;
   video.value.load();
-};
 
-const loadedMetadataHandler = () => {
-  if (!video.value) return;
+  video.value.addEventListener("loadedmetadata", () => {
+    if (!video.value) return;
 
-  timeLines.value.push({
-    video: video.value,
-    videoDuration: video.value.duration,
-    currentVideoDuration: video.value.duration,
-    videoStartWith: 0,
+    timeLines.value.push({
+      video: video.value,
+      videoDuration: video.value.duration,
+      currentVideoDuration: video.value.duration,
+      videoStartWith: 0,
+      clientId,
+    });
   });
 };
 
@@ -113,19 +134,22 @@ const previewHandler = () => {
   <div ref="workField" class="p-4 w-full h-screen bg-slate-900 overflow-hidden">
     <div class="h-full grid grid-rows-6 gap-4">
       <div class="flex gap-6 row-span-5">
-        <aside class="w-[350px]">
+        <aside class="w-[350px] flex flex-col gap-6">
           <div class="bg-slate-700 w-full p-4">
             <input @input="fileInputHandler" type="file" name="" id="" />
+          </div>
+          <div class="bg-slate-700 w-full p-4">
+            <div
+              @click="onClick"
+              class="bg-blue-500 text-white font-medium px-4 py-2 rounded-lg cursor-pointer text-center"
+            >
+              Начать рендер
+            </div>
           </div>
         </aside>
         <div class="flex-1 flex justify-center">
           <div class="flex flex-col gap-2 items-center">
-            <video
-              @loadedmetadata="loadedMetadataHandler"
-              :src="videoLink"
-              ref="video"
-              class="flex-1 w-4/5"
-            ></video>
+            <video :src="videoLink" ref="video" class="flex-1 w-4/5"></video>
             <div
               @click="previewHandler"
               class="bg-yellow-500 text-white font-medium px-4 py-2 rounded-lg cursor-pointer"

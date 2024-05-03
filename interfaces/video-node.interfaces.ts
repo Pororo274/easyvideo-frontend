@@ -3,4 +3,5 @@ export interface VideoNode {
   videoDuration: number;
   currentVideoDuration: number;
   videoStartWith: number;
+  clientId: string;
 }
