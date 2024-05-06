@@ -13,5 +13,10 @@ export default defineNuxtConfig({
       path: '~/components',
       pathPrefix: false,
     },
-  ]
+  ],
+  runtimeConfig: {
+    public: {
+      apiAddress: process.env.API_ADDRESS
+    }
+  }
 })
