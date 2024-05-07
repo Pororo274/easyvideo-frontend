@@ -28,7 +28,9 @@
           <MediaWindow
             class="border-l border-l-zinc-800 col-span-2 row-span-8"
           />
-          <div class="bg-green-500 col-span-5 row-span-4"></div>
+          <LayerWindow
+            class="border-t border-t-zinc-800 col-span-5 row-span-4"
+          />
         </div>
       </div>
     </div>
