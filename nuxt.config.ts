@@ -18,5 +18,8 @@ export default defineNuxtConfig({
     public: {
       apiAddress: process.env.API_ADDRESS
     }
+  },
+  experimental: {
+    asyncContext: true
   }
 })

@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import AppForm from "~/components/ui/form/AppForm.vue";
-import FormInput from "~/components/ui/form/inputs/FormInput.vue";
-import AppLabel from "~/components/ui/form/label/AppLabel.vue";
-import FormSelect from "~/components/ui/form/selects/FormSelect.vue";
-
 useHead({
   title: "EasyVideo - Account",
+});
+
+definePageMeta({
+  middleware: ["auth"],
 });
 
 const colors = ref([

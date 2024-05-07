@@ -1,5 +1,9 @@
 <template>
   <div class="bg-zinc-950">
-    <NuxtPage />
+    <AppNotification>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </AppNotification>
   </div>
 </template>

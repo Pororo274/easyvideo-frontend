@@ -30,6 +30,29 @@ export default defineNuxtPlugin(nuxtApp => {
     },
   })
 
+  addRouteMiddleware('auth', async () => {
+    const { authenticated, isAlreadyTryAuth, refreshUserData } = useUser()
+
+    if (!isAlreadyTryAuth.value) {
+      await refreshUserData()
+    }
+    
+    if (!authenticated.value) {
+      return navigateTo('/login')
+    }
+  })
+
+  addRouteMiddleware('guest', async () => {
+    const { authenticated, refreshUserData, isAlreadyTryAuth } = useUser()
+    if (authenticated.value) return navigateTo('/account')
+  
+    if (!isAlreadyTryAuth.value) {
+      await refreshUserData()
+  
+      if (authenticated.value) return navigateTo('/account')
+    }
+  })
+
   return {
     provide: {
       api
