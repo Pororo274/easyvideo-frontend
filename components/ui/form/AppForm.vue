@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { SystemNotificationType } from "~/enums/notifications/system-notification-type.enum";
+
 const { $api } = useNuxtApp();
+const { pushSystemNotification } = useAppNotification();
 
 const props = withDefaults(
   defineProps<{
@@ -37,6 +40,12 @@ const sendRequest = async () => {
       for (const key in requestErrors) {
         errors[key] = requestErrors[key][0];
       }
+    }
+    if (e.status === 500) {
+      pushSystemNotification({
+        type: SystemNotificationType.ERROR,
+        message: "Случилось что-то плохое",
+      });
     }
     emit("error", e);
   } finally {
