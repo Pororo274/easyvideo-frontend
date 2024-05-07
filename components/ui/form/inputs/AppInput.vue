@@ -15,9 +15,9 @@ const model = defineModel();
 
 <template>
   <div>
-    <label for="" class="text-white font-medium text-sm">
+    <AppLabel>
       <slot></slot>
-    </label>
+    </AppLabel>
     <input
       v-model="model"
       :type="type"

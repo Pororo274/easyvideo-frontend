@@ -19,10 +19,6 @@ const { errors, updateField } = inject<AppFormProvide>(
   "appForm"
 ) as AppFormProvide;
 
-watch(errors, (newErrors) => {
-  console.log(newErrors);
-});
-
 const field = ref("");
 
 watchEffect(() => {

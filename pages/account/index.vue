@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import AppForm from "~/components/ui/form/AppForm.vue";
+import FormInput from "~/components/ui/form/inputs/FormInput.vue";
+import AppLabel from "~/components/ui/form/label/AppLabel.vue";
+import FormSelect from "~/components/ui/form/selects/FormSelect.vue";
+
 useHead({
   title: "EasyVideo - Account",
 });
@@ -42,6 +47,35 @@ const colors = ref([
       </div>
     </header>
     <section class="w-full h-screen pt-[85px]">
+      <div class="w-full h-screen fixed z-50 top-0 left-0 backdrop-blur-sm">
+        <div
+          class="w-full h-full absolute top-0 left-0 bg-black opacity-70"
+        ></div>
+        <div
+          class="w-[30%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-900 rounded-lg"
+        >
+          <div class="p-5 border-b border-b-zinc-800">
+            <h2 class="text-white text-xl font-medium">Новый проект</h2>
+          </div>
+          <div class="p-5">
+            <AppForm action="/projects">
+              <div class="grid gap-4">
+                <FormInput name="name" placeholder="Без названия"
+                  >Название</FormInput
+                >
+                <FormSelect name="settings" default-value="1">
+                  <template #label>Настройки</template>
+                  <option value="1">640🞪360, 25 fps</option>
+                  <option value="2">360🞪640, 25 fps</option>
+                  <option value="3">1280🞪720, 25 fps</option>
+                  <option value="4">720🞪1280, 25 fps</option>
+                </FormSelect>
+              </div>
+              <FormButton class="mt-6 w-full">Создать</FormButton>
+            </AppForm>
+          </div>
+        </div>
+      </div>
       <div class="grid grid-cols-6">
         <div
           v-for="i in 7"
