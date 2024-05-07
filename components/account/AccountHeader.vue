@@ -4,7 +4,9 @@ const { user } = useUser();
 
 const isModalActive = ref(false);
 
-const { data } = await useAsyncData(() => $api("/projects/configs"));
+const { data } = await useAsyncData<{ key: string; text: string }[]>(() =>
+  $api("/projects/configs")
+);
 </script>
 
 <template>
