@@ -1,5 +1,6 @@
 interface User {
-  username: string
+  username: string;
+  id: number;
 }
 
 export const useUser = () => {
