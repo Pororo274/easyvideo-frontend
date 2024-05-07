@@ -8,7 +8,7 @@ const { data } = await useAsyncData(() => $api("/projects/configs"));
 </script>
 
 <template>
-  <header class="p-4 border-b border-b-zinc-800 fixed w-full top-0 left-0">
+  <AppHeader class="fixed top-0 left-0">
     <div class="flex items-center justify-between">
       <div class="flex gap-3 items-center">
         <div
@@ -37,7 +37,7 @@ const { data } = await useAsyncData(() => $api("/projects/configs"));
         </div>
       </AppButton>
     </div>
-  </header>
+  </AppHeader>
   <Teleport to="body">
     <div
       class="w-full h-screen fixed z-50 top-0 left-0 backdrop-blur-sm"
