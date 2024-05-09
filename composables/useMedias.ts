@@ -1,5 +1,5 @@
 import type { Media } from "~/interfaces/editor/media.interface"
-import type { VirtuaImage } from "~/interfaces/editor/virtual-image.interface";
+import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface";
 import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
 
 export const useMedias = () => {
@@ -61,7 +61,7 @@ export const useMedias = () => {
           medias.value.push({
             file,
             objectURL,
-            toVirtualMedia(): VirtuaImage {
+            toVirtualMedia(): VirtualImage {
               return {
                 objectURL: this.objectURL,
                 getContent() {

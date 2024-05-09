@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VirtuaImage } from "~/interfaces/editor/virtual-image.interface";
+import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
 import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
 
@@ -70,7 +70,7 @@ const virtualMediaStyle = computed(() => ({
         class="h-[40px] rounded"
         :src="virtualMedia.getContent()"
       ></video>
-      <figure v-else-if="(virtualMedia as VirtuaImage).objectURL">
+      <figure v-else-if="(virtualMedia as VirtualImage).objectURL">
         <img class="h-[40px]" :src="virtualMedia.getContent()" alt="" />
       </figure>
       <h3 class="text-white font-medium text-sm">
