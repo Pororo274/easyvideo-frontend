@@ -12,6 +12,7 @@ interface Handlers {
 
 export const useDrag = (handlers: Handlers) => {
   const initDrag = (e: PointerEvent) => {
+    e.stopPropagation()
     let lastPointerPosX = e.pageX
     let lastPointerPosY = e.pageY
 

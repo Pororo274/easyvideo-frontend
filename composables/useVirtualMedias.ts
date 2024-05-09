@@ -1,6 +1,4 @@
-import type { Media } from "~/interfaces/editor/media.interface";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
-import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
 
 export const useVirtualMedias = () => {
   const virtualMedias = useState<VirtualMedia[]>("virtualMedias", () => []);

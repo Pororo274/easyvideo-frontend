@@ -12,22 +12,8 @@ const virtualMediaWidth = ref(timeLineWidth.value);
 
 const opacity = ref(1);
 const itemHeight = ref(52);
-const dYIgnore = ref(10);
-const dYFromStart = ref(0);
 const initYPos = ref((props.virtualMedia.layer - 1) * (itemHeight.value + 8));
-const xPos = ref(0);
-const yPos = ref(initYPos.value);
 const zIndex = ref(0);
-
-const onMove = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
-  dYFromStart.value += deltaY;
-
-  xPos.value += deltaX;
-  yPos.value =
-    dYIgnore.value > Math.abs(dYFromStart.value)
-      ? initYPos.value
-      : initYPos.value + dYFromStart.value;
-};
 
 const onDown = () => {
   opacity.value = 0.7;
@@ -37,34 +23,40 @@ const onDown = () => {
 const onUp = () => {
   opacity.value = 1;
   zIndex.value = 0;
-  xPos.value = yPos.value === initYPos.value ? xPos.value : 0;
-  yPos.value = initYPos.value;
-  dYFromStart.value = 0;
 };
 
-const initDrag = useDrag({
-  onMove,
-  onDown,
-  onUp,
-});
+const onLeftMove = ({
+  deltaX,
+  updatePosition,
+}: {
+  deltaX: number;
+  updatePosition(): void;
+}) => {
+  virtualMediaWidth.value -= deltaX;
+  updatePosition();
+};
+
+const onRightMove = ({ deltaX }: { deltaX: number }) => {
+  virtualMediaWidth.value += deltaX;
+};
 
 const virtualMediaStyle = computed(() => ({
   width: `${virtualMediaWidth.value}px`,
-  transform: `translate(${xPos.value}px, ${yPos.value}px)`,
   zIndex: zIndex.value,
   opacity: opacity.value,
 }));
 </script>
 
 <template>
-  <div
-    @pointerdown="initDrag"
+  <AppDrag
+    @down="onDown"
+    @up="onUp"
     :style="virtualMediaStyle"
-    class="absolute py-1.5 px-4 rounded-md bg-zinc-900 group cursor-move"
+    :init-y-pos="initYPos"
+    :delta-y-ignore="15"
+    class="absolute py-1.5 rounded-md bg-zinc-900 group cursor-move"
   >
-    <VirtualMediaLever class="left-0" pin-class="bg-indigo-800" />
-    <VirtualMediaLever class="right-0" pin-class="bg-indigo-800" />
-    <div class="flex gap-3 items-center">
+    <div class="flex gap-3 items-center pl-4 overflow-hidden">
       <video
         v-if="(virtualMedia as VirtualVideo).originalDuration"
         class="h-[40px] rounded"
@@ -73,9 +65,21 @@ const virtualMediaStyle = computed(() => ({
       <figure v-else-if="(virtualMedia as VirtualImage).objectURL">
         <img class="h-[40px]" :src="virtualMedia.getContent()" alt="" />
       </figure>
-      <h3 class="text-white font-medium text-sm">
+      <h3
+        class="text-white font-medium text-sm text-nowrap text-ellipsis overflow-hidden select-none"
+      >
         {{ virtualMedia.getName() }}
       </h3>
     </div>
-  </div>
+    <VirtualMediaLever
+      @move="onLeftMove"
+      class="left-0"
+      pin-class="bg-indigo-800"
+    />
+    <VirtualMediaLever
+      @move="onRightMove"
+      class="right-0"
+      pin-class="bg-indigo-800"
+    />
+  </AppDrag>
 </template>
