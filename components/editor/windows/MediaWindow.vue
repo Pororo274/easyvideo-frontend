@@ -1,19 +1,9 @@
 <script setup lang="ts">
-import type { Media } from "~/interfaces/editor/media.interface";
-
 useHead({
   title: "EasyVideo - Без названия",
 });
 
-const medias = ref<Media[]>([]);
-
-const allowedTypes = ref(["video/mp4", "image/png", "image/jpeg"]);
-
-const allowedTypesString = computed(() =>
-  allowedTypes.value
-    .slice(1)
-    .reduce((a, c) => `${a}, ${c}`, allowedTypes.value[0])
-);
+const { addFromFiles, medias, allowedTypesString } = useMedias();
 
 const onFileInput = (e: Event) => {
   if (!e.target) return;
@@ -23,12 +13,7 @@ const onFileInput = (e: Event) => {
 
   const files = target.files;
 
-  for (let i = 0; i < files.length; i++) {
-    medias.value.push({
-      file: files[i],
-      objectURL: URL.createObjectURL(files[i]),
-    });
-  }
+  addFromFiles(...files);
 };
 </script>
 

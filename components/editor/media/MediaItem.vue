@@ -5,14 +5,14 @@ defineProps<{
   media: Media;
 }>();
 
-const { addVirtualVideo } = useEditorVirtual();
+const { addVirtualMedia } = useVirtualMedias();
 </script>
 
 <template>
   <div class="relative p-3 rounded-md hover:bg-zinc-900 group cursor-pointer">
     <div class="absolute bottom-3 right-3">
       <figure
-        @click="addVirtualVideo(media)"
+        @click="addVirtualMedia(media.toVirtualMedia())"
         class="hidden group-hover:flex rounded items-center justify-center w-6 h-6 bg-green-500"
       >
         <img
