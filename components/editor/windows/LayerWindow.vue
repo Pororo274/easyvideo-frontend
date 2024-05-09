@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const { getVirtualMediasByLayer, totalLayers } = useVirtualMedias();
-const { updateTimeLineWidth, timeLineWidth } = useTimeLine();
+const { virtualMedias } = useVirtualMedias();
+const { updateTimeLineWidth, timeLineWidth, layerLines } = useTimeLine();
 
 const layerBase = ref<HTMLDivElement | null>();
 
@@ -20,12 +20,15 @@ onMounted(() => {
   <div class="p-5">
     <div class="relative w-full" ref="layerBase">
       <div :style="layerListStyle" class="absolute grid gap-1">
-        <div v-for="layer in totalLayers" class="relavive">
-          <VirtualMediaItem
-            v-for="media in getVirtualMediasByLayer(layer)"
-            :virtual-media="media"
-          />
-        </div>
+        <VirtualMediaItem
+          v-for="media in virtualMedias"
+          :virtual-media="media"
+        />
+        <LayerLine
+          v-for="layerLine in layerLines"
+          :key="layerLine.yPos"
+          :layer-line="layerLine"
+        />
       </div>
     </div>
   </div>
