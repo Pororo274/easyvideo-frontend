@@ -12,7 +12,7 @@ const virtualMediaWidth = ref(timeLineWidth.value);
 
 const opacity = ref(1);
 const itemHeight = ref(52);
-const dYIgnore = ref(20);
+const dYIgnore = ref(10);
 const dYFromStart = ref(0);
 const initYPos = ref((props.virtualMedia.layer - 1) * (itemHeight.value + 8));
 const xPos = ref(0);
@@ -26,7 +26,7 @@ const onMove = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
   yPos.value =
     dYIgnore.value > Math.abs(dYFromStart.value)
       ? initYPos.value
-      : yPos.value + deltaY;
+      : initYPos.value + dYFromStart.value;
 };
 
 const onDown = () => {
@@ -39,6 +39,7 @@ const onUp = () => {
   zIndex.value = 0;
   xPos.value = yPos.value === initYPos.value ? xPos.value : 0;
   yPos.value = initYPos.value;
+  dYFromStart.value = 0;
 };
 
 const initDrag = useDrag({
