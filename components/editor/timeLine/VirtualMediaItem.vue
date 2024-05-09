@@ -10,63 +10,42 @@ const props = defineProps<{
 const { timeLineWidth } = useTimeLine();
 const virtualMediaWidth = ref(timeLineWidth.value);
 
-const itemHeight = ref(52);
-
 const opacity = ref(1);
+const itemHeight = ref(52);
+const dYIgnore = ref(20);
+const dYFromStart = ref(0);
 const initYPos = ref((props.virtualMedia.layer - 1) * (itemHeight.value + 8));
 const xPos = ref(0);
 const yPos = ref(initYPos.value);
 const zIndex = ref(0);
 
-const dYFromStart = ref(0);
+const onMove = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
+  dYFromStart.value += deltaY;
 
-const dYMistake = ref(10);
-
-const lastPointerPos = ref({
-  x: 0,
-  y: 0,
-});
-
-const onPointerMove = (e: PointerEvent) => {
-  const dx = e.pageX - lastPointerPos.value.x;
-  const dY = e.pageY - lastPointerPos.value.y;
-
-  dYFromStart.value += dY;
-
-  xPos.value += dx;
+  xPos.value += deltaX;
   yPos.value =
-    dYMistake.value > Math.abs(dYFromStart.value)
-      ? yPos.value
-      : yPos.value + dY;
-
-  lastPointerPos.value = {
-    x: e.pageX,
-    y: e.pageY,
-  };
-
-  const yCenterPos = yPos.value + 26;
+    dYIgnore.value > Math.abs(dYFromStart.value)
+      ? initYPos.value
+      : yPos.value + deltaY;
 };
 
-const onPointerUp = () => {
-  opacity.value = 1;
-  zIndex.value = 0;
-  xPos.value = 0;
-  yPos.value = initYPos.value;
-  dYFromStart.value = 0;
-  document.body.removeEventListener("pointermove", onPointerMove);
-};
-
-const onPointerDown = (e: PointerEvent) => {
+const onDown = () => {
   opacity.value = 0.7;
   zIndex.value = 10;
-  lastPointerPos.value = {
-    x: e.pageX,
-    y: e.pageY,
-  };
-
-  document.body.addEventListener("pointermove", onPointerMove);
-  document.body.addEventListener("pointerup", onPointerUp);
 };
+
+const onUp = () => {
+  opacity.value = 1;
+  zIndex.value = 0;
+  xPos.value = yPos.value === initYPos.value ? xPos.value : 0;
+  yPos.value = initYPos.value;
+};
+
+const initDrag = useDrag({
+  onMove,
+  onDown,
+  onUp,
+});
 
 const virtualMediaStyle = computed(() => ({
   width: `${virtualMediaWidth.value}px`,
@@ -78,7 +57,7 @@ const virtualMediaStyle = computed(() => ({
 
 <template>
   <div
-    @pointerdown="onPointerDown"
+    @pointerdown="initDrag"
     :style="virtualMediaStyle"
     class="absolute py-1.5 px-4 rounded-md bg-zinc-900 group cursor-move"
   >
