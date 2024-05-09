@@ -33,7 +33,7 @@ const onFileInput = (e: Event) => {
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col">
     <div class="p-4 border-b border-b-zinc-800">
       <div class="flex items-center justify-between">
         <h3 class="text-white font-medium text-base">Медиа</h3>
@@ -55,9 +55,12 @@ const onFileInput = (e: Event) => {
         </label>
       </div>
     </div>
-    <div class="overflow-y-auto">
-      <div class="grid grid-cols-5">
+    <div class="overflow-y-auto flex-1">
+      <div v-if="medias.length" class="grid grid-cols-5">
         <MediaItem v-for="media in medias" :media="media" />
+      </div>
+      <div v-else class="w-full h-full flex items-center justify-center">
+        <h3 class="text-zinc-700 text-base font-medium">Здесь пока пусто...</h3>
       </div>
     </div>
   </div>

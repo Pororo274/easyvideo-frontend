@@ -1,23 +1,27 @@
 <script setup lang="ts">
 import type { Media } from "~/interfaces/editor/media.interface";
 
-const props = defineProps<{
+defineProps<{
   media: Media;
 }>();
 
-const format = computed(() => {
-  if (["image/jpeg", "image/png"].find((x) => x === props.media.file.type)) {
-    return "image";
-  }
-
-  if (props.media.file.type === "video/mp4") {
-    return "video";
-  }
-});
+const { addVirtualVideo } = useEditorVirtual();
 </script>
 
 <template>
-  <div class="p-3 rounded-md hover:bg-zinc-900 cursor-pointer">
+  <div class="relative p-3 rounded-md hover:bg-zinc-900 group cursor-pointer">
+    <div class="absolute bottom-3 right-3">
+      <figure
+        @click="addVirtualVideo(media)"
+        class="hidden group-hover:flex rounded items-center justify-center w-6 h-6 bg-green-500"
+      >
+        <img
+          class="icon-white w-4"
+          src="~/assets/img/icons/actions/plus.svg"
+          alt=""
+        />
+      </figure>
+    </div>
     <div class="w-full aspect-video">
       <MediaItemPreview
         :file-type="media.file.type"
