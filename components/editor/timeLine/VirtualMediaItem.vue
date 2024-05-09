@@ -7,7 +7,7 @@ const props = defineProps<{
   virtualMedia: VirtualMedia;
 }>();
 
-const { timeLineWidth, setIsActiveLayerLineByYPos, layerLines } = useTimeLine();
+const { timeLineWidth } = useTimeLine();
 const virtualMediaWidth = ref(timeLineWidth.value);
 
 const itemHeight = ref(52);
@@ -45,16 +45,6 @@ const onPointerMove = (e: PointerEvent) => {
   };
 
   const yCenterPos = yPos.value + 26;
-
-  for (let i = 0; i < layerLines.value.length; i++) {
-    const dYAbs = Math.abs(layerLines.value[i].yPos - yCenterPos);
-
-    if (dYAbs < 15) {
-      setIsActiveLayerLineByYPos(layerLines.value[i].yPos);
-      return;
-    }
-  }
-  setIsActiveLayerLineByYPos(0);
 };
 
 const onPointerUp = () => {
@@ -64,7 +54,6 @@ const onPointerUp = () => {
   yPos.value = initYPos.value;
   dYFromStart.value = 0;
   document.body.removeEventListener("pointermove", onPointerMove);
-  setIsActiveLayerLineByYPos(0);
 };
 
 const onPointerDown = (e: PointerEvent) => {

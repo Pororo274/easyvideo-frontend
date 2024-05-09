@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { virtualMedias } = useVirtualMedias();
-const { updateTimeLineWidth, timeLineWidth, layerLines } = useTimeLine();
+const { updateTimeLineWidth, timeLineWidth } = useTimeLine();
 
 const layerBase = ref<HTMLDivElement | null>();
 
@@ -23,11 +23,6 @@ onMounted(() => {
         <VirtualMediaItem
           v-for="media in virtualMedias"
           :virtual-media="media"
-        />
-        <LayerLine
-          v-for="layerLine in layerLines"
-          :key="layerLine.yPos"
-          :layer-line="layerLine"
         />
       </div>
     </div>
