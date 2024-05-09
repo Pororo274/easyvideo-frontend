@@ -83,8 +83,10 @@ const virtualMediaStyle = computed(() => ({
 }));
 
 provide("appDrag", {
-  updatePosition,
-  refreshInitPosition,
+  updatePosition(deltaX: number, deltaY: number) {
+    updatePosition(deltaX, deltaY);
+    refreshInitPosition();
+  },
 });
 </script>
 

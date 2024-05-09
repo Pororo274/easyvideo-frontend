@@ -12,14 +12,13 @@ const emit = defineEmits<{
   move: [event: OnMoveEvent];
 }>();
 
-const { updatePosition, refreshInitPosition } = useAppDrag();
+const { updatePosition } = useAppDrag();
 
 const onMove = (deltaX: number) => {
   emit("move", {
     deltaX,
     updatePosition() {
       updatePosition(deltaX, 0);
-      refreshInitPosition();
     },
   });
 };
