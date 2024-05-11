@@ -1,17 +1,17 @@
 <script setup lang="ts">
-interface Project {
-  name: string;
-}
+import type { Project } from "~/interfaces/project/project.interface";
 
 const { $api } = useNuxtApp();
 const route = useRoute();
 
-const { data: project } = await useAsyncData<Project>(() =>
+const { setProject, project } = useProject();
+const { data } = await useAsyncData<Project>(() =>
   $api(`/projects/${route.params.projectId}`)
 );
+setProject(data.value as Project);
 
 useHead({
-  title: `EasyVideo - ${project.value?.name}`,
+  title: `EasyVideo - ${project.value.name}`,
 });
 
 definePageMeta({
@@ -22,7 +22,7 @@ definePageMeta({
 <template>
   <section class="w-full h-screen">
     <div class="flex h-full flex-col">
-      <EditorHeader :name="(project as Project).name" />
+      <EditorHeader :name="project.name" />
       <div class="flex-1">
         <div class="grid grid-cols-5 grid-rows-12 h-full">
           <PreviewWindow class="col-span-3 row-span-8" />

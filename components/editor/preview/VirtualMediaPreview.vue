@@ -25,8 +25,16 @@ const isShow = computed(() => {
   return true;
 });
 
+const { project } = useProject();
+
 const mediaPreviewStyle = computed(() => ({
   zIndex: totalLayers.value - props.media.layer,
+  width: `${
+    ((props.media as VirtualVideo).originalWidth / project.value.width) * 100
+  }%`,
+  height: `${
+    ((props.media as VirtualVideo).originalHeight / project.value.height) * 100
+  }%`,
 }));
 
 const currentTime = computed(

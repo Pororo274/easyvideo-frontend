@@ -3,14 +3,10 @@ import type { Media } from "~/interfaces/editor/media.interface"
 import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface";
 import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
 
-interface VideoData {
-  duration: number;
-  height: number;
-  width: number
-}
 
 export const useMedias = () => {
   const { totalLayers } = useVirtualMedias()
+  const { getVideoMetadata, getImageMetadata } = useMediaMetadata()
 
   const medias = useState<Media[]>("medias", () => [])
   const allowedTypes = ["video/mp4", "image/png", "image/jpeg"]
@@ -20,19 +16,6 @@ export const useMedias = () => {
                               .slice(1)
                               .reduce((a, c) => `${a}, ${c}`, allowedTypes[0]);
 
-
-  const getVideoData = async (objectURL: string) => new Promise<VideoData>((resolve) => {
-    const video = document.createElement('video')
-    video.addEventListener('loadedmetadata', () => {
-      resolve({
-        duration: video.duration,
-        width: video.videoWidth,
-        height: video.videoHeight
-      })
-    })
-
-    video.src = objectURL
-  }) 
 
   const addFromFiles = (...files: File[]) => {
     const addFromFilesAsync = async (...files: File[]) => {
@@ -45,7 +28,7 @@ export const useMedias = () => {
        
 
         if (file.type === 'video/mp4') {
-          const data = await getVideoData(objectURL)
+          const data = await getVideoMetadata(objectURL)
 
           medias.value.push({
             file,
@@ -75,6 +58,8 @@ export const useMedias = () => {
         }
 
         if (imageAllowedTypes.find(x => file.type === x)) {
+          const data = await getImageMetadata(objectURL)
+
           medias.value.push({
             file,
             objectURL,
@@ -92,7 +77,9 @@ export const useMedias = () => {
                 layer: totalLayers.value + 1,
                 globalStartTime: 0,
                 duration: 10,
-                startTime: 0
+                startTime: 0,
+                originalWidth: data.width,
+                originalHeight: data.height
               }
             }
           })

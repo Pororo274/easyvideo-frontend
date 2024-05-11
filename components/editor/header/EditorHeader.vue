@@ -26,6 +26,37 @@ defineProps<{
           {{ name }}
         </h2>
       </div>
+      <div class="flex">
+        <figure
+          class="w-7 h-7 rounded-md flex items-center justify-center cursor-pointer hover:bg-zinc-900"
+        >
+          <img
+            class="sync_rotation icon-amber w-4 hidden"
+            src="~/assets/img/icons/editor/sync.svg"
+            alt=""
+          />
+          <img
+            class="icon-green w-[22px]"
+            src="~/assets/img/icons/editor/cloud-success.svg"
+            alt=""
+          />
+        </figure>
+      </div>
     </div>
   </AppHeader>
 </template>
+
+<style scoped>
+@keyframes sync-rotation {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.sync_rotation {
+  animation: sync-rotation 3s linear 0s infinite;
+}
+</style>

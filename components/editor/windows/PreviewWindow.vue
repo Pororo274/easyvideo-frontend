@@ -1,5 +1,12 @@
 <script setup lang="ts">
 const { virtualMedias } = useVirtualMedias();
+
+const { project } = useProject();
+
+const previewStyle = computed(() => ({
+  aspectRatio: `${project.value.width}/${project.value.height}`,
+  width: `min(${project.value.width}px, 100%)`,
+}));
 </script>
 
 <template>
@@ -7,7 +14,10 @@ const { virtualMedias } = useVirtualMedias();
     <div class="flex h-full flex-col">
       <div class="flex-1">
         <div class="px-5 pt-5 w-full h-full flex items-center justify-center">
-          <div class="relative h-full w-full overflow-hidden">
+          <div
+            :style="previewStyle"
+            class="relative max-h-full overflow-hidden bg-slate-950"
+          >
             <VirtualMediaPreview
               v-for="media in virtualMedias"
               :media="media"

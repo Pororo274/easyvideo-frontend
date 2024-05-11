@@ -14,5 +14,5 @@ watchEffect(() => {
 </script>
 
 <template>
-  <video :src="content" class="absolute w-full h-full" ref="video"></video>
+  <video :src="content" class="absolute" ref="video"></video>
 </template>
