@@ -1,12 +1,17 @@
+import type { Media } from "~/interfaces/editor/media.interface";
+
 interface UploadChunkRequestBody {
   chunk: Blob;
   clientId: string;
   originalFileName: string
 }
 
-export const useAssetUpload = () => {
+export const useChunkUpload = () => {
   const chunkSize = 1 * 1024 * 1024 
   
+  const mediaBus = useState<Media[]>("mediaBus", () => [])
+
+
   const uploadAsset = async (file: File, clientId: string) => {
     const totalChunks = Math.ceil(file.size / chunkSize)
     let data: any = {}
