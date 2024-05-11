@@ -1,4 +1,20 @@
 <script setup lang="ts">
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface OnMoveEvent {
+  deltaX: number;
+  deltaY: number;
+  xPos: number;
+  yPos: number;
+}
+
+interface TeleportEvent {
+  yPos: number;
+}
+
 const props = withDefaults(
   defineProps<{
     initYPos?: number;
@@ -6,6 +22,9 @@ const props = withDefaults(
     deltaXIgnore?: number;
     deltaYIgnore?: number;
     selfDrag?: boolean;
+    yTeleports?: number[];
+    minX?: number;
+    axis?: "x" | "y";
   }>(),
   {
     initYPos: 0,
@@ -19,7 +38,8 @@ const props = withDefaults(
 const emit = defineEmits<{
   down: [];
   up: [];
-  move: [deltaX: number, deltaY: number];
+  move: [event: OnMoveEvent];
+  teleport: [event: TeleportEvent];
 }>();
 
 const dXFromStart = ref(0);
@@ -29,18 +49,34 @@ const initYPos = ref(props.initYPos);
 const xPos = ref(props.initXPos);
 const yPos = ref(props.initYPos);
 
+const axisHandle = (axis: "x" | "y", callback: () => void) => {
+  if (!props.axis) callback();
+  if (axis === props.axis) callback();
+};
+
 const updatePosition = (deltaX: number, deltaY: number) => {
   dYFromStart.value += deltaY;
   dXFromStart.value += deltaX;
 
-  xPos.value =
-    props.deltaXIgnore > Math.abs(dXFromStart.value)
-      ? initXPos.value
-      : initXPos.value + dXFromStart.value;
-  yPos.value =
-    props.deltaYIgnore > Math.abs(dYFromStart.value)
-      ? initYPos.value
-      : initYPos.value + dYFromStart.value;
+  axisHandle("x", () => {
+    let newXPos = initXPos.value + dXFromStart.value;
+
+    if (props.minX || props.minX === 0) {
+      newXPos = newXPos > props.minX ? newXPos : props.minX;
+    }
+
+    xPos.value =
+      props.deltaXIgnore > Math.abs(dXFromStart.value)
+        ? initXPos.value
+        : newXPos;
+  });
+
+  axisHandle("y", () => {
+    yPos.value =
+      props.deltaYIgnore > Math.abs(dYFromStart.value)
+        ? initYPos.value
+        : initYPos.value + dYFromStart.value;
+  });
 };
 
 const refreshInitPosition = () => {
@@ -55,16 +91,50 @@ const onMove = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
     updatePosition(deltaX, deltaY);
   }
 
-  emit("move", deltaX, deltaY);
+  emit("move", {
+    deltaX,
+    deltaY,
+    xPos: xPos.value,
+    yPos: yPos.value,
+  });
+};
+
+const setPosition = (position: Position) => {
+  xPos.value = position.x;
+  yPos.value = position.y;
+  refreshInitPosition();
+};
+
+const item = ref<HTMLDivElement>();
+
+const teleport = () => {
+  if (!item.value) return;
+  if (!props.yTeleports) return;
+
+  const halfItemHeight = item.value.clientHeight / 2;
+  const itemYCenter = yPos.value + halfItemHeight;
+  const copyYTeleports = [...props.yTeleports];
+
+  +copyYTeleports.sort(
+    (y1, y2) => Math.abs(y1 - itemYCenter) - Math.abs(y2 - itemYCenter)
+  );
+
+  const newYPos = copyYTeleports[0];
+
+  setPosition({
+    x: xPos.value,
+    y: newYPos - halfItemHeight,
+  });
+
+  emit("teleport", {
+    yPos: newYPos,
+  });
+  return true;
 };
 
 const onUp = () => {
-  if (props.selfDrag) {
-    xPos.value = yPos.value === props.initYPos ? xPos.value : initXPos.value;
-    yPos.value = props.initYPos;
-
-    refreshInitPosition();
-  }
+  teleport();
+  refreshInitPosition();
   emit("up");
 };
 
@@ -87,11 +157,18 @@ provide("appDrag", {
     updatePosition(deltaX, deltaY);
     refreshInitPosition();
   },
+  xPos: readonly(xPos),
+  yPos: readonly(yPos),
 });
 </script>
 
 <template>
-  <div @pointerdown="initDrag" :style="virtualMediaStyle">
+  <div
+    @pointerdown="initDrag"
+    @dragstart.prevent
+    :style="virtualMediaStyle"
+    ref="item"
+  >
     <slot></slot>
   </div>
 </template>

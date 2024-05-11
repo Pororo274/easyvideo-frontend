@@ -1,27 +1,28 @@
+<script setup lang="ts">
+interface Project {
+  name: string;
+}
+
+const { $api } = useNuxtApp();
+const route = useRoute();
+
+const { data: project } = await useAsyncData<Project>(() =>
+  $api(`/projects/${route.params.projectId}`)
+);
+
+useHead({
+  title: `EasyVideo - ${project.value?.name}`,
+});
+
+definePageMeta({
+  middleware: ["auth"],
+});
+</script>
+
 <template>
   <section class="w-full h-screen">
     <div class="flex h-full flex-col">
-      <AppHeader>
-        <div class="flex justify-between items-center">
-          <div class="flex items-center gap-3">
-            <NuxtLink
-              to="/account"
-              class="rounded-md flex items-center justify-center w-6 h-6 hover:bg-zinc-800"
-            >
-              <img
-                style="
-                  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(49deg)
-                    brightness(103%) contrast(103%);
-                "
-                class="rotate-90 w-4 h-4"
-                src="~/assets/img/icons/actions/arrow-down.svg"
-                alt=""
-              />
-            </NuxtLink>
-            <h2 class="text-white font-medium text-base">Без названия</h2>
-          </div>
-        </div>
-      </AppHeader>
+      <EditorHeader :name="(project as Project).name" />
       <div class="flex-1">
         <div class="grid grid-cols-5 grid-rows-12 h-full">
           <PreviewWindow class="col-span-3 row-span-8" />

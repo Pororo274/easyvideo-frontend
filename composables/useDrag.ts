@@ -35,12 +35,13 @@ export const useDrag = (handlers: Handlers) => {
     };
     
     const onPointerUp = () => {
+      document.body.removeEventListener("pointermove", onPointerMove);
       lastPointerPosX = 0;
       lastPointerPosY = 0;
       if (!handlers.onUp) return
 
       handlers.onUp()
-      document.body.removeEventListener("pointermove", onPointerMove);
+      document.body.removeEventListener("pointerup", onPointerUp);
     };
   
     document.body.addEventListener("pointermove", onPointerMove);

@@ -11,6 +11,7 @@ definePageMeta({
 });
 
 const { pushSystemNotification } = useAppNotification();
+const { refreshUserData } = useUser();
 
 const onError = (e: any) => {
   if (e.status !== 422 || e.data.errors) return;
@@ -20,11 +21,17 @@ const onError = (e: any) => {
     message: e.data.message,
   });
 };
+
+const onSuccess = async (data: any) => {
+  await refreshUserData(data);
+  await navigateTo("/account");
+};
 </script>
 
 <template>
   <AppForm
     @error="onError"
+    @success="onSuccess"
     action="/auth/login"
     class="col-start-4 col-span-2 bg-zinc-900 rounded-lg p-4"
   >
@@ -40,7 +47,9 @@ const onError = (e: any) => {
     <FormButton class="mt-6 w-full">Войти</FormButton>
     <p class="text-white mt-4 text-center">
       Нет аккаунта?
-      <NuxtLink to="/" class="text-indigo-600 underline">Регайся!</NuxtLink>
+      <NuxtLink to="/" class="text-indigo-600 underline"
+        >Зарегистрироваться</NuxtLink
+      >
     </p>
   </AppForm>
 </template>

@@ -11,17 +11,26 @@ export const useUser = () => {
   const isAlreadyTryAuth = computed(() => tryAuthCount.value > 0)
   const authenticated = computed(() => !!user.value) 
 
-  const refreshUserData = async () => {
+  const refreshUserData = async (data?: any) => {
+    if (data) {
+      user.value = data
+      return
+    }
     try {
       user.value = await $api("/user");
     } catch (e) {}
     tryAuthCount.value += 1
   }
 
+  const clearUser = () => {
+    user.value = null
+  }
+
   return {
     refreshUserData,
     isAlreadyTryAuth,
     authenticated,
-    user: readonly(user)
+    user: readonly(user),
+    clearUser
   }
 }

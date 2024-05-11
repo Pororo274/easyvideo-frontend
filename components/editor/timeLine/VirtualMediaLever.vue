@@ -14,7 +14,7 @@ const emit = defineEmits<{
 
 const { updatePosition } = useAppDrag();
 
-const onMove = (deltaX: number) => {
+const onMove = ({ deltaX }: { deltaX: number }) => {
   emit("move", {
     deltaX,
     updatePosition() {

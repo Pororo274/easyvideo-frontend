@@ -1,6 +1,13 @@
+import { v4 } from "uuid";
 import type { Media } from "~/interfaces/editor/media.interface"
 import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface";
 import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
+
+interface VideoData {
+  duration: number;
+  height: number;
+  width: number
+}
 
 export const useMedias = () => {
   const { totalLayers } = useVirtualMedias()
@@ -14,10 +21,14 @@ export const useMedias = () => {
                               .reduce((a, c) => `${a}, ${c}`, allowedTypes[0]);
 
 
-  const getVideoDuration = async (objectURL: string) => new Promise<number>((resolve) => {
+  const getVideoData = async (objectURL: string) => new Promise<VideoData>((resolve) => {
     const video = document.createElement('video')
     video.addEventListener('loadedmetadata', () => {
-      resolve(video.duration)
+      resolve({
+        duration: video.duration,
+        width: video.videoWidth,
+        height: video.videoHeight
+      })
     })
 
     video.src = objectURL
@@ -34,15 +45,20 @@ export const useMedias = () => {
        
 
         if (file.type === 'video/mp4') {
-          const originalDuration = await getVideoDuration(objectURL)
+          const data = await getVideoData(objectURL)
 
           medias.value.push({
             file,
             objectURL,
             toVirtualMedia(): VirtualVideo {
+              const id = v4()
+
               return {
+                id,
                 objectURL: this.objectURL,
-                originalDuration,
+                originalDuration: data.duration,
+                originalHeight: data.height,
+                originalWidth: data.width,
                 getContent() {
                   return this.objectURL
                 },
@@ -51,7 +67,8 @@ export const useMedias = () => {
                 },
                 layer: totalLayers.value + 1,
                 globalStartTime: 0,
-                duration: originalDuration
+                duration: data.duration,
+                startTime: 0
               }
             }
           });
@@ -62,7 +79,9 @@ export const useMedias = () => {
             file,
             objectURL,
             toVirtualMedia(): VirtualImage {
+              const id = v4()
               return {
+                id,
                 objectURL: this.objectURL,
                 getContent() {
                   return this.objectURL
@@ -72,7 +91,8 @@ export const useMedias = () => {
                 },
                 layer: totalLayers.value + 1,
                 globalStartTime: 0,
-                duration: 10
+                duration: 10,
+                startTime: 0
               }
             }
           })

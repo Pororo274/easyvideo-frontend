@@ -3,10 +3,20 @@ const { $api } = useNuxtApp();
 const { user } = useUser();
 
 const isModalActive = ref(false);
+const { clearUser } = useUser();
 
 const { data } = await useAsyncData<{ key: string; text: string }[]>(() =>
   $api("/projects/configs")
 );
+
+const onSuccess = (data: any) => {
+  navigateTo(`/account/${data.id}`);
+};
+
+const onSuccessLogout = () => {
+  clearUser();
+  navigateTo("/");
+};
 </script>
 
 <template>
@@ -17,27 +27,40 @@ const { data } = await useAsyncData<{ key: string; text: string }[]>(() =>
           class="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center"
         >
           <p class="text-white font-medium text-xs">
-            {{ user.username[0].toUpperCase() }}
+            {{ user?.username[0].toUpperCase() }}
           </p>
         </div>
-        <h2 class="text-white text-base">{{ user.username }}</h2>
+        <h2 class="text-white text-base">{{ user?.username }}</h2>
       </div>
-      <AppButton @click="isModalActive = true">
-        <div class="flex gap-3 items-center">
-          <p class="flex-1">Создать проект</p>
-          <figure>
+      <div class="flex items-center gap-4">
+        <AppButton @click="isModalActive = true">
+          <div class="flex gap-3 items-center">
+            <p class="flex-1">Создать проект</p>
+            <figure>
+              <img
+                style="
+                  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(49deg)
+                    brightness(103%) contrast(103%);
+                "
+                class="w-4 h-4"
+                src="~/assets/img/icons/actions/plus.svg"
+                alt=""
+              />
+            </figure>
+          </div>
+        </AppButton>
+        <AppForm @success="onSuccessLogout" action="/auth/logout">
+          <button
+            class="w-9 h-9 flex items-center justify-center rounded-md cursor-pointer hover:bg-zinc-800"
+          >
             <img
-              style="
-                filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(49deg)
-                  brightness(103%) contrast(103%);
-              "
-              class="w-4 h-4"
-              src="~/assets/img/icons/actions/plus.svg"
+              class="icon-white w-4"
+              src="~/assets/img/icons/actions/logout.svg"
               alt=""
             />
-          </figure>
-        </div>
-      </AppButton>
+          </button>
+        </AppForm>
+      </div>
     </div>
   </AppHeader>
   <Teleport to="body">
@@ -68,7 +91,7 @@ const { data } = await useAsyncData<{ key: string; text: string }[]>(() =>
           </div>
         </div>
         <div class="p-5">
-          <AppForm action="/projects">
+          <AppForm @success="onSuccess" action="/projects">
             <div class="grid gap-4">
               <FormInput name="name" placeholder="Без названия"
                 >Название</FormInput

@@ -1,14 +1,18 @@
+<script setup lang="ts">
+const { virtualMedias } = useVirtualMedias();
+</script>
+
 <template>
   <div>
     <div class="flex h-full flex-col">
       <div class="flex-1">
         <div class="px-5 pt-5 w-full h-full flex items-center justify-center">
-          <!-- <video
-            class="bg-zinc-500 aspect-video object-contain"
-            src=""
-            width="1280"
-            height="720"
-          ></video> -->
+          <div class="relative h-full w-full overflow-hidden">
+            <VirtualMediaPreview
+              v-for="media in virtualMedias"
+              :media="media"
+            />
+          </div>
         </div>
       </div>
       <div class="p-5">

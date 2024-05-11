@@ -1,8 +1,4 @@
 <script setup lang="ts">
-useHead({
-  title: "EasyVideo - Без названия",
-});
-
 const { addFromFiles, medias, allowedTypesString } = useMedias();
 
 const onFileInput = (e: Event) => {
