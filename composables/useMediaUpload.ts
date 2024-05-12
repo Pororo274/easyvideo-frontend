@@ -17,14 +17,17 @@ export const useMediaUpload = () => {
   const { $api } = useNuxtApp()
   const mediafiles = useState<Mediafile[]>("mediafiles", () => [])
   const uploadingMediafile = useState<Mediafile | null>("uploadingMediafile", () => null)
+  const isUploading = useState("isUploading", () => false)
   const { project } = useProject()
 
   watchEffect(async () => {
     if (!mediafiles.value.length || uploadingMediafile.value) return
       uploadingMediafile.value = mediafiles.value[0]
+      isUploading.value = true
       await uploadMediafileByChunks(uploadingMediafile.value)
       uploadingMediafile.value = null;
       mediafiles.value = [...mediafiles.value.slice(1)]
+      isUploading.value = mediafiles.value.length !== 0
   })
 
   const addMediafiles = (...newMedifiles: Mediafile[]) => {
@@ -65,6 +68,7 @@ export const useMediaUpload = () => {
   }
 
   return {
-    addMediafiles
+    addMediafiles,
+    isUploading: readonly(isUploading)
   }
 }

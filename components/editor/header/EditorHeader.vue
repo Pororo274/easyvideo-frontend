@@ -2,6 +2,8 @@
 defineProps<{
   name: string;
 }>();
+
+const { isUploading } = useMediaUpload();
 </script>
 
 <template>
@@ -27,11 +29,13 @@ defineProps<{
           class="w-7 h-7 rounded-md flex items-center justify-center cursor-pointer hover:bg-zinc-900"
         >
           <img
-            class="sync_rotation icon-amber w-4 hidden"
+            v-show="isUploading"
+            class="sync_rotation icon-amber w-4"
             src="~/assets/img/icons/editor/sync.svg"
             alt=""
           />
           <img
+            v-show="!isUploading"
             class="icon-green w-[22px]"
             src="~/assets/img/icons/editor/cloud-success.svg"
             alt=""
@@ -53,6 +57,6 @@ defineProps<{
 }
 
 .sync_rotation {
-  animation: sync-rotation 3s linear 0s infinite;
+  animation: sync-rotation 2.5s linear 0s infinite;
 }
 </style>
