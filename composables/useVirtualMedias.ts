@@ -21,6 +21,7 @@ export const useVirtualMedias = () => {
     return layersTimes[0] || 0
   })
 
+
   const addVirtualMedia = (media: VirtualMedia) => {
     virtualMedias.value = [...virtualMedias.value, media]
   }

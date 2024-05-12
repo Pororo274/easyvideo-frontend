@@ -1,10 +1,9 @@
 import type { MediaStatus } from "~/enums/media/media-status.interface";
-import type { VirtualMedia } from "./virtual-media.interface";
 
 export interface Media {
   uuid: string;
-  file: File;
+  originalName: string;
+  type: string;
   status: MediaStatus;
   objectURL: string;
-  toVirtualMedia(): VirtualMedia
 }

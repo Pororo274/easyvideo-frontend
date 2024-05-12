@@ -1,15 +1,33 @@
 <script setup lang="ts">
+import type { Media } from "~/interfaces/editor/media.interface";
 import type { Project } from "~/interfaces/project/project.interface";
 
 const { $api } = useNuxtApp();
 const route = useRoute();
 
 const { setProject, project } = useProject();
-useChunkUpload();
-const { data } = await useAsyncData<Project>(() =>
-  $api(`/projects/${route.params.projectId}`)
-);
-setProject(data.value as Project);
+const { setMedias } = useMedias();
+
+const { data } = await useAsyncData(async () => {
+  const [project, medias] = await Promise.all<
+    [Promise<Project>, Promise<Media[]>]
+  >([
+    $api(`/projects/${route.params.projectId}`),
+    $api(`/projects/${route.params.projectId}/media`),
+  ]);
+
+  return {
+    project,
+    medias,
+  };
+});
+
+watchEffect(() => {
+  if (!data.value) return;
+
+  setProject(data.value.project);
+  setMedias(...data.value.medias);
+});
 
 useHead({
   title: `EasyVideo - ${project.value.name}`,

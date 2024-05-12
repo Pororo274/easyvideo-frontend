@@ -1,6 +1,3 @@
-import { MediaStatus } from "~/enums/media/media-status.interface";
-import type { Media } from "~/interfaces/editor/media.interface";
-
 interface UploadChunkRequestBody {
   chunk: Blob;
   media_uuid: string;
@@ -9,24 +6,32 @@ interface UploadChunkRequestBody {
   project_id: number;
 }
 
-export const useChunkUpload = () => {
+interface Mediafile {
+  mediaUuid: string;
+  file: File;
+}
+
+export const useMediaUpload = () => {
   const chunkSize = 1 * 1024 * 1024
 
-  const { medias, updateMediaStatusByUuid } = useMedias()
-  const { project } = useProject()
   const { $api } = useNuxtApp()
+  const mediafiles = useState<Mediafile[]>("mediafiles", () => [])
+  const uploadingMediafile = useState<Mediafile | null>("uploadingMediafile", () => null)
+  const { project } = useProject()
 
-  const notUploadedMedias = computed(() => medias.value.filter(media => media.status === MediaStatus.NOT_UPLOADED))
-
-  watch(notUploadedMedias, async (newNotUploadedMedias) => {
-    if (!newNotUploadedMedias.length) return
-    const media = newNotUploadedMedias[0]
-
-    await uploadMedia(media)
-    updateMediaStatusByUuid(media.uuid, MediaStatus.UPLOADED)
+  watchEffect(async () => {
+    if (!mediafiles.value.length || uploadingMediafile.value) return
+      uploadingMediafile.value = mediafiles.value[0]
+      await uploadMediafileByChunks(uploadingMediafile.value)
+      uploadingMediafile.value = null;
+      mediafiles.value = [...mediafiles.value.slice(1)]
   })
 
-  const uploadMedia = async (media: Media) => {
+  const addMediafiles = (...newMedifiles: Mediafile[]) => {
+    mediafiles.value = [...mediafiles.value, ...newMedifiles]
+  }
+
+  const uploadMediafileByChunks = async (media: Mediafile) => {
     const totalChunks = Math.ceil(media.file.size / chunkSize)
     let data: any = {}
     
@@ -37,7 +42,7 @@ export const useChunkUpload = () => {
       //TODO: exception handler
       data = await uploadChunk({
         chunk,
-        media_uuid: media.uuid,
+        media_uuid: media.mediaUuid,
         original_name: media.file.name,
         project_id: project.value.id,
         last: i + 1 === totalChunks
@@ -57,5 +62,9 @@ export const useChunkUpload = () => {
       method: 'POST',
       body: formData
     })
+  }
+
+  return {
+    addMediafiles
   }
 }
