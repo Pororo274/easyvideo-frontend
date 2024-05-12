@@ -5,6 +5,7 @@ const { $api } = useNuxtApp();
 const route = useRoute();
 
 const { setProject, project } = useProject();
+useChunkUpload();
 const { data } = await useAsyncData<Project>(() =>
   $api(`/projects/${route.params.projectId}`)
 );

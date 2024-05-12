@@ -1,7 +1,5 @@
 import { MediaStatus } from "~/enums/media/media-status.interface";
 import type { Media } from "~/interfaces/editor/media.interface";
-import type { useProject } from "./useProject";
-import type { useNuxt } from "nuxt/kit";
 
 interface UploadChunkRequestBody {
   chunk: Blob;
@@ -14,7 +12,7 @@ interface UploadChunkRequestBody {
 export const useChunkUpload = () => {
   const chunkSize = 1 * 1024 * 1024
 
-  const { medias } = useMedias()
+  const { medias, updateMediaStatusByUuid } = useMedias()
   const { project } = useProject()
   const { $api } = useNuxtApp()
 
@@ -25,11 +23,13 @@ export const useChunkUpload = () => {
     const media = newNotUploadedMedias[0]
 
     await uploadMedia(media)
+    updateMediaStatusByUuid(media.uuid, MediaStatus.UPLOADED)
   })
 
   const uploadMedia = async (media: Media) => {
     const totalChunks = Math.ceil(media.file.size / chunkSize)
     let data: any = {}
+    
 
     for (let i = 0; i < totalChunks; i++) {
       const chunk = media.file.slice(chunkSize * i, Math.min((i + 1) * chunkSize, media.file.size), media.file.type)
@@ -51,7 +51,7 @@ export const useChunkUpload = () => {
     formData.append('media_uuid', requestBody.media_uuid);
     formData.append('project_id', requestBody.project_id + '');
     formData.append('original_name', requestBody.original_name)
-    formData.append('last', requestBody.last + '')
+    formData.append('last', (+requestBody.last) + '')
 
     return $api('/media/chunk', {
       method: 'POST',

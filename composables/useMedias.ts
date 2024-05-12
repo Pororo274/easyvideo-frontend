@@ -17,6 +17,19 @@ export const useMedias = () => {
                               .slice(1)
                               .reduce((a, c) => `${a}, ${c}`, allowedTypes[0]);
 
+  const updateMediaStatusByUuid = (uuid: string, newStatus: MediaStatus) => {
+    medias.value = medias.value.map(media => {
+      if (media.uuid === uuid) {
+        const { status, ...other } = media
+        return {
+          status: newStatus,
+          ...other
+        }
+      }
+      return media;
+    })
+  }
+
 
   const addFromFiles = (...files: File[]) => {
     const addFromFilesAsync = async (...files: File[]) => {
@@ -32,7 +45,7 @@ export const useMedias = () => {
         if (file.type === 'video/mp4') {
           const data = await getVideoMetadata(objectURL)
 
-          medias.value.push({
+          medias.value = [...medias.value , {
             file,
             uuid,
             status,
@@ -58,7 +71,7 @@ export const useMedias = () => {
                 startTime: 0
               }
             }
-          });
+          }];
         }
 
         if (imageAllowedTypes.find(x => file.type === x)) {
@@ -99,6 +112,7 @@ export const useMedias = () => {
   return {
     medias: readonly(medias),
     addFromFiles,
-    allowedTypesString
+    allowedTypesString,
+    updateMediaStatusByUuid
   }
 }
