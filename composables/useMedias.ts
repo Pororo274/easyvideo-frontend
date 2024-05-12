@@ -1,4 +1,5 @@
 import { v4 } from "uuid";
+import { MediaStatus } from "~/enums/media/media-status.interface";
 import type { Media } from "~/interfaces/editor/media.interface"
 import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface";
 import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
@@ -25,13 +26,16 @@ export const useMedias = () => {
         const file = files[i]
         const objectURL = URL.createObjectURL(file)
         
-       
+        const uuid = v4()
+        const status = MediaStatus.NOT_UPLOADED
 
         if (file.type === 'video/mp4') {
           const data = await getVideoMetadata(objectURL)
 
           medias.value.push({
             file,
+            uuid,
+            status,
             objectURL,
             toVirtualMedia(): VirtualVideo {
               const id = v4()
@@ -62,6 +66,8 @@ export const useMedias = () => {
 
           medias.value.push({
             file,
+            uuid,
+            status,
             objectURL,
             toVirtualMedia(): VirtualImage {
               const id = v4()
