@@ -104,19 +104,19 @@ const virtualMediaStyle = computed(() => ({
       <video
         v-if="(virtualMedia as VirtualVideo).originalDuration"
         class="h-[40px] rounded-md object-contain"
-        :src="virtualMedia.getContent()"
+        :src="virtualMedia.content"
       ></video>
       <figure v-else-if="(virtualMedia as VirtualImage).objectURL">
         <img
           class="h-[40px] object-contain"
-          :src="virtualMedia.getContent()"
+          :src="virtualMedia.content"
           alt=""
         />
       </figure>
       <h3
         class="text-white font-medium text-sm text-nowrap text-ellipsis overflow-hidden select-none"
       >
-        {{ virtualMedia.getName() }}
+        {{ virtualMedia.name }}
       </h3>
     </div>
     <VirtualMediaLever

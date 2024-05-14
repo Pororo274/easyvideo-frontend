@@ -27,18 +27,15 @@ export const useVirtualMediaFactory = () => {
     return {
       id,
       objectURL: media.objectURL,
-      getContent() {
-        return media.objectURL
-      },
-      getName() {
-        return media.originalName
-      },
+      content: media.objectURL,
       layer: totalLayers.value + 1,
       globalStartTime: 0,
       duration: 10,
       startTime: 0,
       originalWidth: metadata.width,
-      originalHeight: metadata.height
+      originalHeight: metadata.height,
+      name: media.originalName,
+      mediaUuid: media.uuid
     }
   }
 
@@ -51,16 +48,13 @@ export const useVirtualMediaFactory = () => {
       originalDuration: metadata.duration,
       originalHeight: metadata.height,
       originalWidth: metadata.width,
-      getContent() {
-        return media.objectURL
-      },
-      getName() {
-        return media.originalName
-      },
+      content: media.objectURL,
       layer: totalLayers.value + 1,
       globalStartTime: 0,
       duration: metadata.duration,
-      startTime: 0
+      startTime: 0,
+      name: media.originalName,
+      mediaUuid: media.uuid
     }
   }
 

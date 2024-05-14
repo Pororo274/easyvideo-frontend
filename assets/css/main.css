@@ -17,6 +17,13 @@
     src: url("~/assets/fonts/NunitoSansNormal.ttf");
   }
 
+  @font-face {
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 800;
+    src: url("~/assets/fonts/NunitoSansNormal.ttf");
+  }
+
   html {
     font-family: "Nunito Sans", sans-serif;
   }
@@ -34,5 +41,13 @@
 
   .icon-green {
     filter: invert(73%) sepia(100%) saturate(3302%) hue-rotate(95deg) brightness(101%) contrast(73%);
+  }
+
+  .icon-indigo {
+    filter: invert(53%) sepia(50%) saturate(6862%) hue-rotate(223deg) brightness(95%) contrast(99%);
+  }
+
+  .icon-zinc-600 {
+    filter: invert(32%) sepia(5%) saturate(826%) hue-rotate(202deg) brightness(91%) contrast(86%);
   }
 }

@@ -47,14 +47,14 @@ const currentTime = computed(
   <VideoPreviewItem
     v-if="(media as VirtualVideo).originalDuration"
     v-show="isShow"
-    :content="props.media.getContent()"
+    :content="props.media.content"
     :current-time="currentTime"
     :style="mediaPreviewStyle"
   />
   <ImagePreviewItem
     v-else-if="(media as VirtualImage).objectURL"
     v-show="isShow"
-    :content="props.media.getContent()"
+    :content="props.media.content"
     :style="mediaPreviewStyle"
   />
 </template>

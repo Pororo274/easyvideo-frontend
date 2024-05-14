@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="abolute top-9 left-0">
+  <div class="absolute top-0 left-0">
     <img class="w-full h-full" :src="content" alt="" />
   </div>
 </template>

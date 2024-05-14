@@ -9,6 +9,14 @@ const layerListStyle = computed(() => ({
   width: `${timeLineWidth.value}px`,
 }));
 
+const pinLayerStyle = computed(() => ({
+  width: `${timeLineWidth.value + LAYER_LEFT_MARGIN}px`,
+}));
+
+const timeLinePinStyle = computed(() => ({
+  left: `${LAYER_LEFT_MARGIN / 2}px`,
+}));
+
 onMounted(() => {
   if (!layerBase.value) return;
 
@@ -20,8 +28,13 @@ onMounted(() => {
 <template>
   <div class="relative pt-2 pb-2">
     <div class="relative w-full h-full overflow-scroll" ref="layerBase">
-      <div :style="layerListStyle" class="absolute h-full left-4 pt-12">
-        <LayerPin v-if="virtualMedias.length" />
+      <div :style="pinLayerStyle" class="absolute h-full">
+        <TimeLinePin :style="timeLinePinStyle" v-if="virtualMedias.length" />
+      </div>
+      <div
+        :style="layerListStyle"
+        class="absolute h-full left-4 pt-12 overflow-hidden"
+      >
         <VirtualMediaItem
           v-for="media in virtualMedias"
           :key="media.id"

@@ -1,10 +1,5 @@
 <script setup lang="ts">
-const { LAYER_LEFT_MARGIN } = useConstants();
 const { setPinCurrentTime } = useTimeLine();
-
-const layerPinStyle = computed(() => ({
-  left: `${-LAYER_LEFT_MARGIN / 2}px`,
-}));
 
 const onMove = ({ xPos }: { xPos: number }) => {
   setPinCurrentTime(xPos);
@@ -14,7 +9,6 @@ const onMove = ({ xPos }: { xPos: number }) => {
 <template>
   <AppDrag
     @move="onMove"
-    :style="layerPinStyle"
     axis="x"
     class="absolute z-20 top-0 overflow-y-hidden h-full"
   >

@@ -4,6 +4,8 @@ defineProps<{
 }>();
 
 const { isUploading } = useMediaUpload();
+const { project } = useProject();
+const { virtualMedias } = useVirtualMedias();
 </script>
 
 <template>
@@ -24,7 +26,21 @@ const { isUploading } = useMediaUpload();
           {{ name }}
         </h2>
       </div>
-      <div class="flex">
+      <div class="flex gap-2">
+        <AppForm
+          :action="`/projects/${project.id}/render`"
+          :data="{ virtualMedias }"
+        >
+          <button
+            class="w-7 h-7 rounded-md flex items-center justify-center cursor-pointer hover:bg-zinc-900"
+          >
+            <img
+              class="icon-white w-4"
+              src="~/assets/img/icons/editor/download.svg"
+              alt=""
+            />
+          </button>
+        </AppForm>
         <figure
           class="w-7 h-7 rounded-md flex items-center justify-center cursor-pointer hover:bg-zinc-900"
         >

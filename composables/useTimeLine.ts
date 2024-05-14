@@ -1,6 +1,3 @@
-import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface";
-import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
-
 export const useTimeLine = () => {
   const { LAYER_HEIGHT, LAYER_GAP } = useConstants()
   const timeLineWidth = useState<number>("timeLineWidth", () => 0)
@@ -23,11 +20,11 @@ export const useTimeLine = () => {
     return positions
   })
 
-  watchEffect(() => {
-    if (timeLineWidth.value > longestLayerTime.value * pxPerSecond.value) return
+  // watchEffect(() => {
+  //   if (timeLineWidth.value > longestLayerTime.value * pxPerSecond.value) return
 
-    updateTimeLineWidth(longestLayerTime.value * pxPerSecond.value)
-  })
+  //   updateTimeLineWidth(longestLayerTime.value * pxPerSecond.value)
+  // })
 
   watch(virtualMedias, (newVirtualMedias) => {
     const virtualMedia = newVirtualMedias[0]

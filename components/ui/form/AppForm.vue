@@ -7,10 +7,12 @@ const { pushSystemNotification } = useAppNotification();
 const props = withDefaults(
   defineProps<{
     method?: "post" | "get" | "put" | "patch";
+    data?: any;
     action: string;
   }>(),
   {
     method: "post",
+    data: {},
   }
 );
 
@@ -31,7 +33,10 @@ const sendRequest = async () => {
   try {
     const data = await $api(props.action, {
       method: props.method,
-      body: body,
+      body: {
+        ...body,
+        ...props.data,
+      },
     });
     emit("success", data);
   } catch (e: any) {
