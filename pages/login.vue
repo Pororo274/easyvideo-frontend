@@ -47,7 +47,7 @@ const onSuccess = async (data: any) => {
     <FormButton class="mt-6 w-full">Войти</FormButton>
     <p class="text-white mt-4 text-center">
       Нет аккаунта?
-      <NuxtLink to="/" class="text-indigo-600 underline"
+      <NuxtLink to="/sign-up" class="text-indigo-600 underline"
         >Зарегистрироваться</NuxtLink
       >
     </p>
