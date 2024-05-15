@@ -1,11 +1,18 @@
 <script setup lang="ts">
+import { SystemNotificationType } from "~/enums/notifications/system-notification-type.enum";
+
 const { project } = useProject();
 const { updateUploadStatus } = useMediaUpload();
 const { virtualMedias } = useVirtualMedias();
 const { hideModal } = useAppModal();
+const { pushSystemNotification } = useAppNotification();
 
 const onSuccess = () => {
   updateUploadStatus(true);
+  pushSystemNotification({
+    message: "Начался экспорт...",
+    type: SystemNotificationType.SUCCESS,
+  });
   hideModal();
 };
 </script>
