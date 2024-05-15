@@ -18,7 +18,7 @@ export const useVirtualMedias = () => {
       return -(width1 - width2)
     })
 
-    return layersTimes[0] || 0
+    return copyLayersTimes[0] || 0
   })
 
 

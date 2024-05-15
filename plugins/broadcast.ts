@@ -41,7 +41,6 @@ export default defineNuxtPlugin(nuxtApp => {
                 },
               )
               .then((res: any) => {
-                console.log(res)
                 callback(false, res);
               })
               .catch((error) => {

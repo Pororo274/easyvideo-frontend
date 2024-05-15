@@ -1,6 +1,11 @@
 <script setup lang="ts">
 const { virtualMedias } = useVirtualMedias();
-const { updateTimeLineWidth, timeLineWidth, pxPerSecond } = useTimeLine();
+const {
+  updateTimeLineWidth,
+  timeLineWidth,
+  pxPerSecond,
+  setStartTimeLineWidth,
+} = useTimeLine();
 const { LAYER_LEFT_MARGIN } = useConstants();
 
 const layerBase = ref<HTMLDivElement | null>();
@@ -25,7 +30,7 @@ onMounted(() => {
   if (!layerBase.value) return;
 
   const baseWidth = layerBase.value.clientWidth;
-  updateTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN);
+  setStartTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN);
 });
 </script>
 
@@ -45,10 +50,7 @@ onMounted(() => {
         </div>
         <TimeLinePin :style="timeLinePinStyle" v-if="virtualMedias.length" />
       </div>
-      <div
-        :style="layerListStyle"
-        class="absolute h-full left-4 pt-12 overflow-hidden"
-      >
+      <div :style="layerListStyle" class="absolute left-4 pt-12 overflow-none">
         <VirtualMediaItem
           v-for="media in virtualMedias"
           :key="media.id"
@@ -58,3 +60,34 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 12px;
+  background: transparent;
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: none;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  background: #37373f;
+  border-radius: 12px;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #37373f;
+  border-width: 1px;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+</style>

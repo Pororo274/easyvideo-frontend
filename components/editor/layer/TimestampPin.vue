@@ -26,7 +26,9 @@ const isShortLine = computed(() =>
     class="absolute w-0.5 h-6 -translate-x-1/2"
   >
     <div
-      :class="[isShortLine ? 'h-1.5' : 'h-6']"
+      :style="{
+        height: isShortLine ? '6px' : '24px',
+      }"
       class="rounded-full w-0.5 h-6 bg-zinc-700"
     ></div>
     <p
