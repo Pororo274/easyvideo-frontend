@@ -9,6 +9,7 @@ const onMove = ({ xPos }: { xPos: number }) => {
 <template>
   <AppDrag
     @move="onMove"
+    :min-x="0"
     axis="x"
     class="absolute z-20 top-0 overflow-y-hidden h-full"
   >

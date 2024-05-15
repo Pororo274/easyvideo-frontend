@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { virtualMedias } = useVirtualMedias();
-const { updateTimeLineWidth, timeLineWidth } = useTimeLine();
+const { updateTimeLineWidth, timeLineWidth, pxPerSecond } = useTimeLine();
 const { LAYER_LEFT_MARGIN } = useConstants();
 
 const layerBase = ref<HTMLDivElement | null>();
@@ -17,6 +17,10 @@ const timeLinePinStyle = computed(() => ({
   left: `${LAYER_LEFT_MARGIN / 2}px`,
 }));
 
+const totalTime = computed(() =>
+  pxPerSecond.value ? Math.floor(timeLineWidth.value / pxPerSecond.value) : 0
+);
+
 onMounted(() => {
   if (!layerBase.value) return;
 
@@ -28,7 +32,17 @@ onMounted(() => {
 <template>
   <div class="relative pt-2 pb-2">
     <div class="relative w-full h-full overflow-scroll" ref="layerBase">
-      <div :style="pinLayerStyle" class="absolute h-full">
+      <div :style="pinLayerStyle" class="absolute h-full overflow-x-hidden">
+        <div
+          :style="{ left: `${LAYER_LEFT_MARGIN}px` }"
+          class="absolute w-full"
+        >
+          <TimestampPin
+            v-for="order in Math.floor(totalTime)"
+            :key="order"
+            :order="order"
+          />
+        </div>
         <TimeLinePin :style="timeLinePinStyle" v-if="virtualMedias.length" />
       </div>
       <div
