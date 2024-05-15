@@ -2,7 +2,8 @@
 import type { Media } from "~/interfaces/editor/media.interface";
 import type { Project } from "~/interfaces/project/project.interface";
 
-const { $api, $broadcast } = useNuxtApp();
+const { $api } = useNuxtApp();
+useExports();
 const route = useRoute();
 
 const { setProject, project } = useProject();
@@ -35,14 +36,6 @@ useHead({
 
 definePageMeta({
   middleware: ["auth"],
-});
-
-onMounted(() => {
-  $broadcast()
-    .private(`projects.${project.value.id}`)
-    .listen("RenderJobEndedEvent", (e: any) => {
-      console.log(e);
-    });
 });
 </script>
 
