@@ -44,8 +44,6 @@ export default defineNuxtPlugin(nuxtApp => {
 
   addRouteMiddleware('guest', async () => {
     const { authenticated, refreshUserData, isAlreadyTryAuth } = useUser()
-    if (authenticated.value) return navigateTo('/account')
-  
     if (!isAlreadyTryAuth.value) {
       await refreshUserData()
   

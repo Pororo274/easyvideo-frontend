@@ -6,7 +6,8 @@ export const useUser = () => {
   const tryAuthCount = useState('tryAuthCount', () => 0)
 
   const isAlreadyTryAuth = computed(() => tryAuthCount.value > 0)
-  const authenticated = computed(() => !!user.value) 
+  const isLogout = useState("isLogout", () => false)
+  const authenticated = computed(() => !!user.value && !isLogout.value ) 
 
   const refreshUserData = async (data?: any) => {
     if (data) {
@@ -20,7 +21,7 @@ export const useUser = () => {
   }
 
   const clearUser = () => {
-    user.value = null
+
   }
 
   return {
