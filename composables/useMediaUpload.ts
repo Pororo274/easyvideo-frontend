@@ -67,8 +67,13 @@ export const useMediaUpload = () => {
     })
   }
 
+  const updateUploadStatus = (newUploadStatus: boolean) => {
+    isUploading.value = newUploadStatus
+  }
+
   return {
     addMediafiles,
+    updateUploadStatus,
     isUploading: readonly(isUploading)
   }
 }

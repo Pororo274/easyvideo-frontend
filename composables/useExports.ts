@@ -7,6 +7,7 @@ interface ExportOutput {
 
 export const useExports = () => {
   const { $broadcast, $api } = useNuxtApp()
+  const { updateUploadStatus } = useMediaUpload()
   const { user } = useUser()
 
   const exportsChannel = useState<Channel | null>("exportsChannel", () => null)
@@ -25,6 +26,7 @@ export const useExports = () => {
         method: 'get',
         responseType: 'blob'
       }).then((data: any) => {
+        updateUploadStatus(false)
         const url = window.URL.createObjectURL(new Blob([data]));
         const link = document.createElement("a");
         link.href = url;

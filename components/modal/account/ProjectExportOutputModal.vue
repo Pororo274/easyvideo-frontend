@@ -1,6 +1,13 @@
 <script setup lang="ts">
 const { project } = useProject();
+const { updateUploadStatus } = useMediaUpload();
 const { virtualMedias } = useVirtualMedias();
+const { hideModal } = useAppModal();
+
+const onSuccess = () => {
+  updateUploadStatus(true);
+  hideModal();
+};
 </script>
 
 <template>
@@ -13,6 +20,7 @@ const { virtualMedias } = useVirtualMedias();
     </div>
     <div class="p-5">
       <AppForm
+        @success="onSuccess"
         :action="`/projects/${project.id}/render`"
         :data="{ virtualMedias }"
       >
