@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import download from "~/assets/img/icons/editor/download.svg";
+
 defineProps<{
   name: string;
 }>();
 
 const { isUploading } = useMediaUpload();
-const { project } = useProject();
-const { virtualMedias } = useVirtualMedias();
+
+const isDownloadModalActive = ref(false);
 </script>
 
 <template>
@@ -27,22 +29,13 @@ const { virtualMedias } = useVirtualMedias();
         </h2>
       </div>
       <div class="flex gap-2">
-        <AppForm
-          :action="`/projects/${project.id}/render`"
-          :data="{ virtualMedias }"
-        >
-          <button
-            class="w-7 h-7 rounded-md flex items-center justify-center cursor-pointer hover:bg-zinc-900"
-          >
-            <img
-              class="icon-white w-4"
-              src="~/assets/img/icons/editor/download.svg"
-              alt=""
-            />
-          </button>
-        </AppForm>
+        <IconButton
+          @click="isDownloadModalActive = true"
+          :animation="false"
+          :icon="download"
+        />
         <figure
-          class="w-7 h-7 rounded-md flex items-center justify-center cursor-pointer hover:bg-zinc-900"
+          class="w-9 h-9 rounded-md flex items-center justify-center cursor-pointer hover:bg-zinc-900"
         >
           <img
             v-show="isUploading"
@@ -60,6 +53,9 @@ const { virtualMedias } = useVirtualMedias();
       </div>
     </div>
   </AppHeader>
+  <AppModal v-model="isDownloadModalActive">
+    <ProjectExportOutputModal />
+  </AppModal>
 </template>
 
 <style scoped>
