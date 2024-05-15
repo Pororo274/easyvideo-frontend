@@ -1,22 +1,9 @@
 <script setup lang="ts">
-const { $api } = useNuxtApp();
+import gear from "~/assets/img/icons/editor/gear.svg";
+
 const { user } = useUser();
 
 const isModalActive = ref(false);
-const { clearUser } = useUser();
-
-const { data } = await useAsyncData<{ key: string; text: string }[]>(() =>
-  $api("/projects/configs")
-);
-
-const onSuccess = (data: any) => {
-  navigateTo(`/account/${data.id}`);
-};
-
-const onSuccessLogout = () => {
-  clearUser();
-  navigateTo("/");
-};
 </script>
 
 <template>
@@ -49,64 +36,11 @@ const onSuccessLogout = () => {
             </figure>
           </div>
         </AppButton>
-        <AppForm @success="onSuccessLogout" action="/auth/logout">
-          <button
-            class="w-9 h-9 flex items-center justify-center rounded-md cursor-pointer hover:bg-zinc-800"
-          >
-            <img
-              class="icon-white w-4"
-              src="~/assets/img/icons/actions/logout.svg"
-              alt=""
-            />
-          </button>
-        </AppForm>
+        <IconButton :icon="gear" />
       </div>
     </div>
   </AppHeader>
-  <Teleport to="body">
-    <div
-      class="w-full h-screen fixed z-50 top-0 left-0 backdrop-blur-sm"
-      v-if="isModalActive"
-    >
-      <div
-        class="w-full h-full absolute top-0 left-0 bg-black opacity-70"
-      ></div>
-      <div
-        class="w-[30%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-900 rounded-lg"
-      >
-        <div class="p-5 border-b border-b-zinc-800">
-          <div class="flex items-center justify-between">
-            <h2 class="text-white text-xl font-medium">Новый проект</h2>
-            <figure @click="isModalActive = false" class="cursor-pointer">
-              <img
-                style="
-                  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(49deg)
-                    brightness(103%) contrast(103%);
-                "
-                class="w-4 h-4"
-                src="~/assets/img/icons/actions/close.svg"
-                alt=""
-              />
-            </figure>
-          </div>
-        </div>
-        <div class="p-5">
-          <AppForm @success="onSuccess" action="/projects">
-            <div class="grid gap-4">
-              <FormInput name="name" placeholder="Без названия"
-                >Название</FormInput
-              >
-              <FormSelect name="config" :default-value="data[0].key">
-                <template #label>Настройки</template>
-                <option v-for="config in data" :value="config.key">
-                  {{ config.text }}
-                </option>
-              </FormSelect>
-            </div>
-            <FormButton class="mt-6 w-full">Создать</FormButton>
-          </AppForm>
-        </div>
-      </div>
-    </div>
-  </Teleport>
+  <AppModal v-model="isModalActive">
+    <CreateProjectModalContent />
+  </AppModal>
 </template>
