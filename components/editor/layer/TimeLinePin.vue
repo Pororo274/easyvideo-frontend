@@ -1,18 +1,19 @@
 <script setup lang="ts">
-const { setPinCurrentTime } = useTimeLine();
+const { stopAutoPlay } = useTimeLine();
 
-const onMove = ({ xPos }: { xPos: number }) => {
-  setPinCurrentTime(xPos);
+const onDown = () => {
+  stopAutoPlay();
 };
 </script>
 
 <template>
   <AppDrag
-    @move="onMove"
+    @down="onDown"
     :min-x="0"
     axis="x"
     class="absolute z-20 top-0 overflow-y-hidden h-full"
   >
+    <PinAutoMove />
     <figure class="relative z-10">
       <img class="w-4" src="~/assets/img/icons/editor/pin.svg" alt="" />
     </figure>

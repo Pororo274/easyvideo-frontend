@@ -47,6 +47,7 @@ const currentTime = computed(
   <VideoPreviewItem
     v-if="(media as VirtualVideo).originalDuration"
     v-show="isShow"
+    :is-active="isShow"
     :content="props.media.content"
     :current-time="currentTime"
     :style="mediaPreviewStyle"

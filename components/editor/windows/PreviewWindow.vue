@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import play from "~/assets/img/icons/editor/play.svg";
+import pause from "~/assets/img/icons/editor/pause.svg";
+
 const { virtualMedias } = useVirtualMedias();
 
 const { project } = useProject();
@@ -7,6 +10,8 @@ const previewStyle = computed(() => ({
   aspectRatio: `${project.value.width}/${project.value.height}`,
   width: `min(${project.value.width}px, 100%)`,
 }));
+
+const { startAutoPlay, isAutoplay, stopAutoPlay } = useTimeLine();
 </script>
 
 <template>
@@ -27,13 +32,18 @@ const previewStyle = computed(() => ({
       </div>
       <div class="p-5">
         <div class="flex justify-center">
-          <figure class="cursor-pointer">
-            <img
-              class="icon-white w-4"
-              src="~/assets/img/icons/editor/play.svg"
-              alt=""
-            />
-          </figure>
+          <IconButton
+            v-if="!isAutoplay"
+            @click="startAutoPlay"
+            :animation="false"
+            :icon="play"
+          />
+          <IconButton
+            v-else
+            @click="stopAutoPlay"
+            :animation="false"
+            :icon="pause"
+          />
         </div>
       </div>
     </div>

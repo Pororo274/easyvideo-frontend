@@ -37,10 +37,20 @@ export const useTimeLine = () => {
     pxPerSecond.value = startTimeLineWidth.value / virtualMedia.duration
   }, { once: true })
 
-  const pinCurrentTime = useState<number>("pinCurrentTime", () => 0)
+  const pinCurrentTime = computed(() => pinXPos.value / pxPerSecond.value)
+  const pinXPos = useState("pinXPos", () => 0)
 
-  const setPinCurrentTime = (xPos: number) => {
-    pinCurrentTime.value = xPos / pxPerSecond.value
+  const setPinXPos = (newPinXPos: number) => {
+    pinXPos.value = newPinXPos
+  }
+
+  const isAutoplay = useState("isAutoplay", () => false)
+  const startAutoPlay = () => {
+    isAutoplay.value = true
+  }
+
+  const stopAutoPlay = () => {
+    isAutoplay.value = false
   }
 
   return {
@@ -48,8 +58,11 @@ export const useTimeLine = () => {
     timeLineWidth: readonly(timeLineWidth),
     yPositionsLayers,
     pxPerSecond: readonly(pxPerSecond),
-    setPinCurrentTime,
-    pinCurrentTime: readonly(pinCurrentTime),
-    setStartTimeLineWidth
+    pinCurrentTime,
+    setStartTimeLineWidth,
+    setPinXPos,
+    startAutoPlay,
+    stopAutoPlay,
+    isAutoplay: readonly(isAutoplay),
   }
 }
