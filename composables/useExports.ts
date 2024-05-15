@@ -6,7 +6,7 @@ interface ExportOutput {
 }
 
 export const useExports = () => {
-  const { $broadcast } = useNuxtApp()
+  const { $broadcast, $api } = useNuxtApp()
   const { user } = useUser()
 
   const exportsChannel = useState<Channel | null>("exportsChannel", () => null)
@@ -15,12 +15,24 @@ export const useExports = () => {
 
 
   onMounted(() => {
-    if (!exportsChannel.value) return
+    if (exportsChannel.value) return
     exportsChannel.value = $broadcast().private(`projects.${user.value.id}`).listen("RenderJobEndedEvent", (e: any) => {
       exports.value = [...exports.value, {
         projectId: e.dto.projectId,
-        link: e.dto.path
+        link: e.dto.link
       }]
+      $api(e.dto.link, {
+        method: 'get',
+        responseType: 'blob'
+      }).then((data: any) => {
+        const url = window.URL.createObjectURL(new Blob([data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "easyvideo.mp4");
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
     }).subscribed(() => {
       isSubscribed.value = true
     })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { project } = useProject();
+const { virtualMedias } = useVirtualMedias();
 </script>
 
 <template>
@@ -11,7 +12,10 @@ const { project } = useProject();
       </div>
     </div>
     <div class="p-5">
-      <AppForm :action="`/projects/${project.id}/render`">
+      <AppForm
+        :action="`/projects/${project.id}/render`"
+        :data="{ virtualMedias }"
+      >
         <div>
           <h2 class="text-white font-medium text-xl">Параметры экспорта:</h2>
           <div class="grid grid-cols-3 mt-2">

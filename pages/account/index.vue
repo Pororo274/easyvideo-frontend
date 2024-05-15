@@ -9,6 +9,8 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+useExports();
+
 const { user } = useUser();
 
 const { data } = await useAsyncData(() =>
