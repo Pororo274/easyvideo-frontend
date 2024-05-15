@@ -2,6 +2,10 @@
 useHead({
   title: "EasyVideo",
 });
+
+definePageMeta({
+  middleware: ["guest"],
+});
 </script>
 
 <template>

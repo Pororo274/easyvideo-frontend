@@ -1,7 +1,4 @@
-interface User {
-  username: string;
-  id: number;
-}
+import type { User } from "~/interfaces/account/user.interface"
 
 export const useUser = () => {
   const { $api } = useNuxtApp()
@@ -30,7 +27,7 @@ export const useUser = () => {
     refreshUserData,
     isAlreadyTryAuth,
     authenticated,
-    user: readonly(user),
+    user: readonly(user as Ref<User>),
     clearUser
   }
 }

@@ -1,24 +1,18 @@
 <script setup lang="ts">
 import gear from "~/assets/img/icons/editor/gear.svg";
 
+import type { User } from "~/interfaces/account/user.interface";
+
 const { user } = useUser();
 
 const isModalActive = ref(false);
+const isSettingsModalActive = ref(false);
 </script>
 
 <template>
   <AppHeader class="fixed top-0 left-0">
     <div class="flex items-center justify-between">
-      <div class="flex gap-3 items-center">
-        <div
-          class="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center"
-        >
-          <p class="text-white font-medium text-xs">
-            {{ user?.username[0].toUpperCase() }}
-          </p>
-        </div>
-        <h2 class="text-white text-base">{{ user?.username }}</h2>
-      </div>
+      <UserMini :user="user as User" />
       <div class="flex items-center gap-4">
         <AppButton @click="isModalActive = true">
           <div class="flex gap-3 items-center">
@@ -36,11 +30,14 @@ const isModalActive = ref(false);
             </figure>
           </div>
         </AppButton>
-        <IconButton :icon="gear" />
+        <IconButton @click="isSettingsModalActive = true" :icon="gear" />
       </div>
     </div>
   </AppHeader>
   <AppModal v-model="isModalActive">
     <CreateProjectModalContent />
+  </AppModal>
+  <AppModal v-model="isSettingsModalActive">
+    <SettingsModalContent :username="user.username" />
   </AppModal>
 </template>

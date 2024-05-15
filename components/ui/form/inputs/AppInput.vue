@@ -3,10 +3,12 @@ withDefaults(
   defineProps<{
     type?: "password" | "text";
     placeholder: string;
-    inputClass: string | string[] | object;
+    inputClass?: string | string[] | object;
+    disabled?: boolean;
   }>(),
   {
     type: "text",
+    disabled: false,
   }
 );
 
@@ -23,7 +25,8 @@ const model = defineModel();
       :type="type"
       :class="inputClass"
       :placeholder="placeholder"
-      class="block bg-transparent border text-base rounded-md px-3 py-1.5 w-full mt-1 focus:outline-none focus:border-indigo-500 caret-white text-white placeholder:text-zinc-600"
+      :disabled="disabled"
+      class="block bg-transparent border text-base rounded-md px-3 py-1.5 w-full mt-1 focus:outline-none focus:border-indigo-500 caret-white text-white placeholder:text-zinc-600 disabled:opacity-70"
     />
   </div>
 </template>
