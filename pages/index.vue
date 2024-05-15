@@ -5,7 +5,10 @@ useHead({
 </script>
 
 <template>
-  <LandingHeader />
-  <LandingHero />
-  <LandingPrice />
+  <div class="overflow-x-hidden">
+    <LandingHeader />
+    <LandingHero />
+    <LandingAboutUs />
+    <LandingPrice />
+  </div>
 </template>

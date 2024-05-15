@@ -1,6 +1,14 @@
 <template>
-  <section class="pt-48">
-    <div class="container">
+  <section class="pt-40 relative">
+    <div class="absolute w-full h-full blur-[200px]">
+      <div
+        class="absolute w-72 h-72 bg-indigo-500 rounded-full -translate-x-1/2 -top-48"
+      ></div>
+      <div
+        class="absolute w-72 h-72 bg-indigo-500 rounded-full left-full -translate-x-1/2 top-36"
+      ></div>
+    </div>
+    <div class="container relative">
       <div>
         <h1 class="text-white text-8xl font-bold">
           Превратите <br />
