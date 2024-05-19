@@ -31,11 +31,12 @@ export const useTimeLine = () => {
     timeLineWidth.value = longestLayerTime.value * pxPerSecond.value
   })
 
-  watch(virtualMedias, (newVirtualMedias) => {
+  watch(virtualMedias, (newVirtualMedias, oldVirtualMedias) => {
+    if (oldVirtualMedias.length) return
     const virtualMedia = newVirtualMedias[0]
 
     pxPerSecond.value = startTimeLineWidth.value / virtualMedia.duration
-  }, { once: true })
+  })
 
   const pinCurrentTime = computed(() => pinXPos.value / pxPerSecond.value)
   const pinXPos = useState("pinXPos", () => 0)
