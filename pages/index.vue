@@ -12,7 +12,7 @@ definePageMeta({
   <div class="overflow-x-hidden">
     <LandingHeader />
     <LandingHero />
-    <LandingAboutUs />
-    <!-- <LandingPrice /> -->
+    <!-- <LandingAboutUs /> -->
+    <LandingPrice />
   </div>
 </template>

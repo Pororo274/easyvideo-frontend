@@ -17,11 +17,7 @@ const onSuccess = async (data: any) => {
 </script>
 
 <template>
-  <AppForm
-    @success="onSuccess"
-    action="/auth/sign-up"
-    class="col-start-4 col-span-2 bg-zinc-900 rounded-lg p-4"
-  >
+  <AppForm @success="onSuccess" action="/auth/sign-up">
     <h1 class="text-2xl font-medium text-white">Создать аккаунт</h1>
     <div class="flex flex-col gap-4 mt-4">
       <FormInput name="email" placeholder="example@mail.ru"
@@ -43,7 +39,7 @@ const onSuccess = async (data: any) => {
     <FormButton class="mt-6 w-full">Зарегистрироваться</FormButton>
     <p class="text-white mt-4 text-center">
       Уже есть аккаунт?
-      <NuxtLink to="/login" class="text-indigo-600 underline">Войти</NuxtLink>
+      <NuxtLink to="/login" class="text-blue underline">Войти</NuxtLink>
     </p>
   </AppForm>
 </template>

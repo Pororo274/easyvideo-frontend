@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <button
     :disabled="disabled"
-    class="py-1.5 px-3 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 disabled:opacity-70"
+    class="py-1.5 px-3 rounded-md bg-blue text-white font-medium hover:bg-blue-dark disabled:opacity-70 disabled:hover:bg-blue"
   >
     <slot></slot>
   </button>

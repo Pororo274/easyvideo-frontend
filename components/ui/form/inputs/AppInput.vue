@@ -26,7 +26,7 @@ const model = defineModel();
       :class="inputClass"
       :placeholder="placeholder"
       :disabled="disabled"
-      class="block bg-transparent border text-base rounded-md px-3 py-1.5 w-full mt-1 focus:outline-none focus:border-indigo-500 caret-white text-white placeholder:text-zinc-600 disabled:opacity-70"
+      class="block bg-transparent border text-base rounded-md px-4 py-2 w-full mt-1 focus:outline-none focus:border-blue caret-white text-white placeholder:text-gray-light disabled:opacity-70"
     />
   </div>
 </template>

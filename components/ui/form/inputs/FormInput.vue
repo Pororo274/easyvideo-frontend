@@ -32,7 +32,7 @@ watchEffect(() => {
       v-model="field"
       :input-class="{
         'border-red-500': errors[name],
-        'border-zinc-700': !errors[name],
+        'border-gray': !errors[name],
       }"
       :placeholder="placeholder"
       :type="type"
