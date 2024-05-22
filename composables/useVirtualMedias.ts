@@ -86,6 +86,10 @@ export const useVirtualMedias = () => {
     })
   }
 
+  const updatePositionByUuid = () => {
+    
+  }
+
   return {
     virtualMedias: readonly(virtualMedias),
     totalLayers,

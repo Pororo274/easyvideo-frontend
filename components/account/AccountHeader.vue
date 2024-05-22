@@ -19,11 +19,7 @@ const isSettingsModalActive = ref(false);
             <p class="flex-1">Создать проект</p>
             <figure>
               <img
-                style="
-                  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(49deg)
-                    brightness(103%) contrast(103%);
-                "
-                class="w-4 h-4"
+                class="icon-white w-4 h-4"
                 src="~/assets/img/icons/actions/plus.svg"
                 alt=""
               />

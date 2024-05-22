@@ -14,8 +14,8 @@ const onFileInput = (e: Event) => {
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <div class="p-4 border-b border-b-zinc-800">
+  <div class="flex flex-col h-full">
+    <div class="p-4 border-b border-gray">
       <div class="flex items-center justify-between">
         <h3 class="text-white font-medium text-base">Медиа</h3>
         <label

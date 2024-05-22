@@ -15,18 +15,28 @@ const { startAutoPlay, isAutoplay, stopAutoPlay } = useTimeLine();
 </script>
 
 <template>
-  <div>
+  <div class="overflow-hidden">
     <div class="flex h-full flex-col">
       <div class="flex-1">
         <div class="px-5 pt-5 w-full h-full flex items-center justify-center">
-          <div
-            :style="previewStyle"
-            class="relative max-h-full overflow-hidden bg-slate-950"
-          >
-            <VirtualMediaPreview
-              v-for="media in virtualMedias"
-              :media="media"
-            />
+          <div :style="previewStyle" class="relative max-h-full">
+            <div class="absolute w-full h-full z-10">
+              <VirtualMediaPreview
+                v-for="media in virtualMedias"
+                :media="media"
+              >
+                <GizmoItem />
+              </VirtualMediaPreview>
+            </div>
+            <div class="relative w-full h-full overflow-hidden bg-gray-dark">
+              <VirtualMediaPreview
+                v-for="media in virtualMedias"
+                :media="media"
+              >
+                <VideoPreviewItem />
+                <ImagePreviewItem />
+              </VirtualMediaPreview>
+            </div>
           </div>
         </div>
       </div>

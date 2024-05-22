@@ -1,9 +1,5 @@
 <script setup lang="ts">
-const { $api } = useNuxtApp();
-
-const { data } = await useAsyncData<{ key: string; text: string }[]>(() =>
-  $api("/projects/configs")
-);
+const { account } = useProjectConfig();
 
 const onSuccess = (data: any) => {
   navigateTo(`/account/${data.id}`);
@@ -21,9 +17,12 @@ const onSuccess = (data: any) => {
     <AppForm @success="onSuccess" action="/projects">
       <div class="grid gap-4">
         <FormInput name="name" placeholder="Без названия">Название</FormInput>
-        <FormSelect name="config" :default-value="data[0].key">
+        <FormSelect
+          name="config"
+          :default-value="account.projectConfigs[0].key"
+        >
           <template #label>Настройки</template>
-          <option v-for="config in data" :value="config.key">
+          <option v-for="config in account.projectConfigs" :value="config.key">
             {{ config.text }}
           </option>
         </FormSelect>

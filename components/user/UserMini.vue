@@ -8,9 +8,7 @@ defineProps<{
 
 <template>
   <div class="flex gap-3 items-center">
-    <div
-      class="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center"
-    >
+    <div class="w-6 h-6 rounded-full bg-blue flex items-center justify-center">
       <p class="text-white font-medium text-xs">
         {{ user.username[0].toUpperCase() }}
       </p>

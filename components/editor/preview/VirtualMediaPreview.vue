@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Position } from "~/interfaces/editor/position.interface";
 import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
 import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
@@ -9,7 +10,6 @@ const props = defineProps<{
 
 const { pinCurrentTime } = useTimeLine();
 const { totalLayers } = useVirtualMedias();
-const { getObjectURLByUuid } = useMedias();
 
 const isShow = computed(() => {
   if (
@@ -38,25 +38,27 @@ const mediaPreviewStyle = computed(() => ({
   }%`,
 }));
 
+const previewPosition = computed<Position>(() => ({
+  x: ((props.media as VirtualVideo).position.x / project.value.width) * 100,
+  y: ((props.media as VirtualVideo).position.y / project.value.height) * 100,
+}));
+
 const currentTime = computed(
   () =>
     pinCurrentTime.value - props.media.globalStartTime + props.media.startTime
 );
+
+provide("virtualMediaPreview", {
+  mediaPreviewStyle,
+  currentTime,
+  isShow,
+  virtualMedia: props.media,
+  previewPosition,
+});
 </script>
 
 <template>
-  <VideoPreviewItem
-    v-if="(media as VirtualVideo).originalDuration"
-    v-show="isShow"
-    :is-active="isShow"
-    :content="getObjectURLByUuid((media as VirtualVideo).mediaUuid)"
-    :current-time="currentTime"
-    :style="mediaPreviewStyle"
-  />
-  <ImagePreviewItem
-    v-else-if="(media as VirtualImage).mediaUuid"
-    v-show="isShow"
-    :content="getObjectURLByUuid((media as VirtualImage).mediaUuid)"
-    :style="mediaPreviewStyle"
-  />
+  <div v-show="isShow">
+    <slot></slot>
+  </div>
 </template>

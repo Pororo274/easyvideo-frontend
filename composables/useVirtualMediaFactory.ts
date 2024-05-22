@@ -32,7 +32,11 @@ export const useVirtualMediaFactory = () => {
       startTime: 0,
       originalWidth: metadata.width,
       originalHeight: metadata.height,
-      mediaUuid: media.uuid
+      mediaUuid: media.uuid,
+      position: {
+        x: 0,
+        y: 0
+      }
     }
   }
 
@@ -48,7 +52,11 @@ export const useVirtualMediaFactory = () => {
       globalStartTime: 0,
       duration: metadata.duration,
       startTime: 0,
-      mediaUuid: media.uuid
+      mediaUuid: media.uuid,
+      position: {
+        x: 0,
+        y: 0
+      }
     }
   }
 

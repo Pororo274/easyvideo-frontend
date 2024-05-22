@@ -1,5 +1,5 @@
 <template>
-  <header class="p-4 border-b border-b-zinc-800 w-full">
+  <header class="p-5 border-b border-gray w-full">
     <slot></slot>
   </header>
 </template>

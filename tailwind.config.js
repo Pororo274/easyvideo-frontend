@@ -27,6 +27,9 @@ export default {
           light: '#666666',
           DEFAULT: '#272727',
           dark: '#1A1A1A'
+        },
+        green: {
+          DEFAULT: '#00FF44'
         }
       }
     },

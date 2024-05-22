@@ -8,7 +8,7 @@ const props = defineProps<{
 const { createVirtualMedia } = useVirtualMediaFactory();
 const { addVirtualMedia } = useVirtualMedias();
 
-const onCreate = async () => {
+const create = async () => {
   const virtualMedia = await createVirtualMedia(props.media);
 
   addVirtualMedia(virtualMedia);
@@ -16,14 +16,16 @@ const onCreate = async () => {
 </script>
 
 <template>
-  <div class="relative p-3 rounded-md hover:bg-zinc-900 group cursor-pointer">
-    <div class="absolute bottom-3 right-3">
+  <div class="relative p-3 rounded-md hover:bg-gray-dark group">
+    <div
+      class="absolute cursor-pointer rounded overflow-hidden w-6 h-6 bottom-3 right-3 z-10"
+    >
       <figure
-        @click="onCreate"
-        class="hidden group-hover:flex rounded items-center justify-center w-6 h-6 bg-green-500"
+        @click="create"
+        class="hidden group-hover:flex items-center justify-center h-full w-full bg-green"
       >
         <img
-          class="icon-white w-4"
+          class="icon-white w-3"
           src="~/assets/img/icons/actions/plus.svg"
           alt=""
         />
@@ -36,9 +38,6 @@ const onCreate = async () => {
       class="text-white text-medium text-ellipsis mt-2 whitespace-nowrap overflow-hidden"
     >
       {{ media.originalName }}
-    </h4>
-    <h4 class="text-white text-medium text-xl">
-      {{ (media.originalName.match(/\.\w+$/) as RegExpMatchArray)[0] }}
     </h4>
   </div>
 </template>
