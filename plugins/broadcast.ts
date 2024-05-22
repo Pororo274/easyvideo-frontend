@@ -26,8 +26,10 @@ export default defineNuxtPlugin(nuxtApp => {
       authorizer: (channel: any, options: any) => {
         return {
           authorize: (socketId: any, callback: any) => {
-            $fetch(
-                'http://localhost:8000/broadcasting/auth',
+            $fetch.create({
+              baseURL: runtimeConfig.public.apiAddress
+            })(
+                `/broadcasting/auth`,
                 {
                   method: 'post',
                   body: {
