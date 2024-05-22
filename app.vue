@@ -1,5 +1,5 @@
 <template>
-  <NuxtLoadingIndicator color="#6366f1" :height="2" />
+  <NuxtLoadingIndicator color="#0066FF" :height="2" />
   <div class="bg-black">
     <AppNotification>
       <NuxtLayout>
