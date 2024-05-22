@@ -87,9 +87,7 @@ const refreshInitPosition = () => {
 };
 
 const onMove = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
-  if (props.selfDrag) {
-    updatePosition(deltaX, deltaY);
-  }
+  updatePosition(deltaX, deltaY);
 
   emit("move", {
     deltaX,
@@ -148,8 +146,13 @@ const initDrag = useDrag({
   onDown,
 });
 
+const position = computed(() => ({
+  x: props.selfDrag ? xPos.value : props.initXPos,
+  y: props.selfDrag ? yPos.value : props.initYPos,
+}));
+
 const virtualMediaStyle = computed(() => ({
-  transform: `translate(${xPos.value}px, ${yPos.value}px)`,
+  transform: `translate(${position.value.x}px, ${position.value.y}px)`,
 }));
 
 provide("appDrag", {

@@ -1,4 +1,6 @@
+import type { Position } from "~/interfaces/editor/position.interface";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
+import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
 
 export const useVirtualMedias = () => {
   const virtualMedias = useState<VirtualMedia[]>("virtualMedias", () => []);
@@ -86,8 +88,17 @@ export const useVirtualMedias = () => {
     })
   }
 
-  const updatePositionByUuid = () => {
-    
+  const updatePositionByUuid = (uuid: string, newPosition: Position) => {
+    virtualMedias.value = virtualMedias.value.map((media) => {
+      if (media.uuid === uuid) {
+        const { position, ...other } = (media as VirtualVideo)
+        return {
+          ...other,
+          position: newPosition
+        }
+      }
+      return media
+    })
   }
 
   return {
@@ -100,6 +111,7 @@ export const useVirtualMedias = () => {
     updateStartTimeById,
     longestLayerTime,
     updateLayerById,
-    setVirtualMedias
+    setVirtualMedias,
+    updatePositionByUuid
   }
 }
