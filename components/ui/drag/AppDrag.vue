@@ -159,6 +159,7 @@ provide("appDrag", {
   },
   xPos: readonly(xPos),
   yPos: readonly(yPos),
+  setPosition,
 });
 </script>
 

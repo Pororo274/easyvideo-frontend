@@ -53,7 +53,7 @@ onMounted(() => {
       <div :style="layerListStyle" class="absolute left-4 pt-12 overflow-none">
         <VirtualMediaItem
           v-for="media in virtualMedias"
-          :key="media.id"
+          :key="media.uuid"
           :virtual-media="media"
         />
       </div>

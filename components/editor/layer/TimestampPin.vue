@@ -14,9 +14,7 @@ const text = computed(
       .padStart(2, "0")}`
 );
 
-const isShortLine = computed(() =>
-  Math.floor((props.order - 1) % Math.ceil(140 / pxPerSecond.value))
-);
+const showTime = computed(() => !((props.order - 1) % 5));
 </script>
 
 <template>
@@ -27,12 +25,12 @@ const isShortLine = computed(() =>
   >
     <div
       :style="{
-        height: isShortLine ? '6px' : '24px',
+        height: showTime ? '24px' : '6px',
       }"
       class="rounded-full w-0.5 h-6 bg-zinc-700"
     ></div>
     <p
-      v-show="!isShortLine"
+      v-show="showTime"
       class="absolute text-zinc-700 text-xs -translate-x-1/2 top-full"
     >
       {{ text }}

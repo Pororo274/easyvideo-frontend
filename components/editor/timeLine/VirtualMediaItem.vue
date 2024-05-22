@@ -8,6 +8,7 @@ const props = defineProps<{
 }>();
 
 const { yPositionsLayers, pxPerSecond } = useTimeLine();
+const { getOriginalNameByUuid, getObjectURLByUuid } = useMedias();
 const {
   updateDurationById,
   updateGlobalStartTimeById,
@@ -47,15 +48,15 @@ const onLeftMove = ({
   const time = deltaX / pxPerSecond.value;
 
   updateGlobalStartTimeById(
-    props.virtualMedia.id,
+    props.virtualMedia.uuid,
     props.virtualMedia.globalStartTime + time
   );
   updateStartTimeById(
-    props.virtualMedia.id,
+    props.virtualMedia.uuid,
     props.virtualMedia.startTime + time
   );
   updateDurationById(
-    props.virtualMedia.id,
+    props.virtualMedia.uuid,
     virtualMediaWidth.value / pxPerSecond.value
   );
 };
@@ -64,18 +65,18 @@ const onRightMove = ({ deltaX }: { deltaX: number }) => {
   virtualMediaWidth.value += deltaX;
 
   updateDurationById(
-    props.virtualMedia.id,
+    props.virtualMedia.uuid,
     virtualMediaWidth.value / pxPerSecond.value
   );
 };
 
 const onMove = ({ xPos }: { xPos: number }) => {
-  updateGlobalStartTimeById(props.virtualMedia.id, xPos / pxPerSecond.value);
+  updateGlobalStartTimeById(props.virtualMedia.uuid, xPos / pxPerSecond.value);
 };
 
 const onTeleport = ({ yPos }: { yPos: number }) => {
   const layer = yPositionsLayers.value.findIndex((x) => x === yPos) + 1;
-  updateLayerById(props.virtualMedia.id, layer);
+  updateLayerById(props.virtualMedia.uuid, layer);
 };
 
 const virtualMediaStyle = computed(() => ({
@@ -104,29 +105,31 @@ const virtualMediaStyle = computed(() => ({
       <video
         v-if="(virtualMedia as VirtualVideo).originalDuration"
         class="h-[40px] rounded-md object-contain"
-        :src="virtualMedia.content"
+        :src="getObjectURLByUuid((virtualMedia as VirtualVideo).mediaUuid)"
       ></video>
-      <figure v-else-if="(virtualMedia as VirtualImage).objectURL">
+      <figure v-else-if="(virtualMedia as VirtualImage).mediaUuid">
         <img
           class="h-[40px] object-contain"
-          :src="virtualMedia.content"
+          :src="getObjectURLByUuid((virtualMedia as VirtualImage).mediaUuid)"
           alt=""
         />
       </figure>
       <h3
         class="text-white font-medium text-sm text-nowrap text-ellipsis overflow-hidden select-none"
       >
-        {{ virtualMedia.name }}
+        {{ getOriginalNameByUuid((virtualMedia as VirtualImage).mediaUuid) }}
       </h3>
     </div>
     <VirtualMediaLever
       @move="onLeftMove"
       class="left-0"
+      :virtual-media="virtualMedia"
       pin-class="bg-indigo-600"
     />
     <VirtualMediaLever
       @move="onRightMove"
       class="right-0"
+      :virtual-media="virtualMedia"
       pin-class="bg-indigo-600"
     />
   </AppDrag>

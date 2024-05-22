@@ -1,6 +1,9 @@
 <script setup lang="ts">
-defineProps<{
+import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
+
+const props = defineProps<{
   pinClass: string;
+  virtualMedia: VirtualMedia;
 }>();
 
 interface OnMoveEvent {
@@ -12,7 +15,8 @@ const emit = defineEmits<{
   move: [event: OnMoveEvent];
 }>();
 
-const { updatePosition } = useAppDrag();
+const { updatePosition, setPosition, yPos } = useAppDrag();
+const { pxPerSecond } = useTimeLine();
 
 const onMove = ({ deltaX }: { deltaX: number }) => {
   emit("move", {
@@ -22,6 +26,13 @@ const onMove = ({ deltaX }: { deltaX: number }) => {
     },
   });
 };
+
+onMounted(() => {
+  setPosition({
+    x: props.virtualMedia.globalStartTime * pxPerSecond.value,
+    y: yPos.value,
+  });
+});
 </script>
 
 <template>

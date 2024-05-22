@@ -1,6 +1,6 @@
 <template>
   <NuxtLoadingIndicator color="#6366f1" :height="2" />
-  <div class="bg-zinc-950">
+  <div class="bg-black">
     <AppNotification>
       <NuxtLayout>
         <NuxtPage />

@@ -3,7 +3,6 @@ import { SystemNotificationType } from "~/enums/notifications/system-notificatio
 
 const { project } = useProject();
 const { updateUploadStatus } = useMediaUpload();
-const { virtualMedias } = useVirtualMedias();
 const { hideModal } = useAppModal();
 const { pushSystemNotification } = useAppNotification();
 
@@ -26,11 +25,7 @@ const onSuccess = () => {
       </div>
     </div>
     <div class="p-5">
-      <AppForm
-        @success="onSuccess"
-        :action="`/projects/${project.id}/render`"
-        :data="{ virtualMedias }"
-      >
+      <AppForm @success="onSuccess" :action="`/projects/${project.id}/render`">
         <div>
           <h2 class="text-white font-medium text-xl">Параметры экспорта:</h2>
           <div class="grid grid-cols-3 mt-2">

@@ -9,6 +9,7 @@ const props = defineProps<{
 
 const { pinCurrentTime } = useTimeLine();
 const { totalLayers } = useVirtualMedias();
+const { getObjectURLByUuid } = useMedias();
 
 const isShow = computed(() => {
   if (
@@ -48,14 +49,14 @@ const currentTime = computed(
     v-if="(media as VirtualVideo).originalDuration"
     v-show="isShow"
     :is-active="isShow"
-    :content="props.media.content"
+    :content="getObjectURLByUuid((media as VirtualVideo).mediaUuid)"
     :current-time="currentTime"
     :style="mediaPreviewStyle"
   />
   <ImagePreviewItem
-    v-else-if="(media as VirtualImage).objectURL"
+    v-else-if="(media as VirtualImage).mediaUuid"
     v-show="isShow"
-    :content="props.media.content"
+    :content="getObjectURLByUuid((media as VirtualImage).mediaUuid)"
     :style="mediaPreviewStyle"
   />
 </template>

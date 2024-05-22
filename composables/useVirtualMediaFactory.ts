@@ -22,38 +22,32 @@ export const useVirtualMediaFactory = () => {
   }
 
   const createVirtualImage = async (media: Media): Promise<VirtualImage> => {
-    const id = v4()
+    const uuid = v4()
     const metadata = await getImageMetadata(media.objectURL)
     return {
-      id,
-      objectURL: media.objectURL,
-      content: media.objectURL,
+      uuid,
       layer: totalLayers.value + 1,
       globalStartTime: 0,
       duration: 10,
       startTime: 0,
       originalWidth: metadata.width,
       originalHeight: metadata.height,
-      name: media.originalName,
       mediaUuid: media.uuid
     }
   }
 
   const createVirtualVideo = async (media: Media): Promise<VirtualVideo> => {
-    const id = v4()
+    const uuid = v4()
     const metadata = await getVideoMetadata(media.objectURL)
     return {
-      id,
-      objectURL: media.objectURL,
+      uuid,
       originalDuration: metadata.duration,
       originalHeight: metadata.height,
       originalWidth: metadata.width,
-      content: media.objectURL,
       layer: totalLayers.value + 1,
       globalStartTime: 0,
       duration: metadata.duration,
       startTime: 0,
-      name: media.originalName,
       mediaUuid: media.uuid
     }
   }

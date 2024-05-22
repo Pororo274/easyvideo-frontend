@@ -21,6 +21,10 @@ export const useVirtualMedias = () => {
     return copyLayersTimes[0] || 0
   })
 
+  const setVirtualMedias = (newVirtualMedias: VirtualMedia[]) => {
+    virtualMedias.value = newVirtualMedias;
+  }
+
 
   const addVirtualMedia = (media: VirtualMedia) => {
     virtualMedias.value = [...virtualMedias.value, media]
@@ -32,7 +36,7 @@ export const useVirtualMedias = () => {
 
   const updateDurationById = (id: string, newDuration: number) => {
     virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.id === id) {
+      if (media.uuid === id) {
         const { duration, ...other } = media
         return {
           ...other,
@@ -45,7 +49,7 @@ export const useVirtualMedias = () => {
 
   const updateGlobalStartTimeById = (id: string, newGlobalStartTime: number) => {
     virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.id === id) {
+      if (media.uuid === id) {
         const { globalStartTime, ...other } = media
         return {
           ...other,
@@ -58,7 +62,7 @@ export const useVirtualMedias = () => {
 
   const updateStartTimeById = (id: string, newStartTime: number) => {
     virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.id === id) {
+      if (media.uuid === id) {
         const { startTime, ...other } = media
         return {
           ...other,
@@ -71,7 +75,7 @@ export const useVirtualMedias = () => {
 
   const updateLayerById = (id: string, newLayer: number) => {
     virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.id === id) {
+      if (media.uuid === id) {
         const { layer, ...other } = media
         return {
           ...other,
@@ -91,6 +95,7 @@ export const useVirtualMedias = () => {
     updateGlobalStartTimeById,
     updateStartTimeById,
     longestLayerTime,
-    updateLayerById
+    updateLayerById,
+    setVirtualMedias
   }
 }

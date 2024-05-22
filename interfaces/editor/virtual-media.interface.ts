@@ -1,9 +1,7 @@
 export interface VirtualMedia {
-  readonly id: string;
+  readonly uuid: string;
   layer: number;
-  content: string;
   globalStartTime: number;
   startTime: number;
   duration: number;
-  name: string;
 }

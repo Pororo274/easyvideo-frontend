@@ -35,7 +35,7 @@ export const useTimeLine = () => {
     if (oldVirtualMedias.length) return
     const virtualMedia = newVirtualMedias[0]
 
-    pxPerSecond.value = startTimeLineWidth.value / virtualMedia.duration
+    pxPerSecond.value = startTimeLineWidth.value / longestLayerTime.value
   })
 
   const pinCurrentTime = computed(() => pinXPos.value / pxPerSecond.value)

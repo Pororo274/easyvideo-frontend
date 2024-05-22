@@ -59,11 +59,28 @@ export const useMedias = () => {
     addFromFilesAsync(...files).then();
   }
 
+  const findMediaByUuid = (uuid: string) => {
+    const media = medias.value.find(x => x.uuid === uuid);
+    if (!media) throw new Error('Not found media with this uuid');
+
+    return media
+  }
+
+  const getObjectURLByUuid = (uuid: string) => {
+    return findMediaByUuid(uuid).objectURL;
+  }
+
+  const getOriginalNameByUuid = (uuid: string) => {
+    return findMediaByUuid(uuid).originalName;
+  }
+
   return {
     medias: readonly(medias),
     addFromFiles,
     allowedTypesString,
     updateMediaStatusByUuid,
-    setMedias
+    setMedias,
+    getObjectURLByUuid,
+    getOriginalNameByUuid
   }
 }

@@ -1,47 +1,17 @@
 <template>
-  <section class="pt-40 relative">
-    <div class="absolute w-full h-full blur-[200px]">
-      <div
-        class="absolute w-72 h-72 bg-indigo-500 rounded-full -translate-x-1/2 -top-48"
-      ></div>
-      <div
-        class="absolute w-72 h-72 bg-indigo-500 rounded-full left-full -translate-x-1/2 top-36"
-      ></div>
-    </div>
-    <div class="container relative">
-      <div>
-        <h1 class="text-white text-8xl font-bold">
-          Превратите <br />
-          <span
-            class="bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent"
-            >удивительные</span
-          >
-          идеи <br />
-          в ваши шедевры<span class="text-indigo-600">.</span>
-        </h1>
-        <p class="mt-8 text-slate-400 w-[700px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-          ipsum, placeat dicta natus deserunt, voluptates assumenda ut hic
-          eligendi et odit dignissimos tempore soluta mollitia optio eum iste
-          sapiente quas?
-        </p>
+  <section class="pt-64 relative">
+    <div class="container">
+      <h1 class="text-white font-medium text-3xl text-center">EasyVideo</h1>
+      <h1 class="text-white font-medium text-3xl text-center mt-4">
+        С нами создание шедевров <br />
+        не займет много времени
+      </h1>
+      <div class="flex justify-center mt-4">
         <NuxtLink
-          class="mt-8 inline-block p-px bg-gradient-to-br from-zinc-600 rounded-md group"
-          to="/sign-up"
+          to="sign-up"
+          class="inline-block rounded-md border bg-blue border-blue-light py-2 px-6 font-medium text-base text-white hover:bg-blue-dark"
+          >Начать творить</NuxtLink
         >
-          <div class="py-2 pl-8 pr-6 bg-zinc-950 rounded-md">
-            <div class="flex items-center gap-3">
-              <p class="text-white">Начать творить</p>
-              <figure class="transition-all group-hover:translate-x-1">
-                <img
-                  class="icon-white -rotate-90 w-3"
-                  src="~/assets/img/icons/actions/arrow-down.svg"
-                  alt=""
-                />
-              </figure>
-            </div>
-          </div>
-        </NuxtLink>
       </div>
     </div>
   </section>

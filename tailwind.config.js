@@ -13,6 +13,19 @@ export default {
       container: {
         center: true,
         padding: '1rem'
+      },
+      colors: {
+        black: {
+          DEFAULT: '#161616'
+        },
+        blue: {
+          light: '#2F82FF',
+          DEFAULT: '#0066FF',
+          dark: '#0052CC'
+        },
+        gray: {
+          DEFAULT: '#272727'
+        }
       }
     },
   },

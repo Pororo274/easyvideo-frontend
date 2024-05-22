@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Media } from "~/interfaces/editor/media.interface";
+import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
 import type { Project } from "~/interfaces/project/project.interface";
 
 const { $api } = useNuxtApp();
@@ -8,18 +9,22 @@ const route = useRoute();
 
 const { setProject, project } = useProject();
 const { setMedias } = useMedias();
+const { setVirtualMedias } = useVirtualMedias();
+useVirtualMediaSynchronizer();
 
 const { data } = await useAsyncData(async () => {
-  const [project, medias] = await Promise.all<
-    [Promise<Project>, Promise<Media[]>]
+  const [project, medias, virtualMedias] = await Promise.all<
+    [Promise<Project>, Promise<Media[]>, Promise<VirtualMedia[]>]
   >([
     $api(`/projects/${route.params.projectId}`),
     $api(`/projects/${route.params.projectId}/media`),
+    $api(`/projects/${route.params.projectId}/virtual-media`),
   ]);
 
   return {
     project,
     medias,
+    virtualMedias,
   };
 });
 
@@ -28,6 +33,13 @@ watchEffect(() => {
 
   setProject(data.value.project);
   setMedias(...data.value.medias);
+});
+
+onMounted(() => {
+  if (!data.value) return;
+  if (!data.value.virtualMedias.length) return;
+
+  setVirtualMedias(data.value.virtualMedias);
 });
 
 useHead({
