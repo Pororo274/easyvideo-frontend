@@ -30,10 +30,13 @@ const onDown = () => {
   isCapture.value = true;
 };
 
+const { sync } = useVirtualMediaSynchronizer();
+
 const onUp = () => {
   opacity.value = 1;
   zIndex.value = 0;
   isCapture.value = false;
+  sync();
 };
 
 const onLeftMove = ({
@@ -99,9 +102,9 @@ const virtualMediaStyle = computed(() => ({
     :y-teleports="yPositionsLayers"
     :min-x="0"
     :class="[isCapture ? 'border-indigo-600' : 'border-transparent']"
-    class="absolute py-1.5 rounded-md bg-zinc-800 group cursor-move border"
+    class="absolute py-1.5 rounded-md bg-gray group cursor-move border overflow-hidden"
   >
-    <div class="flex gap-3 items-center pl-4 overflow-hidden">
+    <div class="flex gap-3 items-center pl-4">
       <video
         v-if="(virtualMedia as VirtualVideo).originalDuration"
         class="h-[40px] rounded-md object-contain"
@@ -124,13 +127,13 @@ const virtualMediaStyle = computed(() => ({
       @move="onLeftMove"
       class="left-0"
       :virtual-media="virtualMedia"
-      pin-class="bg-indigo-600"
+      pin-class="bg-blue"
     />
     <VirtualMediaLever
       @move="onRightMove"
       class="right-0"
       :virtual-media="virtualMedia"
-      pin-class="bg-indigo-600"
+      pin-class="bg-blue"
     />
   </AppDrag>
 </template>

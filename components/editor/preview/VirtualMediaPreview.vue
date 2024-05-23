@@ -31,8 +31,8 @@ const getYProcent = (value: number) => (value / project.value.height) * 100;
 
 const mediaPreviewStyle = computed(() => ({
   zIndex: totalLayers.value - props.media.layer,
-  width: `${getXProcent((props.media as VirtualVideo).originalWidth)}%`,
-  height: `${getYProcent((props.media as VirtualVideo).originalHeight)}%`,
+  width: `${getXProcent((props.media as VirtualVideo).size.width)}%`,
+  height: `${getYProcent((props.media as VirtualVideo).size.height)}%`,
   top: `${getYProcent((props.media as VirtualVideo).position.y)}%`,
   left: `${getXProcent((props.media as VirtualVideo).position.x)}%`,
 }));

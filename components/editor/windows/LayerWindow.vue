@@ -1,25 +1,21 @@
 <script setup lang="ts">
 const { virtualMedias } = useVirtualMedias();
-const {
-  updateTimeLineWidth,
-  timeLineWidth,
-  pxPerSecond,
-  setStartTimeLineWidth,
-} = useTimeLine();
+const { timeLineWidth, pxPerSecond, setStartTimeLineWidth } = useTimeLine();
 const { LAYER_LEFT_MARGIN } = useConstants();
 
 const layerBase = ref<HTMLDivElement | null>();
-
-const layerListStyle = computed(() => ({
-  width: `${timeLineWidth.value}px`,
-}));
 
 const pinLayerStyle = computed(() => ({
   width: `${timeLineWidth.value + LAYER_LEFT_MARGIN}px`,
 }));
 
+const timeLineLeft = ref(0);
+const onTimelineScroll = (e: Event) => {
+  if (!e.currentTarget) return;
+  timeLineLeft.value = (e.currentTarget as HTMLDivElement).scrollLeft;
+};
 const timeLinePinStyle = computed(() => ({
-  left: `${LAYER_LEFT_MARGIN / 2}px`,
+  left: `${LAYER_LEFT_MARGIN / 2 - timeLineLeft.value}px`,
 }));
 
 const totalTime = computed(() =>
@@ -30,17 +26,20 @@ onMounted(() => {
   if (!layerBase.value) return;
 
   const baseWidth = layerBase.value.clientWidth;
-  setStartTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN);
+  setStartTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN - 10);
 });
 </script>
 
 <template>
   <div class="relative pt-2 pb-2">
-    <div class="relative w-full h-full overflow-scroll" ref="layerBase">
-      <div :style="pinLayerStyle" class="absolute h-full overflow-x-hidden">
+    <div
+      class="relative w-full h-full overflow-hidden flex flex-col"
+      ref="layerBase"
+    >
+      <div :style="pinLayerStyle" class="relative h-12 overflow-x-hidden z-20">
         <div
           :style="{ left: `${LAYER_LEFT_MARGIN}px` }"
-          class="absolute w-full"
+          class="absolute w-full bg-black h-12"
         >
           <TimestampPin
             v-for="order in Math.floor(totalTime)"
@@ -48,13 +47,19 @@ onMounted(() => {
             :order="order"
           />
         </div>
+      </div>
+      <div :style="pinLayerStyle" class="absolute h-full">
         <TimeLinePin :style="timeLinePinStyle" v-if="virtualMedias.length" />
       </div>
-      <div :style="layerListStyle" class="absolute left-4 pt-12 overflow-none">
+      <div
+        @scroll="onTimelineScroll"
+        class="relative right-0 flex-1 overflow-scroll h-full w-full"
+      >
         <VirtualMediaItem
           v-for="media in virtualMedias"
           :key="media.uuid"
           :virtual-media="media"
+          class="left-4"
         />
       </div>
     </div>

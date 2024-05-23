@@ -1,5 +1,5 @@
 <template>
-  <section class="pt-64 relative">
+  <section class="pt-56 relative">
     <div class="container">
       <h1 class="text-white font-medium text-3xl text-center">EasyVideo</h1>
       <h1 class="text-white font-medium text-3xl text-center mt-4">

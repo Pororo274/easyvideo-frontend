@@ -1,4 +1,5 @@
 import type { Position } from "~/interfaces/editor/position.interface";
+import type { Size } from "~/interfaces/editor/size.interface";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
 import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
 
@@ -101,6 +102,19 @@ export const useVirtualMedias = () => {
     })
   }
 
+  const updateSizeByUuid = (uuid: string, newSize: Size) => {
+    virtualMedias.value = virtualMedias.value.map((media) => {
+      if (media.uuid === uuid) {
+        const { size, ...other } = (media as VirtualVideo)
+        return {
+          ...other,
+          size: newSize
+        }
+      }
+      return media
+    })
+  }
+
   return {
     virtualMedias: readonly(virtualMedias),
     totalLayers,
@@ -112,6 +126,7 @@ export const useVirtualMedias = () => {
     longestLayerTime,
     updateLayerById,
     setVirtualMedias,
-    updatePositionByUuid
+    updatePositionByUuid,
+    updateSizeByUuid
   }
 }

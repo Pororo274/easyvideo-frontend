@@ -7,11 +7,13 @@ const props = defineProps<{
 
 const { createVirtualMedia } = useVirtualMediaFactory();
 const { addVirtualMedia } = useVirtualMedias();
+const { sync } = useVirtualMediaSynchronizer();
 
 const create = async () => {
   const virtualMedia = await createVirtualMedia(props.media);
 
   addVirtualMedia(virtualMedia);
+  sync();
 };
 </script>
 

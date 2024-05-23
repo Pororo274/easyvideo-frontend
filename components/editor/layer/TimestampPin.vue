@@ -19,7 +19,7 @@ const showTime = computed(() => !((props.order - 1) % 5));
 
 <template>
   <div
-    v-show="!Math.floor((order - 1) % Math.ceil(20 / pxPerSecond))"
+    v-show="!Math.ceil((order - 1) % Math.ceil(20 / pxPerSecond))"
     :style="{ transform: `translate(${(order - 1) * pxPerSecond}px, 0)` }"
     class="absolute w-0.5 h-6 -translate-x-1/2 select-none"
   >

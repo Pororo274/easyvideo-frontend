@@ -53,7 +53,6 @@ const sendRequest = async () => {
       });
     }
     emit("error", e);
-  } finally {
     isLoading.value = false;
   }
 };

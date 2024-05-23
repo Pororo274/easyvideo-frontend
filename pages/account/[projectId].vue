@@ -49,6 +49,11 @@ useHead({
 definePageMeta({
   middleware: ["auth"],
 });
+
+const { initKeyboard } = useKeyboard();
+onMounted(() => {
+  initKeyboard();
+});
 </script>
 
 <template>

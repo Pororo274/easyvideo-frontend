@@ -20,7 +20,7 @@ export const useVirtualMediaSynchronizer = () => {
     }, 1000 * 60)
   }
 
-  onMounted(() => {
-    // planNextSync()
-  })
+  return {
+    sync
+  }
 }

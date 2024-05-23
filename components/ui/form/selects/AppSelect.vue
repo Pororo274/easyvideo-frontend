@@ -12,7 +12,7 @@ const model = defineModel();
         v-model="model"
         name=""
         id=""
-        class="block appearance-none bg-gray-dark text-white py-1.5 px-3 w-full border border-gray focus:outline-none focus:border-indigo-600 rounded-md"
+        class="block appearance-none bg-gray-dark text-white py-1.5 px-3 w-full border border-gray focus:outline-none focus:border-blue rounded-md"
       >
         <slot> </slot>
       </select>

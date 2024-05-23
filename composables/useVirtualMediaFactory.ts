@@ -36,6 +36,10 @@ export const useVirtualMediaFactory = () => {
       position: {
         x: 0,
         y: 0
+      },
+      size: {
+        width: metadata.width,
+        height: metadata.height
       }
     }
   }
@@ -56,6 +60,10 @@ export const useVirtualMediaFactory = () => {
       position: {
         x: 0,
         y: 0
+      },
+      size: {
+        width: metadata.width,
+        height: metadata.height
       }
     }
   }
