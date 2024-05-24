@@ -22,11 +22,12 @@ watchEffect(() => {
 </script>
 
 <template>
-  <video
-    v-if="(virtualMedia as VirtualVideo).originalDuration"
-    :style="mediaPreviewStyle"
-    :src="getObjectURLByUuid((virtualMedia as VirtualVideo).mediaUuid)"
-    class="absolute"
-    ref="video"
-  ></video>
+  <div class="absolute" :style="mediaPreviewStyle">
+    <video
+      v-if="(virtualMedia as VirtualVideo).originalDuration"
+      :src="getObjectURLByUuid((virtualMedia as VirtualVideo).mediaUuid)"
+      class="absolute w-full h-full object-fill"
+      ref="video"
+    ></video>
+  </div>
 </template>
