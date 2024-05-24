@@ -17,6 +17,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiAddress: process.env.API_ADDRESS,
+      apiAddressServer: process.env.API_ADDRESS_SERVER,
+      serverOrigin: process.env.SERVER_ORIGIN,
+
       reverbAppKey: process.env.REVERB_APP_KEY,
       reverbHost: process.env.REVERB_HOST,
       reverbPort: process.env.REVERB_PORT,
