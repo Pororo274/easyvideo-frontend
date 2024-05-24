@@ -17,7 +17,7 @@ const getCorrectPluralization = (
   const last = count % 10;
 
   if (last === 1) return pluralization.first;
-  if (last < 5) return pluralization.specific
+  if (last < 5 && last !== 0) return pluralization.specific
   return pluralization.default;
 };
 
