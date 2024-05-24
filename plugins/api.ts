@@ -1,17 +1,23 @@
 export default defineNuxtPlugin(nuxtApp => {
   const runtimeConfig = useRuntimeConfig()
   const apiAddress = runtimeConfig.public.apiAddress
+  const apiAddressServer = runtimeConfig.public.apiAddressServer
+  const serverOrigin = runtimeConfig.public.serverOrigin
+
+  const baseUrl = import.meta.server ? apiAddressServer : apiAddress
+  const origin = import.meta.server ? serverOrigin : useRequestURL().origin
 
   const api = $fetch.create({
-    baseURL: runtimeConfig.public.apiAddress + '/api',
+    baseURL: (baseUrl || apiAddress) + '/api',
     credentials: 'include',
     async onRequest({ options }) {
       const clientCookies = useRequestHeaders(['cookie']);
 
       if (!useCookie('XSRF-TOKEN').value) {
         await $fetch.create({
-          credentials: 'include'
-        }).raw(`${apiAddress}/sanctum/csrf-cookie`)
+          credentials: 'include',
+          baseURL: apiAddress
+        }).raw(`/sanctum/csrf-cookie`)
       }
 
       // if (import.meta.server) {
@@ -23,7 +29,7 @@ export default defineNuxtPlugin(nuxtApp => {
         'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value,
         'Accept': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
-        'Origin': useRequestURL().origin,
+        'Origin': (origin || useRequestURL().origin),
         ...options.headers,
         ...(clientCookies.cookie && clientCookies),
       }
