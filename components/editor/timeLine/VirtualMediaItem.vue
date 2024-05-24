@@ -81,6 +81,8 @@ const onRightMove = ({ deltaX }: { deltaX: number }) => {
       newDuration < originalDuration || deltaX < 0
         ? deltaX + virtualMediaWidth.value
         : originalDuration * pxPerSecond.value;
+  } else {
+    virtualMediaWidth.value = deltaX + virtualMediaWidth.value;
   }
 
   updateDurationById(
