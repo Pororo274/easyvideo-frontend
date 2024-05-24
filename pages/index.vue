@@ -14,5 +14,6 @@ definePageMeta({
     <LandingHero />
     <!-- <LandingAboutUs /> -->
     <LandingPrice />
+    <LandingFooter />
   </div>
 </template>

@@ -2,6 +2,7 @@
 import {
   getCorrectMinutsName,
   getCorrectDaysName,
+  getCorrectHoursName,
 } from "~/helpers/pluralization.helper";
 
 interface Project {
@@ -16,11 +17,17 @@ const props = defineProps<{
 
 const editedAgo = computed(() => {
   const minute = 1000 * 60;
-  const day = minute * 60 * 24;
+  const hour = minute * 60;
+  const day = hour * 24;
 
   const interval = Date.now() - new Date(props.project.createdAt).getTime();
 
   if (interval < day) {
+    if (interval > hour) {
+      const hours = Math.floor(interval / hour);
+      return `Редактирован ${hours} ${getCorrectHoursName(hours)} назад`;
+    }
+
     if (interval > minute) {
       const minuts = Math.floor(interval / minute);
       return `Редактирован ${minuts} ${getCorrectMinutsName(minuts)} назад`;

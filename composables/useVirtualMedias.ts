@@ -115,6 +115,10 @@ export const useVirtualMedias = () => {
     })
   }
 
+  const clear = () => {
+    virtualMedias.value = []
+  }
+
   return {
     virtualMedias: readonly(virtualMedias),
     totalLayers,
@@ -127,6 +131,7 @@ export const useVirtualMedias = () => {
     updateLayerById,
     setVirtualMedias,
     updatePositionByUuid,
-    updateSizeByUuid
+    updateSizeByUuid,
+    clear
   }
 }

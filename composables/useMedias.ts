@@ -74,6 +74,10 @@ export const useMedias = () => {
     return findMediaByUuid(uuid).originalName;
   }
 
+  const clear = () => {
+    medias.value = []
+  }
+
   return {
     medias: readonly(medias),
     addFromFiles,
@@ -81,6 +85,7 @@ export const useMedias = () => {
     updateMediaStatusByUuid,
     setMedias,
     getObjectURLByUuid,
-    getOriginalNameByUuid
+    getOriginalNameByUuid,
+    clear
   }
 }

@@ -47,7 +47,8 @@ const onUp = () => {
     @up="onUp"
     :self-drag="false"
     :class="pinClass"
-    class="hidden absolute w-3 h-full group-hover:block items-center justify-center top-0 cursor-w-resize"
+    class="hidden absolute w-3 h-full group-hover:flex items-center justify-center top-0 cursor-w-resize"
   >
+    <div class="bg-gray rounded-full w-0.5 h-4"></div>
   </AppDrag>
 </template>

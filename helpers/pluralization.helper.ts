@@ -8,14 +8,17 @@ const getCorrectPluralization = (
   count: number,
   pluralization: Pluralization
 ) => {
-  if (count > 4) {
+  const twoLast = count % 100;
+
+  if (twoLast > 4 && twoLast < 21) {
     return pluralization.default;
   }
 
   const last = count % 10;
 
   if (last === 1) return pluralization.first;
-  return pluralization.specific;
+  if (last < 5) return pluralization.specific
+  return pluralization.default;
 };
 
 export const getCorrectMinutsName = (minuts: number) => {
@@ -32,5 +35,13 @@ export const getCorrectDaysName = (days: number) => {
     first: "день",
     specific: "дня"
   });
+}
+
+export const getCorrectHoursName = (hours: number) => {
+  return getCorrectPluralization(hours, {
+    default: "часов",
+    first: "час",
+    specific: "часа"
+  })
 }
 

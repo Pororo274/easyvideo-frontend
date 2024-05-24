@@ -51,8 +51,15 @@ definePageMeta({
 });
 
 const { initKeyboard } = useKeyboard();
+const { clear: clearVirtualMedias } = useVirtualMedias();
+const { clear: clearMedias } = useMedias();
 onMounted(() => {
   initKeyboard();
+});
+
+onUnmounted(() => {
+  clearVirtualMedias();
+  clearMedias();
 });
 </script>
 

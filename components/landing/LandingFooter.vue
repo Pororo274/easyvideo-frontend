@@ -1,10 +1,10 @@
 <template>
-  <header class="pt-6 relative z-10">
+  <footer class="pt-24 pb-6">
     <div class="container">
       <div class="flex justify-between items-center">
         <AppLogo />
-        <LinkOutline to="/login">Войти</LinkOutline>
+        <p class="text-white">Зарипов Эмиль, 2024г.</p>
       </div>
     </div>
-  </header>
+  </footer>
 </template>

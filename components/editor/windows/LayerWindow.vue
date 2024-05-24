@@ -38,7 +38,7 @@ onMounted(() => {
     >
       <div :style="pinLayerStyle" class="relative h-12 overflow-x-hidden z-20">
         <div
-          :style="{ left: `${LAYER_LEFT_MARGIN}px` }"
+          :style="{ left: `${LAYER_LEFT_MARGIN - timeLineLeft}px` }"
           class="absolute w-full bg-black h-12"
         >
           <TimestampPin

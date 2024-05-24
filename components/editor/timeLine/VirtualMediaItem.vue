@@ -46,26 +46,42 @@ const onLeftMove = ({
   deltaX: number;
   updatePosition(): void;
 }) => {
-  virtualMediaWidth.value -= deltaX;
-  updatePosition();
   const time = deltaX / pxPerSecond.value;
+  let newGlobaStartTime = props.virtualMedia.globalStartTime + time;
+  let newStartTime = props.virtualMedia.startTime + time;
+  let newDuration = virtualMediaWidth.value / pxPerSecond.value;
 
-  updateGlobalStartTimeById(
-    props.virtualMedia.uuid,
-    props.virtualMedia.globalStartTime + time
-  );
-  updateStartTimeById(
-    props.virtualMedia.uuid,
-    props.virtualMedia.startTime + time
-  );
-  updateDurationById(
-    props.virtualMedia.uuid,
-    virtualMediaWidth.value / pxPerSecond.value
-  );
+  if (
+    newStartTime >= 0 ||
+    !(props.virtualMedia as VirtualVideo).originalDuration
+  ) {
+    virtualMediaWidth.value -= deltaX;
+    updatePosition();
+  }
+
+  if ((props.virtualMedia as VirtualVideo).originalDuration) {
+    newGlobaStartTime =
+      newStartTime < 0 ? props.virtualMedia.globalStartTime : newGlobaStartTime;
+    newDuration = newStartTime < 0 ? props.virtualMedia.duration : newDuration;
+    newStartTime = newStartTime < 0 ? 0 : newStartTime;
+  }
+
+  updateGlobalStartTimeById(props.virtualMedia.uuid, newGlobaStartTime);
+  updateStartTimeById(props.virtualMedia.uuid, newStartTime);
+  updateDurationById(props.virtualMedia.uuid, newDuration);
 };
 
 const onRightMove = ({ deltaX }: { deltaX: number }) => {
-  virtualMediaWidth.value += deltaX;
+  const newDuration = virtualMediaWidth.value / pxPerSecond.value;
+  if ((props.virtualMedia as VirtualVideo).originalDuration) {
+    const originalDuration = (props.virtualMedia as VirtualVideo)
+      .originalDuration;
+
+    virtualMediaWidth.value =
+      newDuration < originalDuration || deltaX < 0
+        ? deltaX + virtualMediaWidth.value
+        : originalDuration * pxPerSecond.value;
+  }
 
   updateDurationById(
     props.virtualMedia.uuid,
@@ -101,7 +117,7 @@ const virtualMediaStyle = computed(() => ({
     :delta-y-ignore="15"
     :y-teleports="yPositionsLayers"
     :min-x="0"
-    :class="[isCapture ? 'border-indigo-600' : 'border-transparent']"
+    :class="[isCapture ? 'border-blue' : 'border-transparent']"
     class="absolute py-1.5 rounded-md bg-gray group cursor-move border overflow-hidden"
   >
     <div class="flex gap-3 items-center pl-4">
