@@ -1,4 +1,5 @@
 export enum SystemNotificationType {
   SUCCESS = 'success',
-  ERROR = 'error'
+  ERROR = 'error',
+  ATTENTION = 'attention'
 }

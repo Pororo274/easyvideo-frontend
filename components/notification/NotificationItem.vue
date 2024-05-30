@@ -1,19 +1,17 @@
+<script setup lang="ts">
+import type { SystemNotificationType } from "~/enums/notifications/system-notification-type.enum";
+
+defineProps<{
+  type: SystemNotificationType;
+}>();
+</script>
+
 <template>
   <div
-    class="absolute z-50 top-5 left-1/2 -translate-x-1/2 p-3 rounded-md bg-zinc-800 border border-zinc-700"
+    class="absolute z-50 bottom-5 left-5 p-3 rounded-md bg-gray-dark border border-gray"
   >
     <div class="flex gap-3 items-center">
-      <figure>
-        <img
-          style="
-            filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(49deg)
-              brightness(103%) contrast(103%);
-          "
-          class="w-4 h-4"
-          src="~/assets/img/icons/info/info.svg"
-          alt=""
-        />
-      </figure>
+      <NotifiationIcon :type="type" />
       <p class="text-white">
         <slot></slot>
       </p>

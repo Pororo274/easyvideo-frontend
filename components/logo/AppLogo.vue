@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-white font-medium text-xl">
+  <NuxtLink to="/" class="block text-white font-medium text-xl">
     EasyVideo<span class="text-blue">.</span>
-  </h1>
+  </NuxtLink>
 </template>

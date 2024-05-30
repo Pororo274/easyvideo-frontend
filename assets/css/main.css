@@ -30,6 +30,10 @@
 }
 
 @layer utilities {
+  .icon {
+    filter: brightness(0) saturate(100%);
+  }
+
   .icon-white {
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(49deg)
               brightness(103%) contrast(103%);
@@ -41,6 +45,14 @@
 
   .icon-green {
     filter: invert(73%) sepia(100%) saturate(3302%) hue-rotate(95deg) brightness(101%) contrast(73%);
+  }
+
+  .icon-yellow {
+    filter: invert(75%) sepia(76%) saturate(730%) hue-rotate(330deg) brightness(104%) contrast(105%);
+  }
+
+  .icon-red {
+    filter: invert(43%) sepia(69%) saturate(6451%) hue-rotate(342deg) brightness(104%) contrast(105%);
   }
 
   .icon-indigo {

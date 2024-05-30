@@ -29,7 +29,13 @@ export default {
           dark: '#1A1A1A'
         },
         green: {
-          DEFAULT: '#00FF44'
+          DEFAULT: '#00FF57'
+        },
+        red: {
+          DEFAULT: '#FF3333'
+        },
+        yellow: {
+          DEFAULT: '#FFBA33'
         }
       }
     },

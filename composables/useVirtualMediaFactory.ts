@@ -1,4 +1,5 @@
 import { v4 } from "uuid"
+import { FilterName } from "~/enums/editor/filter-name.enum"
 import type { Media } from "~/interfaces/editor/media.interface"
 import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface"
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface"
@@ -33,13 +34,19 @@ export const useVirtualMediaFactory = () => {
       originalWidth: metadata.width,
       originalHeight: metadata.height,
       mediaUuid: media.uuid,
-      position: {
-        x: 0,
-        y: 0
-      },
-      size: {
-        width: metadata.width,
-        height: metadata.height
+      filters: {
+        [FilterName.OverlayFilter]: { 
+          position: {
+            x: 0,
+            y: 0
+          },
+        },
+        [FilterName.ScaleFilter]: {
+          size: {
+            width: metadata.width,
+            height: metadata.height
+          }
+        }
       }
     }
   }
@@ -57,13 +64,19 @@ export const useVirtualMediaFactory = () => {
       duration: metadata.duration,
       startTime: 0,
       mediaUuid: media.uuid,
-      position: {
-        x: 0,
-        y: 0
-      },
-      size: {
-        width: metadata.width,
-        height: metadata.height
+      filters: {
+        [FilterName.OverlayFilter]: { 
+          position: {
+            x: 0,
+            y: 0
+          },
+        },
+        [FilterName.ScaleFilter]: {
+          size: {
+            width: metadata.width,
+            height: metadata.height
+          }
+        }
       }
     }
   }

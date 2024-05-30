@@ -32,12 +32,20 @@ const { data } = await useAsyncData<Account>("accountData", async () => {
     <AccountHeader />
     <section class="w-full h-screen pt-[77px]">
       <div
+        v-if="data?.projects.length"
         class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
       >
         <ProjectItem
           v-for="project in (data as Account).projects"
           :project="project"
         />
+      </div>
+      <div v-else class="w-full h-full relative">
+        <p
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-light text-base"
+        >
+          Проекты не найдены
+        </p>
       </div>
     </section>
   </div>

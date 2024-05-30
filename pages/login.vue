@@ -23,6 +23,10 @@ const onError = (e: any) => {
 };
 
 const onSuccess = async (data: any) => {
+  pushSystemNotification({
+    message: "Успешный вход",
+    type: SystemNotificationType.SUCCESS,
+  });
   await refreshUserData(data);
   await navigateTo("/account");
 };

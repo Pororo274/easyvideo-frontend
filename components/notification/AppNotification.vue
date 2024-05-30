@@ -7,7 +7,7 @@ const pushSystemNotification = (notification: SystemNotification): void => {
   appNotifications.value.push(notification);
   setTimeout(() => {
     appNotifications.value.shift();
-  }, 3000);
+  }, 4000);
 };
 
 provide("appNotification", {
@@ -16,7 +16,10 @@ provide("appNotification", {
 </script>
 
 <template>
-  <NotificationItem v-for="notification in appNotifications">
+  <NotificationItem
+    v-for="notification in appNotifications"
+    :type="notification.type"
+  >
     {{ notification.message }}
   </NotificationItem>
   <slot></slot>
