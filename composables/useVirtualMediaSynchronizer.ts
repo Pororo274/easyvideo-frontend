@@ -13,12 +13,12 @@ export const useVirtualMediaSynchronizer = () => {
     })
   }
 
-  const planNextSync = () => {
-    setTimeout(async () => {
-      await sync();
-      planNextSync()
-    }, 1000 * 60)
-  }
+  // const planNextSync = () => {
+  //   setTimeout(async () => {
+  //     await sync();
+  //     planNextSync()
+  //   }, 1000 * 60)
+  // }
 
   return {
     sync

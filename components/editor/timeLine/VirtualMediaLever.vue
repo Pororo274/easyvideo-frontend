@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
+import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
 
 const props = defineProps<{
   pinClass: string;
@@ -28,8 +29,12 @@ const onMove = ({ deltaX }: { deltaX: number }) => {
 };
 
 onMounted(() => {
+  const overlayFilter = props.virtualMedia.filters.OverlayFilter;
+
+  const globaStartTime = (overlayFilter as OverlayFilter).time.delay || 0;
+
   setPosition({
-    x: props.virtualMedia.globalStartTime * pxPerSecond.value,
+    x: globaStartTime * pxPerSecond.value,
     y: yPos.value,
   });
 });

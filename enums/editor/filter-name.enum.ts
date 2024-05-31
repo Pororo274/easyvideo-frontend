@@ -1,4 +1,5 @@
 export enum FilterName {
   OverlayFilter = 'OverlayFilter',
-  ScaleFilter = 'ScaleFilter'
+  ScaleFilter = 'ScaleFilter',
+  TrimFilter = 'TrimFilter',
 }

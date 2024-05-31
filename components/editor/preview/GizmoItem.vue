@@ -1,24 +1,45 @@
 <script setup lang="ts">
-import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
+import { FilterName } from "~/enums/editor/filter-name.enum";
+import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
+import type { ScaleFilter } from "~/interfaces/filters/scale-filter.interface";
 
 const { mediaPreviewStyle, virtualMedia } = useVirtualMediaPreview();
-const { updatePositionByUuid, updateSizeByUuid } = useVirtualMedias();
+const { getFilterByUuidAndName, updateOrAddFilterByUuid } = useVirtualMedias();
 
 const onMove = ({ xPos, yPos }: { xPos: number; yPos: number }) => {
-  updatePositionByUuid(virtualMedia.value.uuid, {
-    x: xPos,
-    y: yPos,
+  const filter = getFilterByUuidAndName<OverlayFilter>(
+    virtualMedia.value.uuid,
+    FilterName.OverlayFilter
+  );
+
+  updateOrAddFilterByUuid<OverlayFilter>(virtualMedia.value.uuid, {
+    name: FilterName.OverlayFilter,
+    filter: {
+      time: filter.time,
+      position: {
+        x: xPos,
+        y: yPos,
+      },
+    },
   });
 };
 
-const initWidth = ref((virtualMedia.value as VirtualVideo).size.width);
-const initHeight = ref((virtualMedia.value as VirtualVideo).size.height);
+const initWidth = ref(
+  (virtualMedia.value.filters.ScaleFilter as ScaleFilter).size.width
+);
+const initHeight = ref(
+  (virtualMedia.value.filters.ScaleFilter as ScaleFilter).size.height
+);
 
 const resizeEl = ref<HTMLDivElement | null>(null);
 
 const onDown = () => {
-  initWidth.value = (virtualMedia.value as VirtualVideo).size.width;
-  initHeight.value = (virtualMedia.value as VirtualVideo).size.height;
+  initWidth.value = (
+    virtualMedia.value.filters.ScaleFilter as ScaleFilter
+  ).size.width;
+  initHeight.value = (
+    virtualMedia.value.filters.ScaleFilter as ScaleFilter
+  ).size.height;
   if (!resizeEl.value) return;
   try {
     resizeEl.value.focus();
@@ -28,17 +49,25 @@ const onDown = () => {
 const { isShifted } = useKeyboard();
 
 const resize = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
-  let newWidth = (virtualMedia.value as VirtualVideo).size.width + deltaX;
-  let newHeight = (virtualMedia.value as VirtualVideo).size.height + deltaY;
+  let newWidth =
+    (virtualMedia.value.filters.ScaleFilter as ScaleFilter).size.width + deltaX;
+  let newHeight =
+    (virtualMedia.value.filters.ScaleFilter as ScaleFilter).size.height +
+    deltaY;
 
   if (isShifted.value) {
     const proportion = initWidth.value / initHeight.value;
     newHeight = newWidth / proportion;
   }
 
-  updateSizeByUuid(virtualMedia.value.uuid, {
-    width: newWidth,
-    height: newHeight,
+  updateOrAddFilterByUuid<ScaleFilter>(virtualMedia.value.uuid, {
+    name: FilterName.ScaleFilter,
+    filter: {
+      size: {
+        width: newWidth,
+        height: newHeight,
+      },
+    },
   });
 };
 

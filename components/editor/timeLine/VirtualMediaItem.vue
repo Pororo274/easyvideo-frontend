@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import type { VirtualImage } from "~/interfaces/editor/virtual-image.interface";
+import { FilterName } from "~/enums/editor/filter-name.enum";
+import { ContentType } from "~/enums/virtual-media/content-type.enum";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
-import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
+import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
+import type { TrimFilter } from "~/interfaces/filters/trim-filter.interface";
 
 const props = defineProps<{
   virtualMedia: VirtualMedia;
@@ -9,13 +11,19 @@ const props = defineProps<{
 
 const { yPositionsLayers, pxPerSecond } = useTimeLine();
 const { getOriginalNameByUuid, getObjectURLByUuid } = useMedias();
-const {
-  updateDurationById,
-  updateGlobalStartTimeById,
-  updateStartTimeById,
-  updateLayerById,
-} = useVirtualMedias();
-const virtualMediaWidth = ref(props.virtualMedia.duration * pxPerSecond.value);
+const { updateOrAddFilterByUuid, getFilterByUuidAndName, updateLayerByUuid } =
+  useVirtualMedias();
+
+const startVirtualMediaWidth = computed(() => {
+  if (props.virtualMedia.filters.OverlayFilter) {
+    return (
+      (props.virtualMedia.filters.OverlayFilter as OverlayFilter).time
+        .duration * pxPerSecond.value
+    );
+  }
+  return 0;
+});
+const virtualMediaWidth = ref(startVirtualMediaWidth.value);
 
 const opacity = ref(1);
 const itemHeight = ref(52);
@@ -47,35 +55,58 @@ const onLeftMove = ({
   updatePosition(): void;
 }) => {
   const time = deltaX / pxPerSecond.value;
-  let newGlobaStartTime = props.virtualMedia.globalStartTime + time;
-  let newStartTime = props.virtualMedia.startTime + time;
+  const overlayFilter = props.virtualMedia.filters.OverlayFilter;
+  const trimFilter = props.virtualMedia.filters.TrimFilter;
+
+  let newGlobalStartTime = 0;
+  let newStartTime = 0;
+
+  if (overlayFilter) {
+    newGlobalStartTime = (overlayFilter as OverlayFilter).time.delay + time;
+  }
+
+  if (trimFilter) {
+    newStartTime = (overlayFilter as TrimFilter).time.startFrom + time;
+  }
+
   let newDuration = virtualMediaWidth.value / pxPerSecond.value;
 
-  if (
-    newStartTime >= 0 ||
-    !(props.virtualMedia as VirtualVideo).originalDuration
-  ) {
+  if (newStartTime >= 0 || !false) {
     virtualMediaWidth.value -= deltaX;
     updatePosition();
   }
 
-  if ((props.virtualMedia as VirtualVideo).originalDuration) {
-    newGlobaStartTime =
-      newStartTime < 0 ? props.virtualMedia.globalStartTime : newGlobaStartTime;
-    newDuration = newStartTime < 0 ? props.virtualMedia.duration : newDuration;
+  if (true) {
+    newGlobalStartTime =
+      newStartTime < 0
+        ? (overlayFilter as OverlayFilter).time.delay
+        : newGlobalStartTime;
+    newDuration =
+      newStartTime < 0
+        ? (overlayFilter as OverlayFilter).time.delay
+        : newDuration;
     newStartTime = newStartTime < 0 ? 0 : newStartTime;
   }
 
-  updateGlobalStartTimeById(props.virtualMedia.uuid, newGlobaStartTime);
-  updateStartTimeById(props.virtualMedia.uuid, newStartTime);
-  updateDurationById(props.virtualMedia.uuid, newDuration);
+  const { time: oldTime, ...other } = overlayFilter as OverlayFilter;
+
+  updateOrAddFilterByUuid(props.virtualMedia.uuid, {
+    name: FilterName.OverlayFilter,
+    filter: {
+      ...other,
+      time: {
+        delay: newGlobalStartTime,
+        startFrom: newStartTime,
+        duration: newDuration,
+      },
+    },
+  });
 };
 
 const onRightMove = ({ deltaX }: { deltaX: number }) => {
   const newDuration = virtualMediaWidth.value / pxPerSecond.value;
-  if ((props.virtualMedia as VirtualVideo).originalDuration) {
-    const originalDuration = (props.virtualMedia as VirtualVideo)
-      .originalDuration;
+  if (false) {
+    const originalDuration = 0;
 
     virtualMediaWidth.value =
       newDuration < originalDuration || deltaX < 0
@@ -85,19 +116,46 @@ const onRightMove = ({ deltaX }: { deltaX: number }) => {
     virtualMediaWidth.value = deltaX + virtualMediaWidth.value;
   }
 
-  updateDurationById(
+  const filter = getFilterByUuidAndName<OverlayFilter>(
     props.virtualMedia.uuid,
-    virtualMediaWidth.value / pxPerSecond.value
+    FilterName.OverlayFilter
   );
+
+  updateOrAddFilterByUuid<OverlayFilter>(props.virtualMedia.uuid, {
+    name: FilterName.OverlayFilter,
+    filter: {
+      position: filter.position,
+      time: {
+        delay: filter.time.delay,
+        startFrom: filter.time.startFrom,
+        duration: virtualMediaWidth.value / pxPerSecond.value,
+      },
+    },
+  });
 };
 
 const onMove = ({ xPos }: { xPos: number }) => {
-  updateGlobalStartTimeById(props.virtualMedia.uuid, xPos / pxPerSecond.value);
+  const filter = getFilterByUuidAndName<OverlayFilter>(
+    props.virtualMedia.uuid,
+    FilterName.OverlayFilter
+  );
+  updateOrAddFilterByUuid<OverlayFilter>(props.virtualMedia.uuid, {
+    name: FilterName.OverlayFilter,
+    filter: {
+      position: filter.position,
+      time: {
+        delay: xPos / pxPerSecond.value,
+        startFrom: filter.time.startFrom,
+        duration: filter.time.duration,
+      },
+    },
+  });
 };
 
 const onTeleport = ({ yPos }: { yPos: number }) => {
   const layer = yPositionsLayers.value.findIndex((x) => x === yPos) + 1;
-  updateLayerById(props.virtualMedia.uuid, layer);
+
+  updateLayerByUuid(props.virtualMedia.uuid, layer);
 };
 
 const virtualMediaStyle = computed(() => ({
@@ -124,21 +182,21 @@ const virtualMediaStyle = computed(() => ({
   >
     <div class="flex gap-3 items-center pl-4">
       <video
-        v-if="(virtualMedia as VirtualVideo).originalDuration"
-        class="h-[40px] rounded-md object-contain"
-        :src="getObjectURLByUuid((virtualMedia as VirtualVideo).mediaUuid)"
+        v-if="virtualMedia.contentType === ContentType.Video"
+        class="h-[40px] rounded object-contain"
+        :src="getObjectURLByUuid(virtualMedia.content)"
       ></video>
-      <figure v-else-if="(virtualMedia as VirtualImage).mediaUuid">
+      <figure v-else-if="virtualMedia.contentType === ContentType.Image">
         <img
           class="h-[40px] object-contain"
-          :src="getObjectURLByUuid((virtualMedia as VirtualImage).mediaUuid)"
+          :src="getObjectURLByUuid(virtualMedia.content)"
           alt=""
         />
       </figure>
       <h3
         class="text-white font-medium text-sm text-nowrap text-ellipsis overflow-hidden select-none"
       >
-        {{ getOriginalNameByUuid((virtualMedia as VirtualImage).mediaUuid) }}
+        {{ getOriginalNameByUuid(virtualMedia.content) }}
       </h3>
     </div>
     <VirtualMediaLever

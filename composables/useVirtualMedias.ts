@@ -1,7 +1,7 @@
-import type { Position } from "~/interfaces/editor/position.interface";
-import type { Size } from "~/interfaces/editor/size.interface";
+import type { FilterName } from "~/enums/editor/filter-name.enum";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
-import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
+import type { Filter } from "~/interfaces/filters/filter.interface";
+import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
 
 export const useVirtualMedias = () => {
   const virtualMedias = useState<VirtualMedia[]>("virtualMedias", () => []);
@@ -14,7 +14,12 @@ export const useVirtualMedias = () => {
   })
 
   const longestLayerTime = computed(() => {
-    const layersTimes = virtualMedias.value.map(x => x.duration + x.globalStartTime)
+    const layersTimes = virtualMedias.value.map(x => {
+      if (x.filters.OverlayFilter) {
+        return (x.filters.OverlayFilter as OverlayFilter).time.duration + (x.filters.OverlayFilter as OverlayFilter).time.delay
+      }
+      return 0
+    })
     const copyLayersTimes = [...layersTimes]
     
     copyLayersTimes.sort((width1, width2) => {
@@ -37,78 +42,36 @@ export const useVirtualMedias = () => {
     return virtualMedias.value.filter(x => x.layer === layer)
   }
 
-  const updateDurationById = (id: string, newDuration: number) => {
+  const updateOrAddFilterByUuid = <T>(uuid: string, { name, filter }: { name: FilterName, filter: T }) => {
     virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.uuid === id) {
-        const { duration, ...other } = media
+      if (media.uuid === uuid) {
+        const { filters, ...other } = media
+        filters[name] = (filter as Filter)
+
         return {
           ...other,
-          duration: newDuration
+          filters
         }
       }
       return media
     })
   }
 
-  const updateGlobalStartTimeById = (id: string, newGlobalStartTime: number) => {
-    virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.uuid === id) {
-        const { globalStartTime, ...other } = media
-        return {
-          ...other,
-          globalStartTime: newGlobalStartTime < 0 ? 0 : newGlobalStartTime
-        }
-      }
-      return media
-    })
+  const getFilterByUuidAndName = <T>(uuid: string, name: FilterName) => {
+    const media = virtualMedias.value.find(x => x.uuid === uuid)
+
+    if (!media) throw new Error()
+    return media.filters[name] as T
   }
 
-  const updateStartTimeById = (id: string, newStartTime: number) => {
+  const updateLayerByUuid = (uuid: string, newLayer: number) => {
     virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.uuid === id) {
-        const { startTime, ...other } = media
-        return {
-          ...other,
-          startTime: newStartTime < 0 ? 0 : newStartTime
-        }
-      }
-      return media
-    })
-  }
-
-  const updateLayerById = (id: string, newLayer: number) => {
-    virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.uuid === id) {
+      if (media.uuid === uuid) {
         const { layer, ...other } = media
+
         return {
           ...other,
           layer: newLayer
-        }
-      }
-      return media
-    })
-  }
-
-  const updatePositionByUuid = (uuid: string, newPosition: Position) => {
-    virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.uuid === uuid) {
-        const { position, ...other } = (media as VirtualVideo)
-        return {
-          ...other,
-          position: newPosition
-        }
-      }
-      return media
-    })
-  }
-
-  const updateSizeByUuid = (uuid: string, newSize: Size) => {
-    virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.uuid === uuid) {
-        const { size, ...other } = (media as VirtualVideo)
-        return {
-          ...other,
-          size: newSize
         }
       }
       return media
@@ -124,14 +87,11 @@ export const useVirtualMedias = () => {
     totalLayers,
     getVirtualMediasByLayer,
     addVirtualMedia,
-    updateDurationById,
-    updateGlobalStartTimeById,
-    updateStartTimeById,
     longestLayerTime,
-    updateLayerById,
     setVirtualMedias,
-    updatePositionByUuid,
-    updateSizeByUuid,
-    clear
+    getFilterByUuidAndName,
+    clear,
+    updateOrAddFilterByUuid,
+    updateLayerByUuid
   }
 }

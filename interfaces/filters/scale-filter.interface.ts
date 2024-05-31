@@ -1,7 +1,7 @@
 import type { Size } from "../editor/size.interface";
 import type { Filter } from "./filter.interface";
 
-export interface OverflayFilter extends Filter
+export interface ScaleFilter extends Filter
 {
-  size: Size
+  size: Size;
 }

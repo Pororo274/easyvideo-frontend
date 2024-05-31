@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VirtualVideo } from "~/interfaces/editor/virtual-video.interface";
+import { ContentType } from "~/enums/virtual-media/content-type.enum";
 
 const video = ref<HTMLVideoElement>();
 
@@ -24,8 +24,8 @@ watchEffect(() => {
 <template>
   <div class="absolute" :style="mediaPreviewStyle">
     <video
-      v-if="(virtualMedia as VirtualVideo).originalDuration"
-      :src="getObjectURLByUuid((virtualMedia as VirtualVideo).mediaUuid)"
+      v-if="virtualMedia.contentType === ContentType.Video"
+      :src="getObjectURLByUuid(virtualMedia.content)"
       class="absolute w-full h-full object-fill"
       ref="video"
     ></video>
