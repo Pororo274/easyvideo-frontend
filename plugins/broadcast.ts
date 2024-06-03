@@ -38,7 +38,7 @@ export default defineNuxtPlugin(nuxtApp => {
                   },
                   credentials: 'include',
                   headers: {
-                    'X-XSRF-TOKEN': useCookie("XSRF-TOKEN"),
+                    'X-XSRF-TOKEN': useCookie("XSRF-TOKEN").value,
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
                     'Origin': useRequestURL().origin,

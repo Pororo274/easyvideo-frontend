@@ -103,11 +103,14 @@ const onLeftMove = ({
       startFrom: newStartTime,
       duration: newDuration,
     };
-    (filters.ATrimFilter as TrimFilter).time = {
-      delay: newGlobalStartTime,
-      startFrom: newStartTime,
-      duration: newDuration,
-    };
+
+    if (props.virtualMedia.contentType === ContentType.Video) {
+      (filters.ATrimFilter as TrimFilter).time = {
+        delay: newGlobalStartTime,
+        startFrom: newStartTime,
+        duration: newDuration,
+      };
+    }
 
     return filters;
   });
@@ -133,6 +136,10 @@ const onRightMove = ({ deltaX }: { deltaX: number }) => {
       virtualMediaWidth.value / pxPerSecond.value;
     (filters.ATrimFilter as TrimFilter).time.duration =
       virtualMediaWidth.value / pxPerSecond.value;
+    if (props.virtualMedia.contentType === ContentType.Video) {
+      (filters.ATrimFilter as TrimFilter).time.duration =
+        virtualMediaWidth.value / pxPerSecond.value;
+    }
 
     return filters;
   });
@@ -142,8 +149,11 @@ const onMove = ({ xPos }: { xPos: number }) => {
   mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
     (filters.OverlayFilter as OverlayFilter).time.delay =
       xPos / pxPerSecond.value;
+
     (filters.TrimFilter as TrimFilter).time.delay = xPos / pxPerSecond.value;
-    (filters.ATrimFilter as TrimFilter).time.delay = xPos / pxPerSecond.value;
+    if (props.virtualMedia.contentType === ContentType.Video) {
+      (filters.ATrimFilter as TrimFilter).time.delay = xPos / pxPerSecond.value;
+    }
 
     return filters;
   });

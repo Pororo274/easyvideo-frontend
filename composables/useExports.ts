@@ -17,24 +17,26 @@ export const useExports = () => {
 
   onMounted(() => {
     if (exportsChannel.value) return
-    exportsChannel.value = $broadcast().private(`projects.${user.value.id}`).listen("RenderJobEndedEvent", (e: any) => {
-      exports.value = [...exports.value, {
-        projectId: e.dto.projectId,
-        link: e.dto.link
-      }]
-      $api(e.dto.link, {
-        method: 'get',
-        responseType: 'blob'
-      }).then((data: any) => {
-        updateUploadStatus(false)
-        const url = window.URL.createObjectURL(new Blob([data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "easyvideo.mp4");
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      });
+    exportsChannel.value = $broadcast().private(`users.${user.value.id}`).notification((notification: any) => {
+      console.log(notification)
+
+      // exports.value = [...exports.value, {
+      //   projectId: e.dto.projectId,
+      //   link: e.dto.link
+      // }]
+      // $api(e.dto.link, {
+      //   method: 'get',
+      //   responseType: 'blob'
+      // }).then((data: any) => {
+      //   updateUploadStatus(false)
+      //   const url = window.URL.createObjectURL(new Blob([data]));
+      //   const link = document.createElement("a");
+      //   link.href = url;
+      //   link.setAttribute("download", "easyvideo.mp4");
+      //   document.body.appendChild(link);
+      //   link.click();
+      //   link.remove();
+      // });
     }).subscribed(() => {
       isSubscribed.value = true
     })
