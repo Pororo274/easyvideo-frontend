@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { FilterName } from "~/enums/editor/filter-name.enum";
 import { ContentType } from "~/enums/virtual-media/content-type.enum";
-import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
+import type {
+  FilterList,
+  VirtualMedia,
+} from "~/interfaces/editor/virtual-media.interface";
 import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
 import type { TrimFilter } from "~/interfaces/filters/trim-filter.interface";
 
@@ -11,8 +14,7 @@ const props = defineProps<{
 
 const { yPositionsLayers, pxPerSecond } = useTimeLine();
 const { getOriginalNameByUuid, getObjectURLByUuid } = useMedias();
-const { updateOrAddFilterByUuid, getFilterByUuidAndName, updateLayerByUuid } =
-  useVirtualMedias();
+const { updateLayerByUuid, mapFilterList } = useVirtualMedias();
 
 const startVirtualMediaWidth = computed(() => {
   if (props.virtualMedia.filters.OverlayFilter) {
@@ -90,16 +92,24 @@ const onLeftMove = ({
 
   const { time: oldTime, ...other } = overlayFilter as OverlayFilter;
 
-  updateOrAddFilterByUuid(props.virtualMedia.uuid, {
-    name: FilterName.OverlayFilter,
-    filter: {
-      ...other,
-      time: {
-        delay: newGlobalStartTime,
-        startFrom: newStartTime,
-        duration: newDuration,
-      },
-    },
+  mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
+    (filters.OverlayFilter as OverlayFilter).time = {
+      delay: newGlobalStartTime,
+      startFrom: newStartTime,
+      duration: newDuration,
+    };
+    (filters.TrimFilter as TrimFilter).time = {
+      delay: newGlobalStartTime,
+      startFrom: newStartTime,
+      duration: newDuration,
+    };
+    (filters.ATrimFilter as TrimFilter).time = {
+      delay: newGlobalStartTime,
+      startFrom: newStartTime,
+      duration: newDuration,
+    };
+
+    return filters;
   });
 };
 
@@ -116,39 +126,26 @@ const onRightMove = ({ deltaX }: { deltaX: number }) => {
     virtualMediaWidth.value = deltaX + virtualMediaWidth.value;
   }
 
-  const filter = getFilterByUuidAndName<OverlayFilter>(
-    props.virtualMedia.uuid,
-    FilterName.OverlayFilter
-  );
+  mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
+    (filters.OverlayFilter as OverlayFilter).time.duration =
+      virtualMediaWidth.value / pxPerSecond.value;
+    (filters.TrimFilter as TrimFilter).time.duration =
+      virtualMediaWidth.value / pxPerSecond.value;
+    (filters.ATrimFilter as TrimFilter).time.duration =
+      virtualMediaWidth.value / pxPerSecond.value;
 
-  updateOrAddFilterByUuid<OverlayFilter>(props.virtualMedia.uuid, {
-    name: FilterName.OverlayFilter,
-    filter: {
-      position: filter.position,
-      time: {
-        delay: filter.time.delay,
-        startFrom: filter.time.startFrom,
-        duration: virtualMediaWidth.value / pxPerSecond.value,
-      },
-    },
+    return filters;
   });
 };
 
 const onMove = ({ xPos }: { xPos: number }) => {
-  const filter = getFilterByUuidAndName<OverlayFilter>(
-    props.virtualMedia.uuid,
-    FilterName.OverlayFilter
-  );
-  updateOrAddFilterByUuid<OverlayFilter>(props.virtualMedia.uuid, {
-    name: FilterName.OverlayFilter,
-    filter: {
-      position: filter.position,
-      time: {
-        delay: xPos / pxPerSecond.value,
-        startFrom: filter.time.startFrom,
-        duration: filter.time.duration,
-      },
-    },
+  mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
+    (filters.OverlayFilter as OverlayFilter).time.delay =
+      xPos / pxPerSecond.value;
+    (filters.TrimFilter as TrimFilter).time.delay = xPos / pxPerSecond.value;
+    (filters.ATrimFilter as TrimFilter).time.delay = xPos / pxPerSecond.value;
+
+    return filters;
   });
 };
 

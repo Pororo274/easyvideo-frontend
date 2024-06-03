@@ -84,6 +84,13 @@ export const useVirtualMediaFactory = () => {
             duration: metadata.duration,
             delay: 0
           } as Time
+        },
+        [FilterName.ATrimFilter]: {
+          time: {
+            startFrom: 0,
+            duration: metadata.duration,
+            delay: 0
+          } as Time
         }
       }
     }

@@ -1,5 +1,5 @@
 import type { FilterName } from "~/enums/editor/filter-name.enum";
-import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
+import type { FilterList, VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
 import type { Filter } from "~/interfaces/filters/filter.interface";
 import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
 
@@ -82,6 +82,34 @@ export const useVirtualMedias = () => {
     virtualMedias.value = []
   }
 
+
+  const getFilterListByUuid = (uuid: string) => {
+    const vm = virtualMedias.value.find(x => x.uuid === uuid);
+
+    if (!vm) throw new Error('Cannot found virtual medil');
+
+    return Object.assign({}, vm.filters);
+  }
+
+  const setFilterListByUuid = (uuid: string, newFilterList: FilterList) => {
+    virtualMedias.value = virtualMedias.value.map((media) => {
+      if (media.uuid === uuid) {
+        const { filters, ...other } = media
+
+        return {
+          ...other,
+          filters: newFilterList
+        }
+      }
+      return media
+    })
+  }
+
+  const mapFilterList = (uuid: string, callback: (filters: FilterList) => FilterList) => {
+    const filters = getFilterListByUuid(uuid);
+    setFilterListByUuid(uuid, callback(filters));
+  }
+
   return {
     virtualMedias: readonly(virtualMedias),
     totalLayers,
@@ -92,6 +120,9 @@ export const useVirtualMedias = () => {
     getFilterByUuidAndName,
     clear,
     updateOrAddFilterByUuid,
-    updateLayerByUuid
+    updateLayerByUuid,
+    getFilterListByUuid,
+    setFilterListByUuid,
+    mapFilterList
   }
 }
