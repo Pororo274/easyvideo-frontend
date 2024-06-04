@@ -66,10 +66,10 @@ onUnmounted(() => {
     <div class="flex h-full flex-col">
       <EditorHeader :name="project.name" />
       <div class="flex-1">
-        <div class="grid grid-cols-5 grid-rows-12 h-full">
-          <PreviewWindow class="col-span-3 row-span-8" />
-          <MenuWindow class="border-l border-gray col-span-2 row-span-8" />
-          <LayerWindow class="border-t border-gray col-span-5 row-span-4" />
+        <div class="grid grid-cols-12 grid-rows-12 h-full">
+          <MenuWindow class="border-l border-gray col-span-3 row-span-12" />
+          <PreviewWindow class="col-span-9 row-span-8" />
+          <LayerWindow class="border-t border-gray col-span-9 row-span-4" />
         </div>
       </div>
     </div>
