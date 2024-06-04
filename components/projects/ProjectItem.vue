@@ -4,12 +4,7 @@ import {
   getCorrectDaysName,
   getCorrectHoursName,
 } from "~/helpers/pluralization.helper";
-
-interface Project {
-  id: number;
-  name: string;
-  createdAt: string;
-}
+import type { Project } from "~/interfaces/project/project.interface";
 
 const props = defineProps<{
   project: Project;
@@ -47,7 +42,13 @@ const editedAgo = computed(() => {
     :to="`/account/${project.id}`"
   >
     <div class="flex flex-col gap-3">
-      <div class="aspect-video bg-red-500 w-full rounded-md"></div>
+      <figure
+        v-if="project.preview"
+        class="aspect-video w-full rounded-md overflow-hidden"
+      >
+        <img class="w-full h-full object-cover" :src="project.preview" alt="" />
+      </figure>
+      <div v-else class="aspect-video w-full rounded-md bg-gray"></div>
       <div>
         <h3 class="text-white text-medum text-base">{{ project.name }}</h3>
         <p class="text-gray-light text-sm">{{ editedAgo }}</p>

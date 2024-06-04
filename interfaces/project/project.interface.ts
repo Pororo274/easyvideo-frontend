@@ -3,4 +3,6 @@ export interface Project {
   name: string;
   width: number;
   height: number;
+  preview?: string;
+  createdAt: string;
 }
