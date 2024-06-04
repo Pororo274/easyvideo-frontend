@@ -27,11 +27,11 @@ const showTime = computed(() => !((props.order - 1) % 5));
       :style="{
         height: showTime ? '24px' : '6px',
       }"
-      class="rounded-full w-0.5 h-6 bg-zinc-700"
+      class="rounded-full w-0.5 h-6 bg-gray-light"
     ></div>
     <p
       v-show="showTime"
-      class="absolute text-zinc-700 text-xs -translate-x-1/2 top-full"
+      class="absolute text-gray-light text-xs -translate-x-1/2 top-full"
     >
       {{ text }}
     </p>
