@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import { SystemNotificationType } from "~/enums/notifications/system-notification-type.enum";
+
 const { account } = useProjectConfig();
+const { pushSystemNotification } = useAppNotification();
 
 const onSuccess = (data: any) => {
+  pushSystemNotification({
+    type: SystemNotificationType.SUCCESS,
+    message: "Проект успешно создан",
+  });
   navigateTo(`/account/${data.id}`);
 };
 </script>
