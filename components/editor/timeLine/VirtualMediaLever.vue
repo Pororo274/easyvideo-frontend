@@ -16,8 +16,7 @@ const emit = defineEmits<{
   move: [event: OnMoveEvent];
 }>();
 
-const { updatePosition, setPosition, yPos } = useAppDrag();
-const { pxPerSecond } = useTimeLine();
+const { updatePosition } = useAppDrag();
 
 const onMove = ({ deltaX }: { deltaX: number }) => {
   emit("move", {
@@ -27,17 +26,6 @@ const onMove = ({ deltaX }: { deltaX: number }) => {
     },
   });
 };
-
-onMounted(() => {
-  const overlayFilter = props.virtualMedia.filters.OverlayFilter;
-
-  const globaStartTime = (overlayFilter as OverlayFilter).time.delay || 0;
-
-  setPosition({
-    x: globaStartTime * pxPerSecond.value,
-    y: yPos.value,
-  });
-});
 
 const { sync } = useVirtualMediaSynchronizer();
 

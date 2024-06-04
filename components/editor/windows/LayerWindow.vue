@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { ContentType } from "~/enums/virtual-media/content-type.enum";
+import VirtualVideo from "../timeLine/VirtualVideo.vue";
+
 const { virtualMedias } = useVirtualMedias();
 const { timeLineWidth, pxPerSecond, setStartTimeLineWidth } = useTimeLine();
 const { LAYER_LEFT_MARGIN } = useConstants();

@@ -36,6 +36,7 @@ watchEffect(() => {
 });
 
 onMounted(() => {
+  initKeyboard();
   if (!data.value) return;
   if (!data.value.virtualMedias.length) return;
 
@@ -53,9 +54,6 @@ definePageMeta({
 const { initKeyboard } = useKeyboard();
 const { clear: clearVirtualMedias } = useVirtualMedias();
 const { clear: clearMedias } = useMedias();
-onMounted(() => {
-  initKeyboard();
-});
 
 onUnmounted(() => {
   clearVirtualMedias();
