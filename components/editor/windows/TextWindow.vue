@@ -23,6 +23,7 @@ watchEffect(() => {
   updateContentByUuid(currentData.value, text.value);
   mapFilterList(currentData.value, (filters: FilterList) => {
     (filters.text as TextFilter).fontSize = fontSize.value;
+    (filters.text as TextFilter).text = text.value;
 
     return filters;
   });
