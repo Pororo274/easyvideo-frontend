@@ -7,9 +7,14 @@
       </div>
     </div>
     <div
-      class="rounded-2xl w-full h-full bg-gradient-to-br from-blue to-blue-light flex items-center justify-center"
+      class="relative rounded-2xl w-full h-full overflow-hidden flex items-center justify-center"
     >
-      <div class="flex flex-col gap-3">
+      <img
+        class="w-full h-full object-cover absolute top-0 left-0 brightness-50"
+        src="/auth.jpg"
+        alt=""
+      />
+      <div class="flex flex-col gap-3 relative">
         <h1 class="text-white font-bold text-5xl">Один редактор</h1>
         <h1 class="text-white font-bold text-5xl">Один аккаунт</h1>
         <h1 class="text-white font-bold text-5xl">Много возможностей</h1>
