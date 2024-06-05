@@ -1,55 +1,16 @@
 <script setup lang="ts">
-import type { FilterList } from "~/interfaces/editor/virtual-media.interface";
-import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
-import type { TrimFilter } from "~/interfaces/filters/trim-filter.interface";
+import type { Time } from "~/interfaces/coordinate/time.interface";
 
 const { pxPerSecond } = useTimeLine();
-const { mapFilterList } = useVirtualMedias();
 const { setPosition, yPos } = useAppDrag();
 const { getObjectURLByUuid, getOriginalNameByUuid } = useMedias();
 const {
-  virtualMedia,
-  setVirtualMediaWidth,
-  setXMargin,
-  setXPos,
-  duration,
-  startTime,
-  globalStartTime,
+  virtualMedia
 } = useVirtualMediaItem();
 
-setVirtualMediaWidth(
-  (virtualMedia.value.filters.OverlayFilter as OverlayFilter).time.duration *
-    pxPerSecond.value
-);
-
-setXMargin(
-  (virtualMedia.value.filters.OverlayFilter as OverlayFilter).time.startFrom *
-    pxPerSecond.value
-);
-setXPos(
-  (virtualMedia.value.filters.OverlayFilter as OverlayFilter).time.delay *
-    pxPerSecond.value
-);
-
 setPosition({
-  x:
-    (virtualMedia.value.filters.OverlayFilter as OverlayFilter).time.delay *
-    pxPerSecond.value,
+  x: (virtualMedia.value.filters.time as Time).delay * pxPerSecond.value,
   y: yPos.value,
-});
-
-const uuid = virtualMedia.value.uuid;
-
-watchEffect(() => {
-  mapFilterList(uuid, (filters: FilterList) => {
-    const time = {
-      duration: duration.value,
-      startFrom: 0,
-      delay: globalStartTime.value,
-    };
-    (filters.OverlayFilter as OverlayFilter).time = time;
-    return filters;
-  });
 });
 </script>
 

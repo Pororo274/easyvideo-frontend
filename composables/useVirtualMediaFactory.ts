@@ -31,25 +31,46 @@ export const useVirtualMediaFactory = () => {
       content: media.uuid,
       contentType: ContentType.Image,
       filters: {
-        [FilterName.OverlayFilter]: { 
-          position: {
-            x: 0,
-            y: 0
-          },
-          time: {
-            startFrom: 0,
+        [FilterName.Time]: { 
+          startFrom: 0,
             duration: 6,
             delay: 0
-          } as Time
         },
-        [FilterName.ScaleFilter]: {
-          size: {
-            width: metadata.width,
-            height: metadata.height
-          }
+        [FilterName.Position]: {
+          x: 0,
+          y: 0
+        },
+        [FilterName.Size]: {
+          width: metadata.width,
+          height: metadata.height
         },
       }
     }
+  }
+
+  const createVirtualText = () => {
+    const uuid = v4()
+      return {
+        uuid,
+        layer: totalLayers.value + 1,
+        content: 'Sample',
+        contentType: ContentType.Text,
+        filters: {
+          [FilterName.Time]: { 
+            startFrom: 0,
+              duration: 6,
+              delay: 0
+          },
+          [FilterName.Position]: {
+            x: 0,
+            y: 0
+          },
+          [FilterName.Text]: {
+            text: 'Sample',
+            fontSize: 16
+          }
+        }
+      }
   }
 
   const createVirtualVideo = async (media: Media): Promise<VirtualMedia> => {
@@ -61,42 +82,25 @@ export const useVirtualMediaFactory = () => {
       content: media.uuid,
       contentType: ContentType.Video,
       filters: {
-        [FilterName.OverlayFilter]: { 
-          position: {
-            x: 0,
-            y: 0
-          },
-          time: {
-            startFrom: 0,
+        [FilterName.Time]: { 
+          startFrom: 0,
             duration: metadata.duration,
             delay: 0
-          } as Time
         },
-        [FilterName.ScaleFilter]: {
-          size: {
-            width: metadata.width,
-            height: metadata.height
-          }
+        [FilterName.Position]: {
+          x: 0,
+          y: 0
         },
-        [FilterName.TrimFilter]: {
-          time: {
-            startFrom: 0,
-            duration: metadata.duration,
-            delay: 0
-          } as Time
+        [FilterName.Size]: {
+          width: metadata.width,
+          height: metadata.height
         },
-        [FilterName.ATrimFilter]: {
-          time: {
-            startFrom: 0,
-            duration: metadata.duration,
-            delay: 0
-          } as Time
-        }
       }
     }
   }
 
   return {
-    createVirtualMedia
+    createVirtualMedia,
+    createVirtualText
   }
 } 

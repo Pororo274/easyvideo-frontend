@@ -1,7 +1,5 @@
-import type { FilterName } from "~/enums/editor/filter-name.enum";
+import type { Time } from "~/interfaces/coordinate/time.interface";
 import type { FilterList, VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
-import type { Filter } from "~/interfaces/filters/filter.interface";
-import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
 
 export const useVirtualMedias = () => {
   const virtualMedias = useState<VirtualMedia[]>("virtualMedias", () => []);
@@ -15,10 +13,7 @@ export const useVirtualMedias = () => {
 
   const longestLayerTime = computed(() => {
     const layersTimes = virtualMedias.value.map(x => {
-      if (x.filters.OverlayFilter) {
-        return (x.filters.OverlayFilter as OverlayFilter).time.duration + (x.filters.OverlayFilter as OverlayFilter).time.delay
-      }
-      return 0
+      return (x.filters.time as Time).duration + (x.filters.time as Time).delay
     })
     const copyLayersTimes = [...layersTimes]
     
@@ -42,28 +37,6 @@ export const useVirtualMedias = () => {
     return virtualMedias.value.filter(x => x.layer === layer)
   }
 
-  const updateOrAddFilterByUuid = <T>(uuid: string, { name, filter }: { name: FilterName, filter: T }) => {
-    virtualMedias.value = virtualMedias.value.map((media) => {
-      if (media.uuid === uuid) {
-        const { filters, ...other } = media
-        filters[name] = (filter as Filter)
-
-        return {
-          ...other,
-          filters
-        }
-      }
-      return media
-    })
-  }
-
-  const getFilterByUuidAndName = <T>(uuid: string, name: FilterName) => {
-    const media = virtualMedias.value.find(x => x.uuid === uuid)
-
-    if (!media) throw new Error()
-    return media.filters[name] as T
-  }
-
   const updateLayerByUuid = (uuid: string, newLayer: number) => {
     virtualMedias.value = virtualMedias.value.map((media) => {
       if (media.uuid === uuid) {
@@ -72,6 +45,20 @@ export const useVirtualMedias = () => {
         return {
           ...other,
           layer: newLayer
+        }
+      }
+      return media
+    })
+  }
+
+  const updateContentByUuid = (uuid: string, newContent: string) => {
+    virtualMedias.value = virtualMedias.value.map((media) => {
+      if (media.uuid === uuid) {
+        const { content, ...other } = media
+
+        return {
+          ...other,
+          content: newContent
         }
       }
       return media
@@ -117,12 +104,9 @@ export const useVirtualMedias = () => {
     addVirtualMedia,
     longestLayerTime,
     setVirtualMedias,
-    getFilterByUuidAndName,
     clear,
-    updateOrAddFilterByUuid,
     updateLayerByUuid,
-    getFilterListByUuid,
-    setFilterListByUuid,
-    mapFilterList
+    mapFilterList,
+    updateContentByUuid
   }
 }

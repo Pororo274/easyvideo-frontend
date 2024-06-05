@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    type?: "password" | "text";
+    type?: "password" | "text" | "number";
     placeholder: string;
     inputClass?: string | string[] | object;
     disabled?: boolean;
@@ -13,6 +13,10 @@ withDefaults(
 );
 
 const model = defineModel();
+
+defineEmits<{
+  blur: [e: FocusEvent];
+}>();
 </script>
 
 <template>
@@ -21,6 +25,7 @@ const model = defineModel();
       <slot></slot>
     </AppLabel>
     <input
+      @blur="(e) => $emit('blur', e)"
       v-model="model"
       :type="type"
       :class="inputClass"

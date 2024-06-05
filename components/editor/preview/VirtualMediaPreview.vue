@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import type { Time } from "~/interfaces/coordinate/time.interface";
+import type { Position } from "~/interfaces/editor/position.interface";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
-import type { OverlayFilter } from "~/interfaces/filters/overlay-filter.interface";
-import type { ScaleFilter } from "~/interfaces/filters/scale-filter.interface";
-import type { TrimFilter } from "~/interfaces/filters/trim-filter.interface";
 
 const props = defineProps<{
   media: VirtualMedia;
@@ -12,18 +11,13 @@ const { pinCurrentTime } = useTimeLine();
 const { totalLayers } = useVirtualMedias();
 
 const isShow = computed(() => {
-  const overlayFilter = props.media.filters.OverlayFilter as OverlayFilter;
+  const time = props.media.filters.time as Time;
 
-  if (!overlayFilter) return false;
-
-  if (
-    overlayFilter.time.delay + overlayFilter.time.duration <
-    pinCurrentTime.value
-  ) {
+  if (time.delay + time.duration < pinCurrentTime.value) {
     return false;
   }
 
-  if (overlayFilter.time.delay > pinCurrentTime.value) {
+  if (time.delay > pinCurrentTime.value) {
     return false;
   }
 
@@ -31,30 +25,29 @@ const isShow = computed(() => {
 });
 
 const { project } = useProject();
+const { windowHeight, windowWidth } = usePreviewWindow();
 
-const getXProcent = (value: number) => (value / project.value.width) * 100;
-const getYProcent = (value: number) => (value / project.value.height) * 100;
+const getRelativeX = (value: number) =>
+  (value / project.value.width) * windowWidth.value;
+const getRelativeY = (value: number) =>
+  (value / project.value.height) * windowHeight.value;
+
+const proportion = computed(() => windowWidth.value / project.value.width);
 
 const mediaPreviewStyle = computed(() => {
-  const overlayFilter = props.media.filters.OverlayFilter as OverlayFilter;
-  const scaleFilter = props.media.filters.ScaleFilter as ScaleFilter;
+  const position = props.media.filters.position as Position;
 
   return {
     zIndex: totalLayers.value - props.media.layer,
-    width: `${getXProcent(scaleFilter.size.width)}%`,
-    height: `${getYProcent(scaleFilter.size.height)}%`,
-    top: `${getYProcent(overlayFilter.position.y)}%`,
-    left: `${getXProcent(overlayFilter.position.x)}%`,
+    top: `${getRelativeY(position.y)}px`,
+    left: `${getRelativeX(position.x)}px`,
   };
 });
 
 const currentTime = computed(() => {
-  const overlayFilter = props.media.filters.OverlayFilter as OverlayFilter;
-  const trimFilter = props.media.filters.TrimFilter as TrimFilter;
+  const time = props.media.filters.time as Time;
 
-  return (
-    pinCurrentTime.value - overlayFilter.time.delay + trimFilter.time.startFrom
-  );
+  return pinCurrentTime.value - time.delay + time.startFrom;
 });
 
 const virtualMedia = computed(() => props.media);
@@ -64,6 +57,7 @@ provide("virtualMediaPreview", {
   currentTime,
   isShow,
   virtualMedia,
+  proportion,
 });
 </script>
 

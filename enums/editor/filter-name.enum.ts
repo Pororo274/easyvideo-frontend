@@ -1,6 +1,6 @@
 export enum FilterName {
-  OverlayFilter = 'OverlayFilter',
-  ScaleFilter = 'ScaleFilter',
-  TrimFilter = 'TrimFilter',
-  ATrimFilter = 'ATrimFilter'
+  Time = 'time',
+  Position = 'position',
+  Size = 'size',
+  Text = 'text'
 }

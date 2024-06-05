@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { ContentType } from "~/enums/virtual-media/content-type.enum";
-import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
+import type { Time } from "~/interfaces/coordinate/time.interface";
+import type {
+  FilterList,
+  VirtualMedia,
+} from "~/interfaces/editor/virtual-media.interface";
 
 const props = defineProps<{
   virtualMedia: VirtualMedia;
 }>();
 
 const { yPositionsLayers, pxPerSecond } = useTimeLine();
-const { updateLayerByUuid } = useVirtualMedias();
+const { updateLayerByUuid, mapFilterList } = useVirtualMedias();
 
 const virtualMediaWidth = ref(0);
 
@@ -37,10 +41,14 @@ const setXMargin = (newXMargin: number) => {
   xMargin.value = newXMargin;
 };
 
+const { currentWindow, currentData } = useEditorWindows<string>();
+
 const onDown = () => {
   opacity.value = 0.7;
   zIndex.value = 10;
   isCapture.value = true;
+  currentData.value = props.virtualMedia.uuid;
+  currentWindow.value = "textWindow";
 };
 
 const { sync } = useVirtualMediaSynchronizer();
@@ -63,14 +71,41 @@ const onLeftMove = ({
 
   virtualMediaWidth.value -= deltaX;
   updatePosition();
+  mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
+    const time = {
+      duration: duration.value,
+      startFrom: startTime.value,
+      delay: globalStartTime.value,
+    };
+    filters.time = time;
+    return filters;
+  });
 };
 
 const onRightMove = ({ deltaX }: { deltaX: number }) => {
   virtualMediaWidth.value = deltaX + virtualMediaWidth.value;
+  mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
+    const time = {
+      duration: duration.value,
+      startFrom: startTime.value,
+      delay: globalStartTime.value,
+    };
+    filters.time = time;
+    return filters;
+  });
 };
 
 const onMove = ({ xPos: newXPos }: { xPos: number }) => {
   xPos.value = newXPos;
+  mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
+    const time = {
+      duration: duration.value,
+      startFrom: startTime.value,
+      delay: globalStartTime.value,
+    };
+    filters.time = time;
+    return filters;
+  });
 };
 
 const onTeleport = ({ yPos }: { yPos: number }) => {
@@ -84,6 +119,15 @@ const virtualMediaStyle = computed(() => ({
   zIndex: zIndex.value,
   opacity: opacity.value,
 }));
+
+setVirtualMediaWidth(
+  (props.virtualMedia.filters.time as Time).duration * pxPerSecond.value
+);
+
+setXMargin(
+  (props.virtualMedia.filters.time as Time).startFrom * pxPerSecond.value
+);
+setXPos((props.virtualMedia.filters.time as Time).delay * pxPerSecond.value);
 
 const virtualMedia = computed(() => props.virtualMedia);
 
@@ -110,10 +154,14 @@ provide("virtualMediaItem", {
     :delta-y-ignore="15"
     :y-teleports="yPositionsLayers"
     :min-x="0"
-    class="absolute py-1.5 rounded-md bg-gray group border overflow-hidden border-transparent"
+    :class="
+      currentData === virtualMedia.uuid ? 'border-blue' : 'border-transparent'
+    "
+    class="absolute py-1.5 rounded-md bg-gray group border overflow-hidden"
   >
     <VirtualVideo v-if="virtualMedia.contentType === ContentType.Video" />
     <VirtualImage v-if="virtualMedia.contentType === ContentType.Image" />
+    <VirtualText v-if="virtualMedia.contentType === ContentType.Text" />
     <VirtualMediaLever
       @move="onLeftMove"
       class="left-0"

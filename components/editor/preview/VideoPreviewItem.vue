@@ -23,11 +23,12 @@ watchEffect(() => {
 
 <template>
   <div class="absolute" :style="mediaPreviewStyle">
-    <video
-      v-if="virtualMedia.contentType === ContentType.Video"
-      :src="getObjectURLByUuid(virtualMedia.content)"
-      class="absolute w-full h-full object-fill"
-      ref="video"
-    ></video>
+    <PreviewDefaultSize>
+      <video
+        :src="getObjectURLByUuid(virtualMedia.content)"
+        class="absolute w-full h-full object-fill"
+        ref="video"
+      ></video>
+    </PreviewDefaultSize>
   </div>
 </template>
