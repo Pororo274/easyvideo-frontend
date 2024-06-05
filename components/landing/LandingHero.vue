@@ -17,32 +17,32 @@
           class="absolute w-8 h-8 left-1/2 translate-x-[200px] translate-y-[-100px]"
         />
         <img
-          class="absolute left-1/2 translate-x-[-200px] translate-y-[-215px] rotate-[15deg]"
+          class="absolute left-1/2 translate-x-[-240px] translate-y-[-215px] rotate-[15deg]"
           src="~/assets/img/landing/hero/cut.svg"
           alt=""
         />
         <img
-          class="absolute left-1/2 translate-x-[-400px] translate-y-[-150px] -rotate-[25deg] w-32"
+          class="absolute left-1/2 translate-x-[-440px] translate-y-[-150px] -rotate-[25deg] w-32"
           src="~/assets/img/landing/hero/cutted.png"
           alt=""
         />
         <img
-          class="absolute left-1/2 translate-x-[-250px] translate-y-[-150px] rotate-[130deg] w-24"
+          class="absolute left-1/2 translate-x-[-290px] translate-y-[-150px] rotate-[130deg] w-24"
           src="~/assets/img/landing/hero/arrow.svg"
           alt=""
         />
         <img
-          class="absolute left-1/2 translate-x-[280px] translate-y-[-180px] rotate-[15deg]"
+          class="absolute left-1/2 translate-x-[320px] translate-y-[-180px] rotate-[15deg]"
           src="~/assets/img/landing/hero/edit.svg"
           alt=""
         />
         <img
-          class="absolute left-1/2 translate-x-[300px] translate-y-[-50px] rotate-[25deg] w-40"
+          class="absolute left-1/2 translate-x-[340px] translate-y-[-50px] rotate-[25deg] w-40"
           src="~/assets/img/landing/hero/edited.svg"
           alt=""
         />
         <img
-          class="absolute left-1/2 translate-x-[240px] -scale-y-100 translate-y-[-110px] rotate-[80deg]"
+          class="absolute left-1/2 translate-x-[280px] -scale-y-100 translate-y-[-110px] rotate-[80deg]"
           src="~/assets/img/landing/hero/arrow.svg"
           alt=""
         />
