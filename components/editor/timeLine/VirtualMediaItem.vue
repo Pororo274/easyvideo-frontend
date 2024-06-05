@@ -110,10 +110,10 @@ provide("virtualMediaItem", {
     :delta-y-ignore="15"
     :y-teleports="yPositionsLayers"
     :min-x="0"
-    :class="[isCapture ? 'border-blue' : 'border-transparent']"
-    class="absolute py-1.5 rounded-md bg-gray group cursor-move border overflow-hidden"
+    class="absolute py-1.5 rounded-md bg-gray group border overflow-hidden border-transparent"
   >
     <VirtualVideo v-if="virtualMedia.contentType === ContentType.Video" />
+    <VirtualImage v-if="virtualMedia.contentType === ContentType.Image" />
     <VirtualMediaLever
       @move="onLeftMove"
       class="left-0"

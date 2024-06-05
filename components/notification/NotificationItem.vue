@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <div
-    class="absolute z-50 bottom-5 left-5 p-3 rounded-md bg-gray-dark border border-gray"
+    class="absolute z-[100] bottom-5 left-5 p-3 rounded-md bg-gray-dark border border-gray"
   >
     <div class="flex gap-3 items-center">
       <NotifiationIcon :type="type" />
