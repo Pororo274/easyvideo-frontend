@@ -1,12 +1,33 @@
 <script setup lang="ts">
 import gear from "~/assets/img/icons/editor/gear.svg";
+import notification from "~/assets/img/icons/account/notification.svg";
 
 import type { User } from "~/interfaces/account/user.interface";
+import type { UserNotification } from "~/interfaces/notifications/user-notification.interface";
 
 const { user } = useUser();
 
 const isModalActive = ref(false);
 const isSettingsModalActive = ref(false);
+const isNotificationWindowActive = ref(false);
+
+const { $api } = useNuxtApp();
+
+const { userNotifications } = useAppNotification<any>();
+const onDownloadClick = (notification: UserNotification<any>) => {
+  $api(notification.data.link, {
+    method: "get",
+    responseType: "blob",
+  }).then((data: any) => {
+    const url = window.URL.createObjectURL(new Blob([data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "easyvideo.mp4");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  });
+};
 </script>
 
 <template>
@@ -26,7 +47,33 @@ const isSettingsModalActive = ref(false);
             </figure>
           </div>
         </AppButton>
-        <IconButton @click="isSettingsModalActive = true" :icon="gear" />
+        <div class="flex gap-2">
+          <IconButton @click="isSettingsModalActive = true" :icon="gear" />
+          <div class="relative">
+            <IconButton
+              @click="isNotificationWindowActive = !isNotificationWindowActive"
+              :icon="notification"
+              :animation="false"
+            />
+            <div
+              :class="[isNotificationWindowActive ? 'block' : 'hidden']"
+              class="absolute border border-gray top-12 rounded-md right-0 bg-black w-[240px]"
+            >
+              <div class="px-4 py-2 border-b border-gray">
+                <h3 class="text-white font-medium">Сообщения</h3>
+              </div>
+              <div v-for="notification in userNotifications" class="p-4">
+                <h3 class="text-white font-medium">Экспорт видео завершен</h3>
+                <div
+                  @click="onDownloadClick(notification)"
+                  class="block mt-4 py-1 px-4 bg-blue rounded-md hover:bg-blue-dark cursor-pointer text-center text-white font-medium"
+                >
+                  Скачать
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </AppHeader>

@@ -48,7 +48,7 @@ const onDown = () => {
   zIndex.value = 10;
   isCapture.value = true;
   currentData.value = props.virtualMedia.uuid;
-  currentWindow.value = "textWindow";
+  currentWindow.value = `${props.virtualMedia.contentType}Window`;
 };
 
 const { sync } = useVirtualMediaSynchronizer();

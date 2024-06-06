@@ -1,7 +1,23 @@
 <script setup lang="ts">
 import type { SystemNotification } from "~/interfaces/notifications/system-notification.interface";
+import type { UserNotification } from "~/interfaces/notifications/user-notification.interface";
 
 const appNotifications = ref<SystemNotification[]>([]);
+const userNotifications = useState<UserNotification[]>(
+  "userNotifications",
+  () => []
+);
+
+const { user } = useUser();
+const { $api } = useNuxtApp();
+
+await callOnce(async () => {
+  if (user.value.id) {
+    userNotifications.value = await $api(
+      `/users/${user.value.id}/notifications`
+    );
+  }
+});
 
 const pushSystemNotification = (notification: SystemNotification): void => {
   appNotifications.value.push(notification);
@@ -10,8 +26,16 @@ const pushSystemNotification = (notification: SystemNotification): void => {
   }, 4000);
 };
 
+const pushUserNotification = <T = unknown>(
+  notification: UserNotification<T>
+): void => {
+  userNotifications.value.push(notification);
+};
+
 provide("appNotification", {
   pushSystemNotification,
+  pushUserNotification,
+  userNotifications: readonly(userNotifications),
 });
 </script>
 
