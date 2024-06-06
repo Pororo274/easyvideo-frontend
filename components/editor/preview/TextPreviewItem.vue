@@ -34,7 +34,7 @@ const textStyle = computed(() => ({
     <p
       style="font-family: Arial, Helvetica, sans-serif"
       :style="textStyle"
-      class="text-white text-nowrap"
+      class="text-white text-nowrap font-normal"
     >
       {{ virtualMedia.content }}
     </p>
