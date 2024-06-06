@@ -5,14 +5,16 @@ interface AppNotificationProvide<T = unknown> {
   pushSystemNotification(notification: SystemNotification): void
   pushUserNotification<T = unknown>(notification: UserNotification<T>): void
   readonly userNotifications: Ref<UserNotification<T>[]>
+  markAsReadUserNotification(id: string): void
 }
 
 export const useAppNotification = <T = unknown>() => {
-  const { pushSystemNotification, pushUserNotification, userNotifications } = inject('appNotification') as AppNotificationProvide<T>
+  const { pushSystemNotification, pushUserNotification, userNotifications, markAsReadUserNotification } = inject('appNotification') as AppNotificationProvide<T>
 
   return {
     pushSystemNotification,
     pushUserNotification,
-    userNotifications
+    userNotifications,
+    markAsReadUserNotification
   }
 }

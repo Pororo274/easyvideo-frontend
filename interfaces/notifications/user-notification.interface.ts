@@ -1,5 +1,6 @@
 export interface UserNotification<T = unknown> {
   type: string;
   id: string;
-  data: T
+  data: T;
+  read_at?: string;
 }

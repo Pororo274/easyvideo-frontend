@@ -19,6 +19,20 @@ await callOnce(async () => {
   }
 });
 
+const markAsReadUserNotification = (id: string) => {
+  userNotifications.value = userNotifications.value.map((notification) => {
+    const { read_at, ...other } = notification;
+
+    if (other.id === id) {
+      return {
+        ...other,
+        read_at: "asfd",
+      };
+    }
+    return notification;
+  });
+};
+
 const pushSystemNotification = (notification: SystemNotification): void => {
   appNotifications.value.push(notification);
   setTimeout(() => {
@@ -35,6 +49,7 @@ const pushUserNotification = <T = unknown>(
 provide("appNotification", {
   pushSystemNotification,
   pushUserNotification,
+  markAsReadUserNotification,
   userNotifications: readonly(userNotifications),
 });
 </script>

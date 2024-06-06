@@ -13,8 +13,12 @@ const isNotificationWindowActive = ref(false);
 
 const { $api } = useNuxtApp();
 
-const { userNotifications } = useAppNotification<any>();
+const { userNotifications, markAsReadUserNotification } =
+  useAppNotification<any>();
 const onDownloadClick = (notification: UserNotification<any>) => {
+  $api(`users/${user.value.id}/notifications/${notification.id}/mark`, {
+    method: "post",
+  });
   $api(notification.data.link, {
     method: "get",
     responseType: "blob",
@@ -27,7 +31,12 @@ const onDownloadClick = (notification: UserNotification<any>) => {
     link.click();
     link.remove();
   });
+  markAsReadUserNotification(notification.id);
 };
+
+const readedNotifications = computed(() =>
+  userNotifications.value.filter((notification) => !notification.read_at)
+);
 </script>
 
 <template>
@@ -62,14 +71,22 @@ const onDownloadClick = (notification: UserNotification<any>) => {
               <div class="px-4 py-2 border-b border-gray">
                 <h3 class="text-white font-medium">Сообщения</h3>
               </div>
-              <div v-for="notification in userNotifications" class="p-4">
-                <h3 class="text-white font-medium">Экспорт видео завершен</h3>
-                <div
-                  @click="onDownloadClick(notification)"
-                  class="block mt-4 py-1 px-4 bg-blue rounded-md hover:bg-blue-dark cursor-pointer text-center text-white font-medium"
-                >
-                  Скачать
+              <div v-if="readedNotifications.length">
+                <div v-for="notification in readedNotifications" class="p-4">
+                  <h3 class="text-white font-medium">Экспорт видео завершен</h3>
+                  <div
+                    @click="onDownloadClick(notification)"
+                    class="block mt-4 py-1 px-4 bg-blue rounded-md hover:bg-blue-dark cursor-pointer text-center text-white font-medium"
+                  >
+                    Скачать
+                  </div>
                 </div>
+              </div>
+              <div
+                v-else
+                class="h-[100px] flex items-center w-full justify-center"
+              >
+                <p class="text-gray-light">Сообщений не найдено</p>
               </div>
             </div>
           </div>
