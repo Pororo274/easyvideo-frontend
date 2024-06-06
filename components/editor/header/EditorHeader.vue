@@ -108,6 +108,7 @@ const showMedia = () => {
             alt=""
           />
         </figure>
+        <UserNotificationList class="z-20" />
       </div>
     </div>
   </AppHeader>

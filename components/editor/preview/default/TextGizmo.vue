@@ -66,7 +66,11 @@ const textStyle = computed(() => ({
     :style="mediaPreviewStyle"
     class="border border-transparent hover:border-blue absolute cursor-move"
   >
-    <p :style="textStyle" class="opacity-0 pointer-events-none text-nowrap">
+    <p
+      style="font-family: Arial, Helvetica, sans-serif"
+      :style="textStyle"
+      class="opacity-0 pointer-events-none text-nowrap"
+    >
       {{ virtualMedia.content }}
     </p>
   </AppDrag>

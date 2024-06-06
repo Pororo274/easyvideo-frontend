@@ -31,7 +31,11 @@ const textStyle = computed(() => ({
     :style="mediaPreviewStyle"
     class="absolute"
   >
-    <p :style="textStyle" class="text-white text-nowrap">
+    <p
+      style="font-family: Arial, Helvetica, sans-serif"
+      :style="textStyle"
+      class="text-white text-nowrap"
+    >
       {{ virtualMedia.content }}
     </p>
   </div>

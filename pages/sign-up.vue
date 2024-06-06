@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { SystemNotificationType } from "~/enums/notifications/system-notification-type.enum";
+
 useHead({
   title: "EasyVideo - Регистрация",
 });
@@ -9,9 +11,14 @@ definePageMeta({
 });
 
 const { refreshUserData } = useUser();
+const { pushSystemNotification } = useAppNotification();
 
 const onSuccess = async (data: any) => {
   await refreshUserData(data);
+  pushSystemNotification({
+    type: SystemNotificationType.SUCCESS,
+    message: "Успешная регистрация!",
+  });
   await navigateTo("/account");
 };
 </script>

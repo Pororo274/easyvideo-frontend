@@ -1,4 +1,5 @@
 import type { Channel } from "laravel-echo";
+import { SystemNotificationType } from "~/enums/notifications/system-notification-type.enum";
 
 interface ExportOutput {
   projectId: number;
@@ -15,11 +16,21 @@ export const useExports = () => {
   const exports = useState<ExportOutput[]>("exports", () => [])
 
 
+  const { pushUserNotification } = useAppNotification()
+
   onMounted(() => {
     if (exportsChannel.value) return
     exportsChannel.value = $broadcast().private(`users.${user.value.id}`).notification((notification: any) => {
       console.log(notification)
-
+      pushUserNotification<any>({
+        type: notification.type,
+        id: notification.id,
+        data: {
+          link: notification.link
+        },
+        read_at: null
+      })
+      updateUploadStatus(false)
       // exports.value = [...exports.value, {
       //   projectId: e.dto.projectId,
       //   link: e.dto.link

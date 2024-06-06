@@ -8,7 +8,8 @@ const props = withDefaults(
   defineProps<{
     method?: "post" | "get" | "put" | "patch";
     data?: any;
-    action: string;
+    action?: string;
+    customAction?: string;
   }>(),
   {
     method: "post",
@@ -31,14 +32,25 @@ const sendRequest = async () => {
     delete errors[error];
   }
   try {
-    const data = await $api(props.action, {
-      method: props.method,
-      body: {
-        ...body,
-        ...props.data,
-      },
-    });
-    emit("success", data);
+    if (props.customAction) {
+      console.log(props.customAction);
+      const data = await $api(props.customAction, {
+        method: props.method,
+        responseType: "blob",
+      });
+      emit("success", data);
+    } else {
+      if (props.action) {
+        const data = await $api(props.action, {
+          method: props.method,
+          body: {
+            ...body,
+            ...props.data,
+          },
+        });
+        emit("success", data);
+      }
+    }
   } catch (e: any) {
     if (e.status === 422) {
       const requestErrors = e.data.errors;

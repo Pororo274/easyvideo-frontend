@@ -12,7 +12,7 @@ const { user } = useUser();
 const { $api } = useNuxtApp();
 
 await callOnce(async () => {
-  if (user.value.id) {
+  if (user.value) {
     userNotifications.value = await $api(
       `/users/${user.value.id}/notifications`
     );
