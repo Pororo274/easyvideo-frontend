@@ -6,9 +6,14 @@ export const usePreviewWindow = () => {
     windowHeight.value = newHeight
   }
 
+  
+  const { project } = useProject()
+  const proportion = computed(() => windowWidth.value / project.value.width);
+
   return {
     windowHeight: readonly(windowHeight),
     windowWidth: readonly(windowWidth),
-    resize
+    resize,
+    proportion
   }
 }

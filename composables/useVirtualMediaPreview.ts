@@ -5,17 +5,15 @@ interface VirtualMediaPreview {
   readonly currentTime: Ref<number>,
   readonly mediaPreviewStyle: Ref<any>,
   readonly virtualMedia: Ref<VirtualMedia>,
-  proportion: ComputedRef<number>
 }
 
 export const useVirtualMediaPreview = () => {
-  const { isShow, currentTime, mediaPreviewStyle, virtualMedia, proportion } = inject("virtualMediaPreview") as VirtualMediaPreview;
+  const { isShow, currentTime, mediaPreviewStyle, virtualMedia } = inject("virtualMediaPreview") as VirtualMediaPreview;
 
   return {
     isShow,
     currentTime,
     mediaPreviewStyle,
     virtualMedia,
-    proportion
   }
 }

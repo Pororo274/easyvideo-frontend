@@ -32,8 +32,6 @@ const getRelativeX = (value: number) =>
 const getRelativeY = (value: number) =>
   (value / project.value.height) * windowHeight.value;
 
-const proportion = computed(() => windowWidth.value / project.value.width);
-
 const mediaPreviewStyle = computed(() => {
   const position = props.media.filters.position as Position;
 
@@ -57,7 +55,6 @@ provide("virtualMediaPreview", {
   currentTime,
   isShow,
   virtualMedia,
-  proportion,
 });
 </script>
 
