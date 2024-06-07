@@ -33,8 +33,6 @@ export const useTimeLine = () => {
 
   watch(virtualMedias, (newVirtualMedias, oldVirtualMedias) => {
     if (oldVirtualMedias.length) return
-    const virtualMedia = newVirtualMedias[0]
-
     pxPerSecond.value = startTimeLineWidth.value / longestLayerTime.value
   })
 

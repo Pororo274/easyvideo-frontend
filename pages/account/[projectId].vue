@@ -68,8 +68,8 @@ onUnmounted(() => {
       <div class="flex-1">
         <div class="grid grid-cols-12 grid-rows-12 h-full">
           <MenuWindow class="border-l border-gray col-span-3 row-span-12" />
-          <PreviewWindow class="col-span-9 row-span-8" />
-          <LayerWindow class="border-t border-gray col-span-9 row-span-4" />
+          <PreviewWindow class="col-span-9 row-span-7" />
+          <LayerWindow class="border-t border-gray col-span-9 row-span-5" />
         </div>
       </div>
     </div>

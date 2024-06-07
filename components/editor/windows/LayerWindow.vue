@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { virtualMedias } = useVirtualMedias();
+const { virtualMedias, addVirtualMedia } = useVirtualMedias();
 const { timeLineWidth, pxPerSecond, setStartTimeLineWidth } = useTimeLine();
 const { LAYER_LEFT_MARGIN } = useConstants();
 
@@ -28,18 +28,45 @@ onMounted(() => {
   const baseWidth = layerBase.value.clientWidth;
   setStartTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN - 10);
 });
+const { selectedVirtualMedia } = useEditorWindows<string>();
+
+const cut = () => {
+  if (!selectedVirtualMedia.value) return;
+
+  const { filters, ...other } = selectedVirtualMedia.value;
+};
 </script>
 
 <template>
-  <div class="relative pt-2 pb-2">
+  <div class="relative pb-2 overflow-y-hidden">
+    <div class="p-2">
+      <div class="flex items-center justify-between">
+        <figure
+          :class="[selectedVirtualMedia ? 'bg-gray' : 'bg-gray-dark']"
+          class="rounded-md p-2"
+        >
+          <div
+            :class="[
+              selectedVirtualMedia ? 'brightness-100' : 'brightness-[0.3]',
+            ]"
+          >
+            <img
+              class="w-4 icon-white -rotate-45"
+              src="~/assets/img/icons/editor/actions/cut.svg"
+              alt=""
+            />
+          </div>
+        </figure>
+      </div>
+    </div>
     <div
       class="relative w-full h-full overflow-hidden flex flex-col"
       ref="layerBase"
     >
-      <div :style="pinLayerStyle" class="relative h-12 overflow-x-hidden z-20">
+      <div :style="pinLayerStyle" class="relative h-20 overflow-x-hidden z-20">
         <div
           :style="{ left: `${LAYER_LEFT_MARGIN - timeLineLeft}px` }"
-          class="absolute w-full bg-black h-12"
+          class="absolute bg-gradient-to-b from-black from-50% to-transparent w-full h-full"
         >
           <TimestampPin
             v-for="order in Math.floor(totalTime)"
@@ -53,7 +80,7 @@ onMounted(() => {
       </div>
       <div
         @scroll="onTimelineScroll"
-        class="relative right-0 flex-1 overflow-scroll h-full w-full"
+        class="absolute p-12 right-0 flex-1 overflow-scroll h-full w-full"
       >
         <VirtualMediaItem
           v-for="media in virtualMedias"
