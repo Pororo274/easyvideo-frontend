@@ -5,10 +5,10 @@ defineProps<{
 </script>
 
 <template>
-  <button
+  <AppButton
     :disabled="disabled"
-    class="py-1.5 px-3 rounded-md block font-medium disabled:opacity-70"
+    class="bg-red text-white hover:bg-red-dark disabled:hover:bg-red"
   >
     <slot></slot>
-  </button>
+  </AppButton>
 </template>

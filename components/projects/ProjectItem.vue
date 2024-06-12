@@ -34,13 +34,41 @@ const editedAgo = computed(() => {
     Math.floor(interval / day)
   )} назад`;
 });
+
+const activatedContextmenu = useState<number | null>(
+  "activatedContextmenu",
+  () => null
+);
+
+const contextmenuPosition = ref({
+  x: 0,
+  y: 0,
+});
+
+const onContextmenu = (e: MouseEvent) => {
+  activatedContextmenu.value = props.project.id;
+  contextmenuPosition.value.x = e.pageX - 10;
+  contextmenuPosition.value.y = e.pageY + 5;
+};
 </script>
 
 <template>
-  <NuxtLink
-    class="block p-5 cursor-pointer hover:bg-gray-dark rounded-lg"
-    :to="`/account/${project.id}`"
+  <div
+    @click="$router.push(`/account/${project.id}`)"
+    @contextmenu.prevent.stop="onContextmenu"
+    v-out="() => (activatedContextmenu = null)"
+    v-out:contextmenu="() => (activatedContextmenu = null)"
+    class="relative block p-5 hover:bg-gray-dark rounded-lg cursor-default"
   >
+    <DropDownProjectItemMenu
+      @click.stop="activatedContextmenu = null"
+      v-show="activatedContextmenu === props.project.id"
+      :style="{
+        top: `${contextmenuPosition.y}px`,
+        left: `${contextmenuPosition.x}px`,
+      }"
+      :project-id="project.id"
+    />
     <div class="flex flex-col gap-3">
       <figure
         v-if="project.preview"
@@ -54,5 +82,5 @@ const editedAgo = computed(() => {
         <p class="text-gray-light text-sm">{{ editedAgo }}</p>
       </div>
     </div>
-  </NuxtLink>
+  </div>
 </template>

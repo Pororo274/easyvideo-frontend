@@ -10,11 +10,11 @@ const isSettingsModalActive = ref(false);
 </script>
 
 <template>
-  <AppHeader class="fixed top-0 left-0">
+  <AppHeader class="fixed top-0 left-0 z-20">
     <div class="flex items-center justify-between">
       <UserMini :user="user as User" />
       <div class="flex items-center gap-4">
-        <AppButton @click="isModalActive = true">
+        <BlueButton @click="isModalActive = true">
           <div class="flex gap-3 items-center">
             <p class="flex-1">Создать проект</p>
             <figure>
@@ -25,7 +25,7 @@ const isSettingsModalActive = ref(false);
               />
             </figure>
           </div>
-        </AppButton>
+        </BlueButton>
         <div class="flex gap-2">
           <IconButton @click="isSettingsModalActive = true" :icon="gear" />
           <UserNotificationList />

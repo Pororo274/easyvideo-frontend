@@ -6,7 +6,7 @@ const { pushSystemNotification } = useAppNotification();
 
 const props = withDefaults(
   defineProps<{
-    method?: "post" | "get" | "put" | "patch";
+    method?: "post" | "get" | "put" | "patch" | "delete";
     data?: any;
     action?: string;
     customAction?: string;

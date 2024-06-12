@@ -33,7 +33,7 @@ const nonReadedNotifications = computed(() =>
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative z-50">
     <div
       v-if="nonReadedNotifications.length"
       class="absolute z-10 w-4 h-4 bg-red rounded-full flex items-center justify-center"
