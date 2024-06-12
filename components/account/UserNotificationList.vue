@@ -33,7 +33,11 @@ const nonReadedNotifications = computed(() =>
 </script>
 
 <template>
-  <div class="relative z-50">
+  <div
+    @click.stop
+    v-out="() => (isNotificationWindowActive = false)"
+    class="relative z-50"
+  >
     <div
       v-if="nonReadedNotifications.length"
       class="absolute z-10 w-4 h-4 bg-red rounded-full flex items-center justify-center"
@@ -52,7 +56,7 @@ const nonReadedNotifications = computed(() =>
       class="absolute border border-gray top-12 rounded-md right-0 bg-black w-[240px]"
     >
       <div class="px-4 py-2 border-b border-gray">
-        <h3 class="text-white font-medium">Сообщения</h3>
+        <h3 class="text-white font-medium">Уведомления</h3>
       </div>
       <div v-if="nonReadedNotifications.length">
         <div v-for="notification in nonReadedNotifications" class="p-4">
