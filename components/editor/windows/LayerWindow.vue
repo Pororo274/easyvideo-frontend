@@ -39,7 +39,7 @@ const cut = () => {
 
 <template>
   <div class="relative pb-2 overflow-y-hidden">
-    <div class="p-2">
+    <div class="p-2 border-b border-gray">
       <div class="flex items-center justify-between">
         <figure
           :class="[selectedVirtualMedia ? 'bg-gray' : 'bg-gray-dark']"
@@ -60,6 +60,7 @@ const cut = () => {
       </div>
     </div>
     <div
+      v-if="virtualMedias.length"
       class="relative w-full h-full overflow-hidden flex flex-col"
       ref="layerBase"
     >
@@ -89,6 +90,13 @@ const cut = () => {
           class="left-4"
         />
       </div>
+    </div>
+    <div class="relative w-full h-full" v-else>
+      <p
+        class="text-gray-light absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        Монтажная область пуста
+      </p>
     </div>
   </div>
 </template>

@@ -28,7 +28,7 @@ const showMedia = () => {
 </script>
 
 <template>
-  <AppHeader>
+  <AppHeader class="z-10">
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-3">
         <NuxtLink
