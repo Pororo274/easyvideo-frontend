@@ -21,7 +21,7 @@ export default {
         blue: {
           light: '#2F82FF',
           DEFAULT: '#0066FF',
-          dark: '#0052CC'
+          dark: '#0052CC',
         },
         gray: {
           light: '#666666',
@@ -33,10 +33,12 @@ export default {
         },
         red: {
           DEFAULT: '#FF3333',
-          dark: '#CC0000'
+          dark: '#CC0000',
+          darkest: '#330000'
         },
         yellow: {
-          DEFAULT: '#FFBA33'
+          DEFAULT: '#FFBA33',
+          darkest: '#664300'
         }
       }
     },

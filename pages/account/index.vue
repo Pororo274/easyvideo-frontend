@@ -31,6 +31,7 @@ const { data } = await useAsyncData<Account>("accountData", async () => {
   <div>
     <AccountHeader />
     <section class="w-full h-screen pt-[77px]">
+      <SubscribeMessage />
       <div
         v-if="data?.projects.length"
         class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
