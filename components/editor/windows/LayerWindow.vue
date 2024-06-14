@@ -25,6 +25,8 @@ const totalTime = computed(() =>
 onMounted(() => {
   if (!layerBase.value) return;
 
+  console.log(layerBase.value);
+
   const baseWidth = layerBase.value.clientWidth;
   setStartTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN - 10);
 });
@@ -60,9 +62,8 @@ const cut = () => {
       </div>
     </div>
     <div
-      v-if="virtualMedias.length"
-      class="relative w-full h-full overflow-hidden flex flex-col"
       ref="layerBase"
+      class="relative w-full h-full overflow-hidden flex flex-col"
     >
       <div :style="pinLayerStyle" class="relative h-20 overflow-x-hidden z-20">
         <div
@@ -91,7 +92,7 @@ const cut = () => {
         />
       </div>
     </div>
-    <div class="relative w-full h-full" v-else>
+    <div class="relative w-full h-full" v-if="!virtualMedias.length">
       <p
         class="text-gray-light absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
       >

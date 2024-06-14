@@ -33,30 +33,26 @@ const { sync } = useVirtualMediaSynchronizer();
 </script>
 
 <template>
-  <div class="flex flex-col h-full">
-    <div class="p-4 border-b border-r border-gray">
-      <h3 class="text-white font-medium text-base">Текст</h3>
+  <MenuWindowWrapper>
+    <template #name>Текст</template>
+    <div class="grid gap-4">
+      <AppInput
+        @blur="sync"
+        v-model="text"
+        placeholder="Ваш текст"
+        input-class="border-gray"
+      >
+        Значение
+      </AppInput>
+      <AppInput
+        @blur="sync"
+        v-model="fontSize"
+        type="number"
+        placeholder="Размер шрифта"
+        input-class="border-gray"
+      >
+        Размер
+      </AppInput>
     </div>
-    <div class="overflow-y-auto flex-1 border-r border-gray p-4">
-      <div class="grid gap-4">
-        <AppInput
-          @blur="sync"
-          v-model="text"
-          placeholder="Ваш текст"
-          input-class="border-gray"
-        >
-          Значение
-        </AppInput>
-        <AppInput
-          @blur="sync"
-          v-model="fontSize"
-          type="number"
-          placeholder="Размер шрифта"
-          input-class="border-gray"
-        >
-          Размер
-        </AppInput>
-      </div>
-    </div>
-  </div>
+  </MenuWindowWrapper>
 </template>
