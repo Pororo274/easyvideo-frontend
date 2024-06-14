@@ -21,6 +21,17 @@ const isModalActive = ref(false);
             <p class="text-white text-sm">в месяц</p>
           </div>
         </div>
+        <AppForm class="mt-4 w-full" action="/subscriptions/month">
+          <FormButton class="w-full">Оформить на 1 месяц</FormButton>
+        </AppForm>
+        <MakeCloseModal v-slot="{ hide }">
+          <p
+            @click="hide"
+            class="text-blue-light underline mt-3 text-center cursor-pointer"
+          >
+            Остаться на бесплатной
+          </p>
+        </MakeCloseModal>
       </div>
     </AppModal>
     <div class="flex gap-3 items-center">
@@ -28,6 +39,7 @@ const isModalActive = ref(false);
         У бесплатных пользователей есть водяной знак.
       </p>
       <div
+        @click="isModalActive = true"
         class="flex gap-2 items-center py-1.5 px-3 border border-gray rounded-md hover:bg-gray cursor-pointer select-none"
       >
         <figure>
