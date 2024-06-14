@@ -41,63 +41,68 @@ const cut = () => {
 
 <template>
   <div class="relative pb-2 overflow-y-hidden">
-    <div class="p-2 border-b border-gray">
-      <div class="flex items-center justify-between">
-        <figure
-          :class="[selectedVirtualMedia ? 'bg-gray' : 'bg-gray-dark']"
-          class="rounded-md p-2"
+    <div class="flex flex-col h-full">
+      <div class="p-2 border-b border-gray">
+        <div class="flex items-center justify-between">
+          <figure
+            :class="[selectedVirtualMedia ? 'bg-gray' : 'bg-gray-dark']"
+            class="rounded-md p-2"
+          >
+            <div
+              :class="[
+                selectedVirtualMedia ? 'brightness-100' : 'brightness-[0.3]',
+              ]"
+            >
+              <img
+                class="w-4 icon-white -rotate-45"
+                src="~/assets/img/icons/editor/actions/cut.svg"
+                alt=""
+              />
+            </div>
+          </figure>
+        </div>
+      </div>
+      <div
+        ref="layerBase"
+        class="relative w-full flex-1 overflow-scroll flex flex-col"
+      >
+        <div
+          :style="pinLayerStyle"
+          class="relative h-20 overflow-x-hidden z-20"
         >
           <div
-            :class="[
-              selectedVirtualMedia ? 'brightness-100' : 'brightness-[0.3]',
-            ]"
+            :style="{ left: `${LAYER_LEFT_MARGIN - timeLineLeft}px` }"
+            class="absolute bg-gradient-to-b from-black from-50% to-transparent w-full h-full"
           >
-            <img
-              class="w-4 icon-white -rotate-45"
-              src="~/assets/img/icons/editor/actions/cut.svg"
-              alt=""
+            <TimestampPin
+              v-for="order in Math.floor(totalTime)"
+              :key="order"
+              :order="order"
             />
           </div>
-        </figure>
-      </div>
-    </div>
-    <div
-      ref="layerBase"
-      class="relative w-full h-full overflow-hidden flex flex-col"
-    >
-      <div :style="pinLayerStyle" class="relative h-20 overflow-x-hidden z-20">
+        </div>
+        <div :style="pinLayerStyle" class="absolute h-full">
+          <TimeLinePin :style="timeLinePinStyle" v-if="virtualMedias.length" />
+        </div>
         <div
-          :style="{ left: `${LAYER_LEFT_MARGIN - timeLineLeft}px` }"
-          class="absolute bg-gradient-to-b from-black from-50% to-transparent w-full h-full"
+          @scroll="onTimelineScroll"
+          class="absolute pt-12 right-0 flex-1 overflow-visible h-full w-full"
         >
-          <TimestampPin
-            v-for="order in Math.floor(totalTime)"
-            :key="order"
-            :order="order"
+          <VirtualMediaItem
+            v-for="media in virtualMedias"
+            :key="media.uuid"
+            :virtual-media="media"
+            class="left-4"
           />
         </div>
       </div>
-      <div :style="pinLayerStyle" class="absolute h-full">
-        <TimeLinePin :style="timeLinePinStyle" v-if="virtualMedias.length" />
+      <div class="relative w-full flex-1" v-if="!virtualMedias.length">
+        <p
+          class="text-gray-light absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          Монтажная область пуста
+        </p>
       </div>
-      <div
-        @scroll="onTimelineScroll"
-        class="absolute p-12 right-0 flex-1 overflow-scroll h-full w-full"
-      >
-        <VirtualMediaItem
-          v-for="media in virtualMedias"
-          :key="media.uuid"
-          :virtual-media="media"
-          class="left-4"
-        />
-      </div>
-    </div>
-    <div class="relative w-full h-full" v-if="!virtualMedias.length">
-      <p
-        class="text-gray-light absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      >
-        Монтажная область пуста
-      </p>
     </div>
   </div>
 </template>
