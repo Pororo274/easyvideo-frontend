@@ -14,18 +14,20 @@ const isSettingsModalActive = ref(false);
     <div class="flex items-center justify-between">
       <UserMini :user="user as User" />
       <div class="flex items-center gap-4">
-        <BlueButton @click="isModalActive = true">
-          <div class="flex gap-3 items-center">
-            <p class="flex-1">Создать проект</p>
-            <figure>
-              <img
-                class="icon-white w-4 h-4"
-                src="~/assets/img/icons/actions/plus.svg"
-                alt=""
-              />
-            </figure>
-          </div>
-        </BlueButton>
+        <OnlyUser>
+          <BlueButton @click="isModalActive = true">
+            <div class="flex gap-3 items-center">
+              <p class="flex-1">Создать проект</p>
+              <figure>
+                <img
+                  class="icon-white w-4 h-4"
+                  src="~/assets/img/icons/actions/plus.svg"
+                  alt=""
+                />
+              </figure>
+            </div>
+          </BlueButton>
+        </OnlyUser>
         <div class="flex gap-2">
           <IconButton @click="isSettingsModalActive = true" :icon="gear" />
           <UserNotificationList />

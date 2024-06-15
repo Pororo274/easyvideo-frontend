@@ -30,7 +30,7 @@ const { data } = await useAsyncData<Account>("accountData", async () => {
 <template>
   <div>
     <AccountHeader />
-    <section class="w-full h-screen pt-[77px]">
+    <section class="w-full flex flex-col h-screen pt-[77px]">
       <SubscriptionMessage />
       <div
         v-if="data?.projects.length"
@@ -41,7 +41,7 @@ const { data } = await useAsyncData<Account>("accountData", async () => {
           :project="project"
         />
       </div>
-      <div v-else class="w-full h-full relative">
+      <div v-else class="w-full flex-1 relative">
         <p
           class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-light text-base"
         >
