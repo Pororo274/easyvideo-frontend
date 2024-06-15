@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ContentType } from "~/enums/virtual-media/content-type.enum";
-
 const video = ref<HTMLVideoElement>();
 
 const { isAutoplay } = useTimeLine();

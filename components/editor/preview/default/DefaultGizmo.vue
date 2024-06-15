@@ -54,26 +54,29 @@ const resize = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
 </script>
 
 <template>
-  <div :style="mediaPreviewStyle" class="absolute group">
-    <PreviewDefaultSize>
-      <AppDrag
-        @move="onMove"
-        @up="sync"
-        :self-drag="false"
-        class="border border-transparent group-hover:border-blue absolute cursor-move w-full h-full"
-      />
-      <div
-        class="absolute w-3 h-3 top-full left-full -translate-x-1/2 -translate-y-1/2"
-      >
+  <div>
+    <div :style="mediaPreviewStyle" class="absolute">
+      <PreviewDefaultSize class="absolute group">
         <AppDrag
-          @down="onDown"
-          @move="resize"
+          @move="onMove"
           @up="sync"
-          ref="resizeEl"
           :self-drag="false"
-          class="absolute h-full w-full cursor-nwse-resize group-hover:bg-blue focus:outline-none"
+          class="border border-transparent hover:border-blue absolute cursor-move w-full h-full"
         />
-      </div>
-    </PreviewDefaultSize>
+        <div
+          class="absolute w-3 h-3 top-full left-full -translate-x-1/2 -translate-y-1/2"
+        >
+          <AppDrag
+            @down="onDown"
+            @move="resize"
+            @up="sync"
+            ref="resizeEl"
+            :self-drag="false"
+            class="absolute h-full w-full cursor-nwse-resize group-hover:bg-blue focus:outline-none"
+          />
+        </div>
+        <!-- <div class="absolute w-full h-full bg-black opacity-75"></div> -->
+      </PreviewDefaultSize>
+    </div>
   </div>
 </template>

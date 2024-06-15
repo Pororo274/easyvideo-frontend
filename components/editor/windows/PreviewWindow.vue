@@ -48,15 +48,6 @@ onMounted(() => {
                 v-for="media in virtualMedias"
                 :media="media"
               >
-                <VideoPreviewItem
-                  v-if="media.contentType === ContentType.Video"
-                />
-                <ImagePreviewItem
-                  v-if="media.contentType === ContentType.Image"
-                />
-                <TextPreviewItem
-                  v-if="media.contentType === ContentType.Text"
-                />
               </VirtualMediaPreview>
             </div>
           </div>

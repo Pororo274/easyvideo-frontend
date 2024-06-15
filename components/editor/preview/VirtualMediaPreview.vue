@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ContentType } from "~/enums/virtual-media/content-type.enum";
 import type { Time } from "~/interfaces/coordinate/time.interface";
 import type { Position } from "~/interfaces/editor/position.interface";
 import type { VirtualMedia } from "~/interfaces/editor/virtual-media.interface";
@@ -60,6 +61,10 @@ provide("virtualMediaPreview", {
 
 <template>
   <div v-show="isShow">
-    <slot></slot>
+    <slot>
+      <VideoPreviewItem v-if="media.contentType === ContentType.Video" />
+      <ImagePreviewItem v-if="media.contentType === ContentType.Image" />
+      <TextPreviewItem v-if="media.contentType === ContentType.Text" />
+    </slot>
   </div>
 </template>

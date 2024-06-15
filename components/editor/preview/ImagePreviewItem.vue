@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const { getObjectURLByUuid } = useMedias();
-const { isShow, virtualMedia, mediaPreviewStyle } = useVirtualMediaPreview();
+const { virtualMedia, mediaPreviewStyle } = useVirtualMediaPreview();
 </script>
 
 <template>
-  <div v-show="isShow" :style="mediaPreviewStyle" class="absolute top-0 left-0">
+  <div :style="mediaPreviewStyle" class="absolute">
     <PreviewDefaultSize>
       <img
         class="w-full h-full"

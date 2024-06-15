@@ -5,7 +5,7 @@ import type { TextFilter } from "~/interfaces/filters/text-filter.interface";
 const video = ref<HTMLVideoElement>();
 
 const { isAutoplay } = useTimeLine();
-const { currentTime, isShow, virtualMedia, mediaPreviewStyle, proportion } =
+const { currentTime, isShow, virtualMedia, mediaPreviewStyle } =
   useVirtualMediaPreview();
 
 watchEffect(() => {
@@ -26,11 +26,7 @@ const textStyle = computed(() => ({
 </script>
 
 <template>
-  <div
-    v-if="virtualMedia.contentType === ContentType.Text"
-    :style="mediaPreviewStyle"
-    class="absolute"
-  >
+  <div :style="mediaPreviewStyle" class="absolute">
     <p
       style="font-family: Arial, Helvetica, sans-serif"
       :style="textStyle"

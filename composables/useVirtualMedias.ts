@@ -97,6 +97,10 @@ export const useVirtualMedias = () => {
     setFilterListByUuid(uuid, callback(filters));
   }
 
+  const getVirtualMediaByUuid = (uuid: string) => {
+    return virtualMedias.value.find(x => x.uuid === uuid)
+  }
+
   return {
     virtualMedias: readonly(virtualMedias),
     totalLayers,
@@ -107,6 +111,7 @@ export const useVirtualMedias = () => {
     clear,
     updateLayerByUuid,
     mapFilterList,
-    updateContentByUuid
+    updateContentByUuid,
+    getVirtualMediaByUuid
   }
 }
