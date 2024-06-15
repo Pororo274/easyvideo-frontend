@@ -75,8 +75,28 @@ const resize = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
             class="absolute h-full w-full cursor-nwse-resize group-hover:bg-blue focus:outline-none"
           />
         </div>
-        <!-- <div class="absolute w-full h-full bg-black opacity-75"></div> -->
+        <div class="absolute w-full h-full"></div>
+        <div
+          class="absolute w-full h-full bg-black opacity-90 clip-path border"
+        ></div>
       </PreviewDefaultSize>
     </div>
   </div>
 </template>
+
+<style scoped>
+.clip-path {
+  clip-path: polygon(
+    0px 0px,
+    0px 100%,
+    3.16456% 100%,
+    3.16456% 0%,
+    84.6519% 0%,
+    84.6519% 78.9019%,
+    3.16456% 78.9019%,
+    3.16456% 100%,
+    100% 100%,
+    100% 0px
+  );
+}
+</style>
