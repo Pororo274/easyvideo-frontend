@@ -13,6 +13,8 @@ const onLogout = () => {
   clearUser();
   navigateTo("/");
 };
+
+const { brief } = useAccountProvider();
 </script>
 
 <template>
@@ -23,7 +25,19 @@ const onLogout = () => {
     </div>
   </div>
   <div class="p-5">
-    <AppInput v-model="field" :placeholder="username" :disabled="true">
+    <div>
+      <h3 class="text-white">Хранилище</h3>
+      <ProgressIndicator
+        :total="brief.totalAvailableSpaceInBytes"
+        :current="brief.totalUsedSpaceInBytes"
+      />
+    </div>
+    <AppInput
+      v-model="field"
+      :placeholder="username"
+      :disabled="true"
+      class="mt-5"
+    >
       Имя пользователя
     </AppInput>
     <AppForm @success="onLogout" class="mt-4" action="/auth/logout">

@@ -16,14 +16,12 @@ const totalAvailableSpaceInMB = computed(
   <BriefBorder>
     <div class="px-4 pt-4">
       <h3 class="text-white">Состояние хранилища</h3>
-      <div class="rounded-md w-full border border-gray overflow-hidden mt-3">
-        <div
-          :style="{
-            width: `${(usedSpaceInMB / totalAvailableSpaceInMB) * 100}%`,
-          }"
-          class="h-6 bg-blue"
-        ></div>
-      </div>
+      <ProgressIndicator
+        :total="totalAvailableSpaceInMB"
+        :current="usedSpaceInMB"
+        class="mt-3"
+      />
+
       <div class="text-sm text-gray-light mt-2">
         {{ (totalAvailableSpaceInMB - usedSpaceInMB).toFixed(2) }} МБ свободно
         из 100 МБ

@@ -54,7 +54,7 @@ const onContextmenu = (e: MouseEvent) => {
 
 <template>
   <div
-    @click="$router.push(`/account/${project.id}`)"
+    @click="navigateTo(`/account/${project.id}`)"
     @contextmenu.prevent.stop="onContextmenu"
     v-out="() => (activatedContextmenu = null)"
     v-out:contextmenu="() => (activatedContextmenu = null)"
