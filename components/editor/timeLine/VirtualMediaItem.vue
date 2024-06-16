@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Key } from "~/enums/keyboard/key.enum";
 import { ContentType } from "~/enums/virtual-media/content-type.enum";
 import type { Time } from "~/interfaces/coordinate/time.interface";
 import type {
@@ -11,7 +12,10 @@ const props = defineProps<{
 }>();
 
 const { yPositionsLayers, pxPerSecond } = useTimeLine();
-const { updateLayerByUuid, mapFilterList } = useVirtualMedias();
+const { updateLayerByUuid, mapFilterList, deleteByUuid } = useVirtualMedias();
+const { addOnDownListener } = useKeyboard();
+const { currentWindow, currentData } = useEditorWindows<string>();
+const { sync } = useVirtualMediaSynchronizer();
 
 const virtualMediaWidth = ref(0);
 
@@ -22,6 +26,21 @@ const initYPos = ref((props.virtualMedia.layer - 1) * (itemHeight.value + 8));
 const zIndex = ref(0);
 const xPos = ref(initXPos.value);
 const isCapture = ref(false);
+
+const isSelected = computed(
+  () => currentData.value === props.virtualMedia.uuid
+);
+
+addOnDownListener({
+  key: Key.Delete,
+  handler: () => {
+    if (isSelected.value) {
+      currentWindow.value = "mediaWindow";
+      deleteByUuid(props.virtualMedia.uuid);
+      sync();
+    }
+  },
+});
 
 const xMargin = ref(0);
 
@@ -41,8 +60,6 @@ const setXMargin = (newXMargin: number) => {
   xMargin.value = newXMargin;
 };
 
-const { currentWindow, currentData } = useEditorWindows<string>();
-
 const onDown = () => {
   opacity.value = 0.7;
   zIndex.value = 10;
@@ -50,8 +67,6 @@ const onDown = () => {
   currentData.value = props.virtualMedia.uuid;
   currentWindow.value = `${props.virtualMedia.contentType}Window`;
 };
-
-const { sync } = useVirtualMediaSynchronizer();
 
 const onUp = () => {
   opacity.value = 1;
@@ -154,9 +169,7 @@ provide("virtualMediaItem", {
     :delta-y-ignore="15"
     :y-teleports="yPositionsLayers"
     :min-x="0"
-    :class="
-      currentData === virtualMedia.uuid ? 'border-blue' : 'border-transparent'
-    "
+    :class="isSelected ? 'border-blue' : 'border-transparent'"
     class="absolute py-1.5 rounded-md bg-gray group border overflow-hidden"
   >
     <VirtualVideo v-if="virtualMedia.contentType === ContentType.Video" />

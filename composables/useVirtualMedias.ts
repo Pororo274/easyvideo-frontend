@@ -101,6 +101,10 @@ export const useVirtualMedias = () => {
     return virtualMedias.value.find(x => x.uuid === uuid)
   }
 
+  const deleteByUuid = (uuid: string) => {
+    virtualMedias.value = virtualMedias.value.filter((x) => x.uuid !== uuid)
+  }
+
   return {
     virtualMedias: readonly(virtualMedias),
     totalLayers,
@@ -112,6 +116,7 @@ export const useVirtualMedias = () => {
     updateLayerByUuid,
     mapFilterList,
     updateContentByUuid,
-    getVirtualMediaByUuid
+    getVirtualMediaByUuid,
+    deleteByUuid
   }
 }
