@@ -21,9 +21,9 @@ const isModalActive = ref(false);
             <p class="text-white text-sm">в месяц</p>
           </div>
         </div>
-        <AppForm class="mt-4 w-full" action="/subscriptions/month">
+        <!-- <AppForm class="mt-4 w-full" action="/subscriptions/month">
           <FormButton class="w-full">Оформить на 1 месяц</FormButton>
-        </AppForm>
+        </AppForm> -->
         <MakeCloseModal v-slot="{ hide }">
           <p
             @click="hide"
