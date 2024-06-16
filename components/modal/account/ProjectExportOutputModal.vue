@@ -5,6 +5,7 @@ const { project } = useProject();
 const { updateUploadStatus } = useMediaUpload();
 const { hideModal } = useAppModal();
 const { pushSystemNotification } = useAppNotification();
+const { isUploading } = useMediaUpload();
 
 const onSuccess = () => {
   updateUploadStatus(true);
@@ -27,23 +28,21 @@ const onSuccess = () => {
     <div class="p-5">
       <AppForm @success="onSuccess" :action="`/projects/${project.id}/render`">
         <div>
-          <h2 class="text-white font-medium text-xl">Параметры экспорта:</h2>
-          <div class="grid grid-cols-3 mt-2">
-            <div>
-              <h3 class="text-white font-medium text-sm">Ширина:</h3>
-              <h2 class="text-white font-medium">{{ project.width }}px</h2>
-            </div>
-            <div>
-              <h3 class="text-white font-medium text-sm">Высота:</h3>
-              <h2 class="text-white font-medium">{{ project.height }}px</h2>
-            </div>
-            <div>
-              <h3 class="text-white font-medium text-sm">Часто кадров:</h3>
-              <h2 class="text-white font-medium">25fps</h2>
-            </div>
+          <h3 class="text-white font-medium text">Формат:</h3>
+          <div class="py-1.5 px-12 bg-gray rounded-md mt-2 inline-block">
+            <p class="text-white">MP4</p>
+          </div>
+          <div class="flex justify-between mt-4">
+            <p class="text-white">Разрешение</p>
+            <p class="text-white">{{ project.width }}x{{ project.height }}</p>
           </div>
         </div>
-        <FormButton class="w-full mt-4">Экспортировать</FormButton>
+        <FormButton class="w-full mt-4" :disabled="isUploading"
+          >Экспортировать</FormButton
+        >
+        <p v-show="isUploading" class="text-yellow text-center mt-2">
+          Экспорт пока не возможен. Идет синхронизация
+        </p>
       </AppForm>
     </div>
   </div>

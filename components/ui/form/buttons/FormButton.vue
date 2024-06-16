@@ -16,7 +16,7 @@ const { isLoading } = inject<AppForm>("appForm") as AppForm;
 </script>
 
 <template>
-  <BlueButton :disabled="isLoading" type="submit" class="relative">
+  <BlueButton :disabled="isLoading || disabled" type="submit" class="relative">
     <div
       :class="{
         'opacity-0': isLoading,
