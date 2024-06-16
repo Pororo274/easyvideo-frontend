@@ -25,6 +25,21 @@ const { data } = await useAsyncData<Account>("accountData", async () => {
 
   return { projects, projectConfigs };
 });
+
+const projects = computed(() => {
+  return data.value?.projects || [];
+});
+
+const deleteProjectById = (id: number) => {
+  if (!data.value?.projects) return;
+
+  data.value.projects = data.value.projects.filter((x) => x.id !== id);
+};
+
+provide("projectsProvider", {
+  projects: readonly(projects),
+  deleteProjectById,
+});
 </script>
 
 <template>

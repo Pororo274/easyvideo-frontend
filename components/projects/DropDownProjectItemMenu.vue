@@ -1,12 +1,15 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   projectId: number;
 }>();
 
 const isDeleteProjectModalActive = ref(false);
 
+const { deleteProjectById } = useProjectsProvider();
+
 const onSuccess = () => {
   isDeleteProjectModalActive.value = false;
+  deleteProjectById(props.projectId);
 };
 </script>
 
