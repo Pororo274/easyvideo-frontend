@@ -33,23 +33,6 @@ export const useExports = () => {
         read_at: null
       })
       updateUploadStatus(false)
-      // exports.value = [...exports.value, {
-      //   projectId: e.dto.projectId,
-      //   link: e.dto.link
-      // }]
-      // $api(e.dto.link, {
-      //   method: 'get',
-      //   responseType: 'blob'
-      // }).then((data: any) => {
-      //   updateUploadStatus(false)
-      //   const url = window.URL.createObjectURL(new Blob([data]));
-      //   const link = document.createElement("a");
-      //   link.href = url;
-      //   link.setAttribute("download", "easyvideo.mp4");
-      //   document.body.appendChild(link);
-      //   link.click();
-      //   link.remove();
-      // });
     }).subscribed(() => {
       isSubscribed.value = true
     })
