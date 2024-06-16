@@ -43,7 +43,7 @@ onMounted(() => {
                 <TextGizmo v-if="media.contentType === ContentType.Text" />
               </VirtualMediaPreview>
             </div>
-            <div class="relative w-full h-full overflow-hidden bg-gray-dark">
+            <div class="relative w-full h-full overflow-hidden bg-[#000]">
               <VirtualMediaPreview
                 v-for="media in virtualMedias"
                 :media="media"

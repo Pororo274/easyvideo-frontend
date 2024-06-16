@@ -3,7 +3,7 @@ const video = ref<HTMLVideoElement>();
 
 const { isAutoplay } = useTimeLine();
 const { getObjectURLByUuid } = useMedias();
-const { currentTime, isShow, virtualMedia, mediaPreviewStyle } =
+const { currentTime, isShow, virtualMedia, mediaPreviewStyle, filterStyle } =
   useVirtualMediaPreview();
 
 watchEffect(() => {
@@ -24,6 +24,7 @@ watchEffect(() => {
     <PreviewDefaultSize>
       <video
         :src="getObjectURLByUuid(virtualMedia.content)"
+        :style="filterStyle"
         class="absolute w-full h-full object-fill"
         ref="video"
       ></video>

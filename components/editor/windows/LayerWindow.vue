@@ -25,8 +25,6 @@ const totalTime = computed(() =>
 onMounted(() => {
   if (!layerBase.value) return;
 
-  console.log(layerBase.value);
-
   const baseWidth = layerBase.value.clientWidth;
   setStartTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN - 10);
 });
@@ -68,11 +66,11 @@ const cut = () => {
       >
         <div
           :style="pinLayerStyle"
-          class="relative h-20 overflow-x-hidden z-20"
+          class="relative h-12 overflow-x-hidden z-20"
         >
           <div
             :style="{ left: `${LAYER_LEFT_MARGIN - timeLineLeft}px` }"
-            class="absolute bg-gradient-to-b from-black from-50% to-transparent w-full h-full"
+            class="absolute w-full h-full"
           >
             <TimestampPin
               v-for="order in Math.floor(totalTime)"

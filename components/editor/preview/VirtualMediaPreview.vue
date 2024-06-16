@@ -51,11 +51,20 @@ const currentTime = computed(() => {
 
 const virtualMedia = computed(() => props.media);
 
+const filterStyle = computed(() => {
+  const h = props.media.filters.flip?.h ?? false;
+  const v = props.media.filters.flip?.v ?? false;
+  return {
+    transform: `scaleX(${h ? -1 : 1}) scaleY(${v ? -1 : 1})`,
+  };
+});
+
 provide("virtualMediaPreview", {
   mediaPreviewStyle,
   currentTime,
   isShow,
   virtualMedia,
+  filterStyle,
 });
 </script>
 

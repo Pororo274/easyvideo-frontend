@@ -68,7 +68,7 @@ export const useVirtualMediaFactory = () => {
           [FilterName.Text]: {
             text: 'Sample',
             fontSize: 16
-          }
+          },
         }
       }
   }

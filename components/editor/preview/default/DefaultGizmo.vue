@@ -75,10 +75,6 @@ const resize = ({ deltaX, deltaY }: { deltaX: number; deltaY: number }) => {
             class="absolute h-full w-full cursor-nwse-resize group-hover:bg-blue focus:outline-none"
           />
         </div>
-        <div class="absolute w-full h-full"></div>
-        <div
-          class="absolute w-full h-full bg-black opacity-90 clip-path border"
-        ></div>
       </PreviewDefaultSize>
     </div>
   </div>
