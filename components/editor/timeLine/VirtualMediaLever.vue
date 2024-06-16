@@ -17,12 +17,14 @@ const emit = defineEmits<{
 }>();
 
 const { updatePosition } = useAppDrag();
+const { setXPos, xPos } = useVirtualMediaItem();
 
 const onMove = ({ deltaX }: { deltaX: number }) => {
   emit("move", {
     deltaX,
     updatePosition() {
       updatePosition(deltaX, 0);
+      setXPos(xPos.value + deltaX);
     },
   });
 };

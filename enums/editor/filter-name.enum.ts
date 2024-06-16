@@ -7,5 +7,6 @@ export enum FilterName {
   Brightness = 'brightness',
   Contrast = 'contrast',
   Opacity = 'opacity',
-  Flip = 'flip'
+  Flip = 'flip',
+  InitDuration = 'initDuration'
 }

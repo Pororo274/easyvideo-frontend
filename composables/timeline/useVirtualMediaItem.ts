@@ -8,10 +8,11 @@ interface VirtualMediaItemProvide {
   setXMargin: (newXMargin: number) => void;
   setXPos: (newXPos: number) => void;
   virtualMedia: Readonly<Ref<VirtualMedia>>
+  xPos: Readonly<Ref<number>>
 }
 
 export const useVirtualMediaItem = () => {
-  const { duration, startTime, globalStartTime, setVirtualMediaWidth, setXMargin, setXPos, virtualMedia } = inject("virtualMediaItem") as VirtualMediaItemProvide
+  const { duration, startTime, globalStartTime, setVirtualMediaWidth, setXMargin, setXPos, virtualMedia, xPos } = inject("virtualMediaItem") as VirtualMediaItemProvide
 
   return {
     duration,
@@ -20,6 +21,7 @@ export const useVirtualMediaItem = () => {
     setVirtualMediaWidth,
     setXMargin,
     setXPos,
-    virtualMedia
+    virtualMedia,
+    xPos
   };
 }

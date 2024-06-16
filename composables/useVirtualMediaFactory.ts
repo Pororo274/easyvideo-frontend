@@ -95,6 +95,7 @@ export const useVirtualMediaFactory = () => {
           width: metadata.width,
           height: metadata.height
         },
+        [FilterName.InitDuration]: metadata.duration
       }
     }
   }

@@ -82,10 +82,20 @@ const onLeftMove = ({
   deltaX: number;
   updatePosition(): void;
 }) => {
-  xMargin.value += deltaX;
+  let newXMargin = xMargin.value + deltaX;
+  let newWidth = virtualMediaWidth.value - deltaX;
 
-  virtualMediaWidth.value -= deltaX;
+  if (virtualMedia.value.filters.initDuration) {
+    const initDuration = virtualMedia.value.filters.initDuration as number;
+
+    if (newXMargin < 0 || newWidth / pxPerSecond.value > initDuration) {
+      return;
+    }
+  }
+
   updatePosition();
+  xMargin.value = newXMargin;
+  virtualMediaWidth.value = newWidth;
   mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
     const time = {
       duration: duration.value,
@@ -98,7 +108,19 @@ const onLeftMove = ({
 };
 
 const onRightMove = ({ deltaX }: { deltaX: number }) => {
-  virtualMediaWidth.value = deltaX + virtualMediaWidth.value;
+  let newWidth = deltaX + virtualMediaWidth.value;
+
+  if (virtualMedia.value.filters.initDuration) {
+    if (
+      newWidth / pxPerSecond.value >
+      (virtualMedia.value.filters.initDuration as number)
+    ) {
+      newWidth =
+        pxPerSecond.value * (virtualMedia.value.filters.initDuration as number);
+    }
+  }
+
+  virtualMediaWidth.value = newWidth;
   mapFilterList(props.virtualMedia.uuid, (filters: FilterList) => {
     const time = {
       duration: duration.value,
@@ -153,6 +175,7 @@ provide("virtualMediaItem", {
   setVirtualMediaWidth,
   setXMargin,
   setXPos,
+  xPos: readonly(xPos),
   virtualMedia: readonly(virtualMedia),
 });
 </script>
