@@ -44,11 +44,9 @@ const changeVerticalFlip = () => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full">
-    <div class="p-4 border-b border-r border-gray">
-      <h3 class="text-white font-medium text-base">Видео</h3>
-    </div>
-    <div class="overflow-y-auto flex-1 border-r border-gray p-4">
+  <MenuWindowWrapper>
+    <template #name> Видео </template>
+    <div class="p-4">
       <div class="flex gap-3 items-center">
         <div class="w-28 aspect-video">
           <MediaItemPreview :object-url="objectURL" :file-type="'video/mp4'" />
@@ -88,5 +86,5 @@ const changeVerticalFlip = () => {
         </div>
       </div>
     </div>
-  </div>
+  </MenuWindowWrapper>
 </template>

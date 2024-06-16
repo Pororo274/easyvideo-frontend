@@ -35,7 +35,7 @@ const { sync } = useVirtualMediaSynchronizer();
 <template>
   <MenuWindowWrapper>
     <template #name>Текст</template>
-    <div class="grid gap-4">
+    <div class="grid gap-4 p-4">
       <AppInput
         @blur="sync"
         v-model="text"
