@@ -8,7 +8,6 @@ const isDeleteProjectModalActive = ref(false);
 const { deleteProjectById } = useProjectsProvider();
 
 const onSuccess = () => {
-  isDeleteProjectModalActive.value = false;
   deleteProjectById(props.projectId);
 };
 </script>
@@ -17,25 +16,15 @@ const onSuccess = () => {
   <div
     class="fixed w-[180px] bg-black rounded-md border border-gray overflow-hidden shadow-md z-50"
   >
-    <AppModal v-model="isDeleteProjectModalActive">
-      <div class="p-5">
-        <h3 class="text-white font-medium text-xl text-center">Вы уверены?</h3>
-        <p class="text-white text-center">Это действие нельзя будет отменить</p>
-        <div class="flex gap-4 mt-4">
-          <AppForm
-            @success="onSuccess"
-            :action="`/projects/${projectId}`"
-            class="flex-1"
-            method="delete"
-          >
-            <FormButton class="w-full">Да</FormButton>
-          </AppForm>
-          <MakeCloseModal v-slot="{ hide }">
-            <RedButton @click="hide" class="flex-1">Нет</RedButton>
-          </MakeCloseModal>
-        </div>
-      </div>
-    </AppModal>
+    <AttentionModal
+      v-model="isDeleteProjectModalActive"
+      @success="onSuccess"
+      :action="`/projects/${projectId}`"
+      method="delete"
+    >
+      <template #header> Вы уверены? </template>
+      <template #text>Это действие нельзя будет отменить</template>
+    </AttentionModal>
     <NuxtLink
       @click.stop
       :to="`/account/${projectId}`"

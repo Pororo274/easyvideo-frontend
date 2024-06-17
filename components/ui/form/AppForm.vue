@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { SystemNotificationType } from "~/enums/notifications/system-notification-type.enum";
+import type { HttpMethod } from "~/types/http-method.type";
 
 const { $api } = useNuxtApp();
 const { pushSystemNotification } = useAppNotification();
 
 const props = withDefaults(
   defineProps<{
-    method?: "post" | "get" | "put" | "patch" | "delete";
+    method?: HttpMethod;
     data?: any;
     action?: string;
     customAction?: string;

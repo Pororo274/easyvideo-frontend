@@ -3,6 +3,8 @@ import type { User } from "~/interfaces/account/user.interface";
 
 const isDropDownMenuActive = ref(false);
 
+const isBanModalActive = ref(false);
+
 defineProps<{
   user: User;
 }>();
@@ -10,6 +12,13 @@ defineProps<{
 
 <template>
   <div class="col-span-3 flex justify-end">
+    <AttentionModal
+      v-model="isBanModalActive"
+      :action="`/admin/users/${user.id}/ban`"
+      method="patch"
+    >
+      <template #text>Вы уверены, что хотите забанить пользователя?</template>
+    </AttentionModal>
     <figure
       v-out="() => (isDropDownMenuActive = false)"
       @click.stop="isDropDownMenuActive = !isDropDownMenuActive"
@@ -28,7 +37,9 @@ defineProps<{
         <DropDownButton @click="navigateTo(`/admin/users/${user.id}/projects`)"
           >Список проектов</DropDownButton
         >
-        <DropDownButton>Забанить</DropDownButton>
+        <DropDownButton @click="isBanModalActive = true"
+          >Забанить</DropDownButton
+        >
       </div>
     </figure>
   </div>
