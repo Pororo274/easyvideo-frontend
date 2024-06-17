@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="grid grid-cols-12 gap-2 items-center py-3">
+  <TableRow>
     <div class="flex gap-2 items-center col-span-4">
       <div
         class="bg-blue w-8 h-8 rounded-full flex items-center justify-center"
@@ -21,6 +21,6 @@ defineProps<{
     </div>
     <p class="text-white col-span-3">12 апреля 2024 г.</p>
     <p class="text-red col-span-2">Нет</p>
-    <UserDropDown />
-  </div>
+    <UserDropDown :user="user" />
+  </TableRow>
 </template>
