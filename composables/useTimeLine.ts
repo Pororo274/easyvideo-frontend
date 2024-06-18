@@ -63,5 +63,6 @@ export const useTimeLine = () => {
     startAutoPlay,
     stopAutoPlay,
     isAutoplay: readonly(isAutoplay),
+    pinXPos: readonly(pinXPos)
   }
 }

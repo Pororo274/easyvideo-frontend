@@ -1,6 +1,10 @@
 <script setup lang="ts">
-const { virtualMedias, addVirtualMedia } = useVirtualMedias();
-const { timeLineWidth, pxPerSecond, setStartTimeLineWidth } = useTimeLine();
+import { v4 } from "uuid";
+import type { Time } from "~/interfaces/coordinate/time.interface";
+
+const { virtualMedias, addVirtualMedia, deleteByUuid } = useVirtualMedias();
+const { timeLineWidth, pxPerSecond, setStartTimeLineWidth, pinXPos } =
+  useTimeLine();
 const { LAYER_LEFT_MARGIN } = useConstants();
 
 const layerBase = ref<HTMLDivElement | null>();
@@ -28,12 +32,42 @@ onMounted(() => {
   const baseWidth = layerBase.value.clientWidth;
   setStartTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN - 10);
 });
-const { selectedVirtualMedia } = useEditorWindows<string>();
+const { selectedVirtualMedia, currentData, currentWindow } =
+  useEditorWindows<string>();
 
 const cut = () => {
   if (!selectedVirtualMedia.value) return;
 
-  const { filters, ...other } = selectedVirtualMedia.value;
+  const currentTime = pinXPos.value / pxPerSecond.value;
+
+  const { filters, uuid, ...other } = selectedVirtualMedia.value;
+  const { time, ...otherFilters } = filters;
+  addVirtualMedia({
+    filters: {
+      ...otherFilters,
+      time: {
+        delay: time.delay,
+        startFrom: time.startFrom,
+        duration: currentTime - time.delay,
+      } as Time,
+    },
+    ...other,
+    uuid: v4(),
+  });
+  addVirtualMedia({
+    filters: {
+      ...otherFilters,
+      time: {
+        delay: currentTime,
+        startFrom: time.startFrom + currentTime - time.delay,
+        duration: time.duration - (currentTime - time.delay),
+      } as Time,
+    },
+    ...other,
+    uuid: v4(),
+  });
+  currentWindow.value = "mediaWindow";
+  deleteByUuid(selectedVirtualMedia.value.uuid);
 };
 </script>
 
@@ -43,6 +77,7 @@ const cut = () => {
       <div class="p-2 border-b border-gray">
         <div class="flex items-center justify-between">
           <figure
+            @click="cut"
             :class="[selectedVirtualMedia ? 'bg-gray' : 'bg-gray-dark']"
             class="rounded-md p-2"
           >
