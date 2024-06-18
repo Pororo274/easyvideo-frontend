@@ -53,7 +53,6 @@ const { user } = useUser();
         </MakeCloseModal>
       </AccountProvider>
     </OnlyUser>
-
     <LogoutForm class="mt-6" />
   </div>
 </template>

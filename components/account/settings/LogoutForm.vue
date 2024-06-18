@@ -11,8 +11,6 @@ const onLogout = () => {
 
 <template>
   <AppForm @success="onLogout" action="/auth/logout">
-    <button>
-      <IconButton :animation="false" :icon="logout" />
-    </button>
+    <RedButton>Выйти</RedButton>
   </AppForm>
 </template>
