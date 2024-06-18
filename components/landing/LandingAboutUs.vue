@@ -1,11 +1,13 @@
 <template>
-  <section class="mt-72 relative">
+  <section class="mt-36 lg:mt-72 relative">
     <div class="container">
       <h2 class="text-white font-medium text-center text-2xl">
         Почему стоит выбрать нас
       </h2>
-      <div class="flex justify-center gap-10 mt-20">
-        <div class="w-[314px] pt-6">
+      <div
+        class="flex flex-col items-center justify-center gap-10 mt-10 lg:mt-20 lg:flex-row"
+      >
+        <div class="w-[314px] lg:pt-6">
           <figure class="rounded-lg">
             <img src="~/assets/img/landing/about-us/adv2.svg" alt="" />
           </figure>
@@ -16,16 +18,16 @@
             </p>
           </div>
         </div>
-        <div class="w-[314px] -mt-12">
+        <div class="w-[314px] lg:-mt-12">
           <figure class="rounded-lg">
             <img src="~/assets/img/landing/about-us/adv1.svg" alt="" />
           </figure>
           <div class="pl-2">
             <h3 class="text-white font-medium text-xl mt-3">
-              Огромная библиотека
+              Поддержка множества форматов
             </h3>
             <p class="text-gray-light mt-1">
-              Множество готовых прессетов для реализации самых разных идей
+              Доступна работа с самыми распространеными форматами файлов
             </p>
           </div>
         </div>

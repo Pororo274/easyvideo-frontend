@@ -1,5 +1,5 @@
 <template>
-  <section class="pt-56 relative">
+  <section class="pt-24 lg:pt-56 relative">
     <div class="absolute top-0 h-full w-full left-0 blur-[220px]">
       <div
         class="w-72 h-72 bg-blue rounded-full absolute top-[300px] -left-[250px]"
