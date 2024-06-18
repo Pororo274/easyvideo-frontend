@@ -6,7 +6,7 @@ const { $api } = useNuxtApp();
 const { user, isAdmin } = useUser();
 
 callOnce(() => {
-  if (isAdmin) {
+  if (isAdmin.value) {
     navigateTo("/admin");
   }
 });

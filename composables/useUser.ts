@@ -8,7 +8,7 @@ export const useUser = () => {
   const isAlreadyTryAuth = computed(() => tryAuthCount.value > 0)
   const isLogout = useState("isLogout", () => false)
   const authenticated = computed(() => !!user.value && !isLogout.value )
-  const isAdmin = computed(() => user.value?.roles.find(x => x === 'admin'))
+  const isAdmin = computed(() => !!user.value?.roles.find(x => x === 'admin'))
 
   const refreshUserData = async (data?: any) => {
     if (data) {
