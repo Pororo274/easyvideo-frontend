@@ -34,7 +34,6 @@ const sendRequest = async () => {
   }
   try {
     if (props.customAction) {
-      console.log(props.customAction);
       const data = await $api(props.customAction, {
         method: props.method,
         responseType: "blob",

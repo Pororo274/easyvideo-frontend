@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { NotificationData } from "~/interfaces/notifications/data/notification-data.interface";
 import type { SystemNotification } from "~/interfaces/notifications/system-notification.interface";
 import type { UserNotification } from "~/interfaces/notifications/user-notification.interface";
 
@@ -40,7 +41,7 @@ const pushSystemNotification = (notification: SystemNotification): void => {
   }, 4000);
 };
 
-const pushUserNotification = <T = unknown>(
+const pushUserNotification = <T extends NotificationData = NotificationData>(
   notification: UserNotification<T>
 ): void => {
   userNotifications.value.push(notification);

@@ -23,7 +23,6 @@ export const useExports = () => {
   onMounted(() => {
     if (exportsChannel.value) return
     exportsChannel.value = $broadcast().private(`users.${user.value.id}`).notification((notification: UserNotification<ExportNotificattionData>) => {
-      console.log(notification)
       pushUserNotification<ExportNotificattionData>({
         type: notification.type,
         id: notification.id,
