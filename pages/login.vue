@@ -11,7 +11,7 @@ definePageMeta({
 });
 
 const { pushSystemNotification } = useAppNotification();
-const { refreshUserData } = useUser();
+const { refreshUserData, isAdmin } = useUser();
 
 const onError = (e: any) => {
   if (e.status !== 422 || e.data.errors) return;

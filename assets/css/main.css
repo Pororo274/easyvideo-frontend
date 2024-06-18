@@ -39,6 +39,10 @@
               brightness(103%) contrast(103%);
   }
 
+  .icon-blue {
+    filter: invert(23%) sepia(98%) saturate(3878%) hue-rotate(213deg) brightness(105%) contrast(103%); 
+  }
+
   .icon-amber {
     filter: invert(78%) sepia(74%) saturate(1197%) hue-rotate(339deg) brightness(105%) contrast(97%);
   }

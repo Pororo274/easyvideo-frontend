@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { User } from "~/interfaces/account/user.interface";
+import type { User as BaseUser } from "~/interfaces/account/user.interface";
+
+interface User extends BaseUser {
+  subscription: string;
+}
 
 defineProps<{
   user: User;
@@ -20,7 +24,8 @@ defineProps<{
       </div>
     </div>
     <p class="text-white col-span-3">12 апреля 2024 г.</p>
-    <p class="text-red col-span-2">Нет</p>
+    <p v-if="user.subscription" class="text-green col-span-2">Есть</p>
+    <p v-else class="text-red col-span-2">Нет</p>
     <UserDropDown :user="user" />
   </TableRow>
 </template>

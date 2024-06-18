@@ -31,7 +31,7 @@ const totalAvailableSpaceInMB = computed(
     <div class="py-2 px-4 hover:bg-gray">
       <div class="flex justify-between">
         <h4 class="text-white">Media</h4>
-        <NuxtLink to="/admin" class="text-white hover:underline"
+        <NuxtLink to="/admin/folders/media" class="text-white hover:underline"
           >Подробнее</NuxtLink
         >
       </div>
@@ -39,7 +39,7 @@ const totalAvailableSpaceInMB = computed(
     <div class="py-2 px-4 hover:bg-gray">
       <div class="flex justify-between">
         <h4 class="text-white">Outputs</h4>
-        <NuxtLink to="/admin" class="text-white hover:underline"
+        <NuxtLink to="/admin/folders/outputs" class="text-white hover:underline"
           >Подробнее</NuxtLink
         >
       </div>

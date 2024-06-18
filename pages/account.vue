@@ -1,15 +1,33 @@
 <script setup lang="ts">
 import type { UserBrief } from "~/interfaces/account/user-brief.interface";
+import type { Subscription } from "~/interfaces/account/subscription.interface";
 
 const { $api } = useNuxtApp();
 const { user } = useUser();
 
-const { data: brief } = await useAsyncData<UserBrief>(() =>
-  $api(`/users/${user.value.id}/brief`)
-);
+const { data } = await useAsyncData<{
+  brief: UserBrief;
+  subscription: Subscription | null;
+}>(async () => {
+  const [brief, subscription] = await Promise.all([
+    $api<UserBrief>(`/users/${user.value.id}/brief`),
+    $api<Subscription>(`/users/${user.value.id}/subscriptions/last`),
+  ]);
+
+  return {
+    brief,
+    subscription: subscription.id ? subscription : null,
+  };
+});
+
+if (!data.value) {
+  throw createError({
+    status: 404,
+  });
+}
 
 provide("accountProvider", {
-  brief: readonly(brief),
+  account: readonly(data),
 });
 </script>
 

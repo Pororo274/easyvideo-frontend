@@ -7,12 +7,12 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex gap-3 items-center">
+  <div class="flex gap-2 items-center">
     <div class="w-6 h-6 rounded-full bg-blue flex items-center justify-center">
-      <p class="text-white font-medium text-xs">
+      <p class="text-white font-medium text-sm">
         {{ user.username[0].toUpperCase() }}
       </p>
     </div>
-    <h2 class="text-white text-base">{{ user.username }}</h2>
+    <h3 class="text-white text-base">{{ user.username }}</h3>
   </div>
 </template>

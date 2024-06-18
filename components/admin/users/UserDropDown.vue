@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { User } from "~/interfaces/account/user.interface";
+import type { User as BaseUser } from "~/interfaces/account/user.interface";
+
+interface User extends BaseUser {
+  subscription: string;
+}
 
 const isDropDownMenuActive = ref(false);
 
@@ -33,7 +37,10 @@ defineProps<{
         v-show="isDropDownMenuActive"
         class="-left-2 translate-y-1 top-full absolute z-10 w-[200px] border bg-black border-gray rounded-md overflow-hidden"
       >
-        <DropDownButton>Активировать подписку</DropDownButton>
+        <DropDownButton>Подробнее</DropDownButton>
+        <DropDownButton v-if="!user.subscription"
+          >Активировать подписку</DropDownButton
+        >
         <DropDownButton @click="navigateTo(`/admin/users/${user.id}/projects`)"
           >Список проектов</DropDownButton
         >

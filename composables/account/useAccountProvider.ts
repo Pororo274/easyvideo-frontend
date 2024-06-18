@@ -1,13 +1,18 @@
+import type { Subscription } from "~/interfaces/account/subscription.interface"
 import type { UserBrief } from "~/interfaces/account/user-brief.interface"
 
 interface AccountProvider {
-  brief: Readonly<Ref<UserBrief>>
+  account: Readonly<Ref<{
+    brief: UserBrief,
+    subscription: Subscription | null
+  }>>
+
 }
 
 export const useAccountProvider = () => {
-  const { brief } = inject("accountProvider") as AccountProvider
+  const { account } = inject("accountProvider") as AccountProvider
   
   return {
-    brief
+    account
   }
 }

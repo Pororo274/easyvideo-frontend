@@ -39,6 +39,9 @@ export default {
         yellow: {
           DEFAULT: '#FFBA33',
           darkest: '#664300'
+        },
+        purple: {
+          DEFAULT: '#FF00F5'
         }
       }
     },
