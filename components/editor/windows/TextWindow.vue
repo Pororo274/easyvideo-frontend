@@ -19,7 +19,7 @@ const virtualMedia = computed(
 const text = ref(virtualMedia.value.content);
 const fontSize = ref((virtualMedia.value.filters.text as TextFilter).fontSize);
 
-watchEffect(() => {
+watch(text, () => {
   updateContentByUuid(currentData.value, text.value);
   mapFilterList(currentData.value, (filters: FilterList) => {
     (filters.text as TextFilter).fontSize = fontSize.value;
