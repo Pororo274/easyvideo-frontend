@@ -24,7 +24,7 @@ const totalAvailableSpaceInMB = computed(
 
       <div class="text-sm text-gray-light mt-2">
         {{ (totalAvailableSpaceInMB - usedSpaceInMB).toFixed(2) }} МБ свободно
-        из 100 МБ
+        из {{ totalAvailableSpaceInMB }} МБ
       </div>
       <h3 class="text-white mt-3">Папки</h3>
     </div>

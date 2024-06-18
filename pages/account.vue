@@ -3,7 +3,13 @@ import type { UserBrief } from "~/interfaces/account/user-brief.interface";
 import type { Subscription } from "~/interfaces/account/subscription.interface";
 
 const { $api } = useNuxtApp();
-const { user } = useUser();
+const { user, isAdmin } = useUser();
+
+callOnce(() => {
+  if (isAdmin) {
+    navigateTo("/admin");
+  }
+});
 
 const { data } = await useAsyncData<{
   brief: UserBrief;
