@@ -11,7 +11,7 @@ definePageMeta({
 <template>
   <div>
     <AccountHeader />
-    <section class="w-full h-screen pt-[77px]">
+    <section class="w-full min-h-screen overflow-hidden pt-[77px]">
       <AdminNavMenu />
       <div class="mt-4">
         <NuxtPage />

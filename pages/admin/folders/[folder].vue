@@ -20,7 +20,7 @@ const { data: files } = await useAsyncData<FileData[]>(() =>
       <TableHeaderCell class="col-span-2">Размер</TableHeaderCell>
     </template>
     <template #default="{ data }">
-      <TableRow v-for="file in data">
+      <TableRow v-for="file in [...data, ...data, ...data, ...data, ...data]">
         <div class="col-span-4 flex items-center gap-1.5">
           <MediaFormatIcon :mime-type="file.mimeType" />
           <p class="text-white text-ellipsis flex-1 overflow-hidden">
