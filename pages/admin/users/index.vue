@@ -3,7 +3,7 @@ import type { User } from "~/interfaces/account/user.interface";
 
 const { $api } = useNuxtApp();
 
-const { data: users } = await useAsyncData<User[]>(() => $api("/admin/users"));
+const { data: users } = await useAsyncData<User[]>(() => $api("/users/all"));
 </script>
 
 <template>
