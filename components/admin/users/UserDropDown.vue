@@ -6,8 +6,8 @@ interface User extends BaseUser {
 }
 
 const isDropDownMenuActive = ref(false);
-
 const isBanModalActive = ref(false);
+const isUserInfoModalActive = ref(false);
 
 defineProps<{
   user: User;
@@ -23,6 +23,9 @@ defineProps<{
     >
       <template #text>Вы уверены, что хотите забанить пользователя?</template>
     </AttentionModal>
+    <AppModal v-model="isUserInfoModalActive">
+      <UserInfoContentModal :user-id="user.id" />
+    </AppModal>
     <figure
       v-out="() => (isDropDownMenuActive = false)"
       @click.stop="isDropDownMenuActive = !isDropDownMenuActive"
@@ -37,9 +40,8 @@ defineProps<{
         v-show="isDropDownMenuActive"
         class="-left-2 translate-y-1 top-full absolute z-10 w-[200px] border bg-black border-gray rounded-md overflow-hidden"
       >
-        <DropDownButton>Подробнее</DropDownButton>
-        <DropDownButton v-if="!user.subscription"
-          >Активировать подписку</DropDownButton
+        <DropDownButton @click="isUserInfoModalActive = true"
+          >Подробнее</DropDownButton
         >
         <DropDownButton @click="navigateTo(`/admin/users/${user.id}/projects`)"
           >Список проектов</DropDownButton

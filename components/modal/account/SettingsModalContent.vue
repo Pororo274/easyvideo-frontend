@@ -39,15 +39,10 @@ const { user } = useUser();
       <AccountProvider v-slot="{ account }">
         <StorageSettings class="mt-8" />
         <h3 class="text-white mt-8">Подписка</h3>
-        <div
+        <SubscriptionWorkUntil
           v-if="account.subscription"
-          class="bg-gradient-to-r from-blue to-purple mt-1 rounded-md py-2 px-4"
-        >
-          <p class="text-white">
-            Действительна до
-            {{ dateFormat(account.subscription.workUntil, "dd.mm.yyyy") }}
-          </p>
-        </div>
+          :subscription="account.subscription"
+        />
         <MakeCloseModal v-else>
           <SubscriptionButton @click="isModalActive = true" class="mt-2" />
         </MakeCloseModal>
