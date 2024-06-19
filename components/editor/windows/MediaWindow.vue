@@ -1,16 +1,5 @@
 <script setup lang="ts">
-const { addFromFiles, medias, allowedTypesString } = useMedias();
-
-const onFileInput = (e: Event) => {
-  if (!e.target) return;
-  const target = e.target as HTMLInputElement;
-
-  if (!target.files) return;
-
-  const files = target.files;
-
-  addFromFiles(...files);
-};
+const { medias } = useMedias();
 </script>
 
 <template>
@@ -18,21 +7,16 @@ const onFileInput = (e: Event) => {
     <template #name>Медиа</template>
     <template #right-side>
       <label
-        class="w-6 h-6 flex items-center justify-center hover:bg-zinc-900 rounded-md cursor-pointer"
+        class="w-6 h-6 flex items-center justify-center hover:bg-gray-dark rounded-md cursor-pointer"
       >
         <img
-          class="icon-white w-4"
+          class="icon-white w-4 h-4"
           src="~/assets/img/icons/actions/plus.svg"
           alt=""
         />
-        <input
-          @input="onFileInput"
-          type="file"
-          class="hidden"
-          multiple
-          :accept="allowedTypesString"
-        /> </label
-    ></template>
+        <MediaInput />
+      </label>
+    </template>
     <div v-if="medias.length" class="grid grid-cols-3">
       <MediaItem v-for="media in medias" :media="media" />
     </div>

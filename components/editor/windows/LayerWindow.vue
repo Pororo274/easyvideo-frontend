@@ -32,8 +32,8 @@ onMounted(() => {
   const baseWidth = layerBase.value.clientWidth;
   setStartTimeLineWidth(baseWidth - LAYER_LEFT_MARGIN - 10);
 });
-const { selectedVirtualMedia, currentData, currentWindow } =
-  useEditorWindows<string>();
+const { selectedVirtualMedia, currentWindow } = useEditorWindows<string>();
+const { sync } = useVirtualMediaSynchronizer();
 
 const cut = () => {
   if (!selectedVirtualMedia.value) return;
@@ -68,6 +68,13 @@ const cut = () => {
   });
   currentWindow.value = "mediaWindow";
   deleteByUuid(selectedVirtualMedia.value.uuid);
+  sync();
+};
+
+const removeMedia = () => {
+  currentWindow.value = "mediaWindow";
+  deleteByUuid(selectedVirtualMedia.value.uuid);
+  sync();
 };
 </script>
 
@@ -89,6 +96,23 @@ const cut = () => {
               <img
                 class="w-4 icon-white -rotate-45"
                 src="~/assets/img/icons/editor/actions/cut.svg"
+                alt=""
+              />
+            </div>
+          </figure>
+          <figure
+            @click="removeMedia"
+            :class="[selectedVirtualMedia ? 'bg-gray' : 'bg-gray-dark']"
+            class="rounded-md p-2"
+          >
+            <div
+              :class="[
+                selectedVirtualMedia ? 'brightness-100' : 'brightness-[0.3]',
+              ]"
+            >
+              <img
+                class="w-4 icon-white"
+                src="~/assets/img/icons/editor/actions/remove.svg"
                 alt=""
               />
             </div>

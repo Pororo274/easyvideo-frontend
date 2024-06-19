@@ -61,8 +61,11 @@ const showMedia = () => {
                 >
                   <p class="text-white font-medium">Текст</p>
                 </li>
-                <li class="text-white font-medium py-1 px-4 hover:bg-gray">
-                  Медиафайл
+                <li class="hover:bg-gray">
+                  <label class="text-white font-medium py-1 px-4 inline-block">
+                    Медиафайл
+                    <MediaInput />
+                  </label>
                 </li>
               </ul>
             </div>
