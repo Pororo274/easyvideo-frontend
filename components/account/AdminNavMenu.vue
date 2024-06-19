@@ -1,9 +1,28 @@
+<script setup lang="ts">
+const route = useRoute();
+</script>
+
 <template>
   <div class="w-full shadow-lg z-30 flex gap-2">
-    <NuxtLink to="/admin" class="text-white py-3 px-5">Сводка</NuxtLink>
-    <NuxtLink to="/admin/users" class="text-white py-3 px-5"
+    <NuxtLink
+      :class="
+        route.path === '/admin'
+          ? 'text-blue border-blue'
+          : 'text-white border-transparent'
+      "
+      to="/admin"
+      class="py-3 px-5 border-t"
+      >Сводка</NuxtLink
+    >
+    <NuxtLink
+      :class="
+        route.path === '/admin/users'
+          ? 'text-blue border-blue'
+          : 'text-white border-transparent'
+      "
+      to="/admin/users"
+      class="py-3 px-5 border-t"
       >Пользователи</NuxtLink
     >
-    <NuxtLink to="/admin" class="text-white py-3 px-5">Файлы</NuxtLink>
   </div>
 </template>

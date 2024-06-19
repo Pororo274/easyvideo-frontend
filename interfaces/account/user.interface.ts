@@ -3,4 +3,5 @@ export interface User {
   id: number;
   roles: string[];
   email: string;
+  createdAt: string
 }

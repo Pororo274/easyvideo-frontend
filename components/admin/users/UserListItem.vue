@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { User as BaseUser } from "~/interfaces/account/user.interface";
+import dateFormat from "dateformat";
 
 interface User extends BaseUser {
   subscription: string;
@@ -23,7 +24,9 @@ defineProps<{
         <p class="text-gray-light text-sm">{{ user.username }}</p>
       </div>
     </div>
-    <p class="text-white col-span-3">12 апреля 2024 г.</p>
+    <p class="text-white col-span-3">
+      {{ dateFormat(user.createdAt, "dd.mm.yyyy") }}
+    </p>
     <p v-if="user.subscription" class="text-green col-span-2">Есть</p>
     <p v-else class="text-red col-span-2">Нет</p>
     <UserDropDown :user="user" />
